@@ -1,0 +1,9 @@
+.user-cover{
+    width: 100px;
+    display: block;
+    margin: 0 auto;
+    border: 2px solid lightgray;
+    padding: 0.25rem;
+    /* border-radius: 0.25rem; */
+    max-width: 100%;
+}

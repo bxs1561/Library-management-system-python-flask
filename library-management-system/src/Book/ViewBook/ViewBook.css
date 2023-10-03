@@ -1,0 +1,190 @@
+/* table, th, td {
+    border:1px solid black;
+  }
+
+.view___container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; 
+    min-height: 100vh; 
+    background-color: #ecf0f5;
+      }
+
+.viewbook___container {
+        background-color: #ffffff;
+        border-radius: 5px;
+        box-shadow: 0 1px 1px rgba(0,0,0,.1);
+        padding: 20px;
+        max-width: 100%;
+        overflow-x: auto; 
+        width: 88%; 
+        margin-top: 20px;
+      
+      }
+.book___info {
+        width: 100%; 
+        border-collapse: collapse; 
+        
+      }
+      
+      
+.book___info th, .book___info td {
+        padding: 10px;
+        border: 1px solid #ccc;
+        text-align: left; 
+        vertical-align: top;
+      }
+      
+.book-cover{
+  width: 150px;
+  border: 2px solid lightgray;
+}
+img{
+    vertical-align: middle;
+}
+  
+
+
+  
+   */
+
+  
+  .view___container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    background-color: #ecf0f5;
+  }
+  
+  .viewbook___container {
+    background-color: #ffffff;
+    border-radius: 5px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+    padding: 20px;
+    width: 100%;
+    max-width: 90%; /* Adjust as needed */
+    overflow-x: auto;
+    margin-top: 20px;
+  }
+  
+  .book___info {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  .book___info th,
+  .book___info td {
+    padding: 10px;
+    border: 1px solid #ccc;
+    text-align: left;
+    vertical-align: top;
+  }
+  
+  /* Style specific table headers */
+  .book___info th {
+    background-color: #f5f5f5;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  /* Style the image column */
+  .book___info td:nth-child(2) {
+    text-align: center;
+  }
+  
+  /* Style the image itself */
+  .book-cover {
+    width: 100px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    border: 2px solid lightgray;
+  }
+  
+  /* Style action buttons */
+  .action-button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    margin-right: 5px;
+    cursor: pointer;
+  }
+  
+  .action-button:hover {
+    background-color: #0056b3;
+  }
+
+  /* Responsive Styles */
+@media (max-width: 768px) {
+    .book___info th,
+    .book___info td {
+      font-size: 14px;
+      padding: 8px;
+    }
+  
+    /* Adjust other responsive styles as needed */
+  }
+  
+  @media (max-width: 576px) {
+    .book-cover {
+      width: 80px;
+    }
+  
+    /* Adjust other responsive styles as needed */
+  }
+  
+  
+
+  /* .bx-search-alt-2{
+    padding: 5px;
+    height: 22px !important;
+    background-color: #cd9042;
+    cursor: pointer;
+}
+
+.search-bar-container{
+    display: flex;
+    flex: .5;
+    align-items: center;
+    border-radius: 24px;
+}
+.search-bar{
+    padding: 10px;
+    border: 1px solid #ccc;
+    width: 100%;
+    margin-bottom: 20px;
+    font-size: 16px;
+  
+} */
+.bx-search-alt-2 {
+    padding: 5px;
+    height: 22px !important;
+    background-color: #cd9042;
+    cursor: pointer;
+    position: absolute; /* Position the icon absolutely */
+    right: 10px; /* Adjust the right distance as needed */
+    top: 50%; /* Vertically center the icon */
+    transform: translateY(-50%); /* Vertically center the icon */
+  }
+  
+  .search-bar-container {
+    display: flex;
+    align-items: center;
+    border-radius: 24px;
+    border: 1px solid #ccc;
+    padding: 5px; /* Add padding to the left for text */
+    position: relative; /* Set the container as a relative position */
+  }
+  
+  .search-bar {
+    flex: 1; /* Let the search bar expand to fill available space */
+    padding: 10px;
+    border: none; /* Remove border to avoid double border */
+    font-size: 16px;
+    outline: none; /* Remove outline when focused */
+  }
+  
