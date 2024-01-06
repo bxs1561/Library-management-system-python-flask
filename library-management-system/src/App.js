@@ -5,6 +5,8 @@ import ViewBook from './Book/ViewBook/ViewBook';
 import AddBook from './Book/AddBook/AddBook';
 import BookReservation from './Book/BookReservation/BookReservation';
 import ViewReservedBook from './Book/ViewReservedBook/ViewReservedBook';
+import AddUser from './User/Managed User/AddUser';
+import ViewUser from './User/Managed User/ViewUser';
 
 function App() {
   return (
@@ -13,7 +15,9 @@ function App() {
         {/* <ViewBook/> */}
         {/* <AddBook/> */}
         {/* <BookReservation/> */}
-        <ViewReservedBook/>
+        {/* <ViewReservedBook/> */}
+        {/* <AddUser/> */}
+        <ViewUser/>
     </div>
   );
 }

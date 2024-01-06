@@ -35,10 +35,10 @@ function ViewReservedBook(){
                             <th>User Image</th>
                             <th>Book Image</th>
                             <th>Reserved Date</th>
-                            <th>Return Date</th>
-                            <th>Quanitiy</th>
-                            <th>Description</th>
-                            <th>Borrow</th>
+                            <th>Expected Return Date</th>
+                            <th>Return date</th>
+                            <th>Borrow days</th>
+                            <th>Fine</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -161,8 +161,7 @@ function ViewReservedBook(){
                                 0
                             </td>
                             <td>
-                                <button className="action-button">Edit</button>
-                                <button className="action-button">Delete</button>
+                            <span className="received">Edit</span>
                             </td>
                             </tr>
                             <tr>
@@ -191,8 +190,7 @@ function ViewReservedBook(){
                                 0
                             </td>
                             <td>
-                                <button className="action-button">Edit</button>
-                                <button className="action-button">Delete</button>
+                                <span className="received">Edit</span>
                             </td>
                             </tr>
                             </tbody>
