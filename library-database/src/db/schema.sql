@@ -1,5 +1,5 @@
 -- DROP TABLE IF EXISTS Books,Students,Admin,UserRoles,Transactions,Reservations;
-DROP TABLE IF EXISTS Books,Users,Librarian,Student,Roles,user_status,Checkout,Reservations;
+DROP TABLE IF EXISTS Books,Users,Roles,Librarian,Student,Admin,user_status,Checkout,Reservations;
 
 CREATE TABLE Books(
     book_id SERIAL PRIMARY KEY NOT NULL,
@@ -16,7 +16,6 @@ CREATE TABLE Books(
     availability_status VARCHAR(50),
     rating VARCHAR(50),
     review  VARCHAR(50),
-    user_status_id INTEGER,
     author TEXT NOT NULL
 );
 
@@ -29,12 +28,13 @@ CREATE TABLE Users (
     first_name VARCHAR(50),
     last_name VARCHAR(50),
     username VARCHAR(50),
-    password VARCHAR(255),
+    password TEXT,
     date_of_birth DATE,
     address VARCHAR(255),
     phone_number VARCHAR(15),
     email VARCHAR(255),
     role_id INT,
+    user_status_id INT,
     FOREIGN KEY (role_id) REFERENCES Roles(role_id),
     session_key TEXT
 );
@@ -51,6 +51,13 @@ CREATE TABLE Student(
     fine_balance DECIMAL(10, 2),
     membership_expiry_date DATE,
     FOREIGN KEY (user_id) REFERENCES Users(user_id)
+);
+CREATE TABLE Admin(
+    admin_id SERIAL PRIMARY KEY NOT NULL,
+    user_id INT,
+    librarian_id INT,
+    FOREIGN KEY (user_id) REFERENCES Users(user_id),
+    FOREIGN KEY (librarian_id) REFERENCES Librarian(librarian_id)
 );
 
 CREATE TABLE user_status(
