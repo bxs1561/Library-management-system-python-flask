@@ -89,6 +89,12 @@ CREATE TABLE Reservations (
     FOREIGN KEY (book_id) REFERENCES Books(book_id)
 );
 
+ALTER TABLE Librarian DROP CONSTRAINT IF EXISTS librarian_user_id_fkey;
+ALTER TABLE Student DROP CONSTRAINT IF EXISTS student_user_id_fkey;
+ALTER TABLE Admin DROP CONSTRAINT IF EXISTS admin_user_id_fkey;
+ALTER TABLE Reservations DROP CONSTRAINT IF EXISTS reservations_student_id_fkey;
+ALTER TABLE Checkout DROP CONSTRAINT IF EXISTS checkout_student_id_fkey;
+ALTER TABLE Users DROP CONSTRAINT IF EXISTS users_role_id_fkey;
 
 
 
