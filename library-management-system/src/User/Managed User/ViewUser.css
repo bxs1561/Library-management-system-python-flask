@@ -1,0 +1,156 @@
+.containers {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .ViewUser___container {
+    width: 100%; 
+    overflow: hidden;
+    margin: 0 auto;
+  }
+  
+  .userdata___header {
+    color: black;
+    text-align: center;
+    background-color: #007bff;
+    min-height: 50px;
+    padding: 1px;
+
+
+  }
+  .header___text{
+    font-size: 1rem;
+    margin-left:24px;
+  }
+  .delete___button{
+    color: #fff;
+    background-color: #dc3545;
+    border-color:#dc3545;
+    box-shadow: none;
+  }
+  .print___button{
+    color: #fff;
+    background-color: #28a745;
+    border-color: #28a745;
+    box-shadow: none;
+  }
+  .edit___button{
+    color: #fff;
+    background-color: #343a40;
+    border-color: #343a40;
+    box-shadow: none;
+  }
+  button{
+    padding: 5px;
+    border-radius: 0;
+    width: 28px;
+  }
+  
+  
+  .ViewUser___content {
+    padding: 20px;
+  }
+  
+  .card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  .card___header {
+    background-color:transparent;
+    color: #fff;
+    padding: 10px;
+  }
+  
+  .title {
+    font-size: 1.5rem;
+    color: black;
+  }
+  
+  .card___body {
+    padding: 20px;
+  }
+  
+  .row {
+    flex-direction: column;
+  }
+  
+  .search {
+    flex: 1;
+    margin-right: 10px;
+  }
+  
+  .search label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    display: block;
+  }
+  
+  .search input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  
+  .user___info {
+    flex: 2;
+    overflow-x: auto;
+
+  }
+  
+  .usertable___info {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+    overflow-x: auto;
+  }
+  
+  .usertable___info th,
+  .usertable___info td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+    
+  }
+  
+  .usertable___info th {
+    background-color: #3498db;
+    color: #fff;
+  }
+  
+  .user-covers {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+  }
+  
+  .action-button {
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    padding: 8px 12px;
+    margin-right: 5px;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  
+  .action-button:hover {
+    background-color: #2980b9;
+  }
+
+  @media screen and (max-width: 768px) {
+    .row {
+      flex-direction: column;
+    }
+  
+    .search {
+      margin-bottom: 10px;
+    }
+    .usertable___info {
+        overflow-x: scroll;
+      }
+  }
