@@ -73,7 +73,7 @@ function BookReservation(){
                 </div>
                 <div className="date">
                     <div className="issue___text">
-                    <span className="issue___date">Return Date</span>
+                    <span className="issue___date">Expected Return Date</span>
 
                     </div>
                     <div className="date-picker">
@@ -85,7 +85,7 @@ function BookReservation(){
 </div>
 
                 </div>
-                <div className="date">
+                <div className="button">
                 <button >Issue Book</button>
                 </div>
 

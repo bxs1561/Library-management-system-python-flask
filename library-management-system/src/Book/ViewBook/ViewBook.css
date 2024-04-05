@@ -174,10 +174,6 @@ img{
   .search-bar-container {
     display: flex;
     align-items: center;
-    border-radius: 24px;
-    border: 1px solid #ccc;
-    padding: 5px; /* Add padding to the left for text */
-    position: relative; /* Set the container as a relative position */
   }
   
   .search-bar {
@@ -188,3 +184,32 @@ img{
     outline: none; /* Remove outline when focused */
   }
   
+  .bookname___search,.isbn___search{
+    flex: 1;
+    margin-bottom: 0px;
+    margin-right: 5px;
+  }
+  
+  .input___bookname,.input___isbn{
+    flex: 1;
+    display: flex;
+    margin-left: 12px;
+  }
+
+  .input-group-text-book {
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    display: flex;
+    align-items: center;
+    padding: 0.375rem 0.75rem;
+    margin-bottom: 0;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #495057;
+    text-align: center;
+    white-space: nowrap;
+    background-color: #e9ecef;
+    border: 1px solid #ced4da;
+  }

@@ -8,6 +8,7 @@ import AddUser from './User/Managed User/AddUser';
 import ViewUser from './User/Managed User/ViewUser';
 import LibraryCard from './User/Managed User/LibraryCard';
 import Dashboard from './dashboard/Dashboard';
+import VisitorStats from './Visitor/VisitorStats'
 
 function App() {
   return (
@@ -18,9 +19,10 @@ function App() {
         {/* <BookReservation/> */}
         {/* <ViewReservedBook/> */}
         {/* <AddUser/> */}
-        <ViewUser/>
+        {/* <ViewUser/> */}
         {/* <LibraryCard/> */}
-        {/* <Dashboard/> */}
+        <Dashboard/>
+        {/* <VisitorStats/> */}
     </div>
   );
 }

@@ -14,14 +14,31 @@ function ViewBook(){
         <div className="view___container">
             <div className="viewbook___container">
             <div className="search-bar-container">
-          <input
-            type="text"
-            placeholder="Search ISBN..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="search-bar"
-          />
-                      <i class='bx bx-search-alt-2'></i>
+
+<div className="bookname___search">
+  <div className="input___bookname">
+    <span className="input-group-text-book ">Search book</span>
+    <input
+      id="book_autocomplete"
+      placeholder="Type to search."
+      type="text"
+      class="form-control ui-autocomplete-input"
+      autocomplete="off"
+    ></input>
+  </div>
+</div>
+<div className="isbn___search">
+  <div className="input___isbn">
+    <span className="input-group-text-book ">Search book</span>
+    <input
+      id="book_autocomplete"
+      placeholder="Type to search."
+      type="text"
+      class="form-control ui-autocomplete-input"
+      autocomplete="off"
+    ></input>
+  </div>
+</div>
 
         </div>
 

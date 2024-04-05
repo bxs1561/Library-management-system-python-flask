@@ -3,6 +3,7 @@ import "./AddUser.css";
 import axios from '../../API/axios'
 import { useSelector, useDispatch } from 'react-redux'
 import { addUserFailure, addUserRequest,addUserSuccess } from "../../Redux/action";
+import avatar from '../../images/avatar.png'
 
 
 function AddUser(){
@@ -11,6 +12,8 @@ function AddUser(){
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+    const [selectedFile, setSelectedFile] = useState(null);
+
 
     const [address, setAddress] = useState('');
     const [email, setEmail] = useState('');
@@ -49,6 +52,18 @@ function AddUser(){
             dispatch(addUserFailure(error));
         }
     };
+    const handleFileChange = (event) => {
+        const file = event.target.files && event.target.files[0];
+      
+        if (file) {
+          setSelectedFile(URL.createObjectURL(event.target.files[0]));
+        } else {
+          // Handle case where user canceled file selection
+          // For example, you can clear the selected file:
+          setSelectedFile(null);
+        }
+      };
+      
     return(
         <div className="adduser___container">
             <div className="add___user">
@@ -59,8 +74,17 @@ function AddUser(){
 
             <div className="adduser___body">
                 <div className="user___information">
+                <div className="upload___picture">
+            <img src={selectedFile?selectedFile:avatar} className="image___thumbnail" />
+            {/* <br/> */}
+            <div className="file">
+            <input  type="file" onChange={handleFileChange} />
+            </div>
+
+      
+                    </div>
                     <div className="first___name">
-                        <label>First Name *</label>
+                        <label>First Name</label>
                         <input
                         placeholder="Enter First Name"
                         type="text"
@@ -68,8 +92,9 @@ function AddUser(){
                         onChange={(event) => setFirstName(event.target.value)}
                         />
                         </div>
+                        
                         <div className="last___name">
-                            <label>Last Name *</label>
+                            <label>Last Name</label>
                             <input
                             placeholder="Enter Last Name"
                             type="text"
@@ -78,7 +103,7 @@ function AddUser(){
                             />
                         </div>
                         <div className="email">
-                            <label>Email *</label>
+                            <label>Email</label>
                             <input
                             placeholder="Enter email"
                             type="text"
@@ -87,7 +112,7 @@ function AddUser(){
                             />
                         </div>
                         <div className="username">
-                            <label>username *</label>
+                            <label>username</label>
                             <input
                             placeholder="Enter username"
                             type="text"
@@ -96,7 +121,7 @@ function AddUser(){
                             />
                         </div>
                         <div className="password">
-                            <label>password *</label>
+                            <label>password</label>
                             <input
                             placeholder="Enter password"
                             type="password"
@@ -105,7 +130,7 @@ function AddUser(){
                             />
                         </div>
                         <div className="phone___number">
-                            <label>Phone Number *</label>
+                            <label>Phone Number</label>
                             <input
                             placeholder="Enter phone number"
                             type="text"
@@ -115,7 +140,7 @@ function AddUser(){
                         </div>
                        
                         <div className="address">
-                            <label>address *</label>
+                            <label>address</label>
                             <input
                             placeholder="Enter address"
                             type="text"
@@ -124,7 +149,7 @@ function AddUser(){
                             />
                         </div>
                         <div className="birthDate">
-                            <label>birthDate *</label>
+                            <label>birthDate</label>
                             <input
                             placeholder="Enter birthDate"
                             type="text"
@@ -133,18 +158,20 @@ function AddUser(){
                             />
                         </div>
                         <div className="role">
-                            <label>role *</label>
-                            <input
-                            placeholder="Enter phone number"
-                            type="text"
-                            value={role}
-                            onChange={(event) => setRole(event.target.value)}
-                            />
+                        <h5>Select Role</h5>
+                        <select
+              value={role}
+              onChange={(event) => setRole(event.target.value)}
+            >
+              <option value="">Select...</option>
+              <option value="librarian">Librarian</option>
+              <option value="student">Student</option>
+            </select>
                         </div>
                     </div>
                 </div>
-                <div className="button">
-              <button type= "submit" onClick={handleSumbit} className="primary-button">Submit</button>
+                <div className="add___button">
+              <button type= "submit" onClick={handleSumbit} className="adduser___button" style={{width:'168px', marginTop:'10px'}}>Submit</button>
               </div>
               </form>
 

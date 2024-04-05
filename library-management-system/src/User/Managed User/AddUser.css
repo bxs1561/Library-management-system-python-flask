@@ -9,22 +9,106 @@
 }
 
 .add___user {
-    background-color: #ffffff;
-    border-radius: 5px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-    padding: 0px;
-    width: 100%;
-    max-width: 740px;
-    border: 1px solid #ccc;
-    margin-bottom: 10px;
-    background-color: #f5f5f5;
+  background-color: #ffffff;
+  border-radius: 5px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  padding: 20px; 
+  width: 100%;
+  max-width: 740px;
+  border: 1px solid #ccc;
+  margin-bottom: 10px;
+  background-color: #f5f5f5;
+}
+.adduser___header {
+  text-align: left;
+  font-size: 24px;
+  margin-bottom: 20px;
+  padding: 11px;
+  border-bottom: 2px solid #dd4b39;
+}
+
+
+.user___information {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); 
+  grid-gap: 20px; 
+}
+
+.user___information label {
+  font-weight: bold;
+}
+
+.user___information input {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+.upload___picture {
+  display: flex;
+  flex-direction: column;
+  
+}
+.image___thumbnail{
+  margin-bottom: 0px; 
+  width: 100%;
+  max-width: 200px; 
+  padding: 0.25rem;
+  background-color: #fff;
+  border: 1px solid #dee2e6;
+  border-radius: 0.25rem;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.075);
+}
+
+.file {
+  width: 100%;
+  max-width: 198px; 
+}
+.adduser___button{
+  padding: 10px 20px;
+  background-color: #4caf50;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+
+.add___button {
+    /* Button styles */
+    text-align: right;
 
   }
-  .adduser___header {
-    text-align: left;
-    font-size: 24px;
-    margin-bottom: 20px;
-    padding: 11px;
-    border-bottom: 2px solid #dd4b39;
 
+
+  @media screen and (max-width: 768px) {    /* Adjust layout for larger screens if needed */
+    .image___thumbnail {
+      max-width: none;
     }
+  
+    .file {
+      max-width: none; /* Reset max-width for larger screens */
+    }
+  }
+  
+
+  .role {
+    margin-top: 0;
+    margin-bottom: 10px; /* Add a small margin to separate it from the other fields */
+  }
+  
+  .role h5 {
+    margin-bottom: 0;
+  }
+  
+  .role select {
+    margin: 0;
+    padding: 5px;
+  }
+  
+  .add___button {
+    margin-top: 0;
+  }
+  

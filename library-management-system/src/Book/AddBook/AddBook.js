@@ -1,18 +1,24 @@
 import React, {useEffect, useState} from "react";
 import "./AddBook.css"
+import book from '../../images/book.png'
 
 function AddBook() {
     const [isbn, setIsbn] = useState('');
     const [image, setImage] = useState(null)
+
     const loadFile = (event) => {
         if (event.target.files && event.target.files[0]) {
           setImage(URL.createObjectURL(event.target.files[0]));
+        }
+        else{
+          setImage(null);
         }
        }
        
 
        return (
-        <div className="container">
+          
+        <div className="addbook___container">
           <div className="book___container">
             <div className="heading">
               <strong>Add Book</strong>
@@ -85,17 +91,15 @@ function AddBook() {
                   />
                 </div>
                 <div className="book___image">
-              <label  className="image___label">
-                Upload Book Image
-              </label>
-              <input
-                type="file"
-                accept=".image/*"
-                name="image"
-                id="file"
-                onChange={loadFile}
-              />
-            </div>
+                  
+    <img src={image?image:book} className="image___thumbnail" />
+    <div className="file">
+
+    <input  type="file" onChange={loadFile} />
+
+  </div>
+  </div>
+
             <div className="book___quantity">
                   <label>Book quantity</label>
                   <input
@@ -121,8 +125,8 @@ function AddBook() {
               <button class="primary-button">Submit</button>
               </div>
 
-            </div>
           </div>
+        </div>
         </div>
       );
     }

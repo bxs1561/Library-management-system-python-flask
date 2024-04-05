@@ -1,0 +1,156 @@
+.dashboard___container {
+    min-height: 600px;
+  }
+  
+  .content {
+    padding: 0 1rem;
+  }
+  
+  .dashboard___card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 0 solid rgba(0, 0, 0, .125);
+    border-radius: .25rem;
+    box-shadow: 0 0 1px rgba(0,0,0,.125), 0 1px 3px rgba(0,0,0,.2);
+    margin-bottom: 1rem;
+
+  }
+  
+  .dashboardcard___body {
+    padding: 1.25rem;
+    flex: 1 1 auto;
+    min-height: 1px;
+
+  }
+  
+  .dashboard___row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: -7.5px;
+    margin-left: -7.5px;
+  }
+  
+  .total___books,
+  .books___fine,
+  .books___borrow,
+  .total___users {
+    /* margin: 0.5rem;
+
+    flex: 0 0 25%;
+    max-width: 25%; */
+    flex: 0 0 calc(25% - 1rem); /* Adjusted to include space between boxes */
+    max-width: calc(25% - 1rem); /* Adjusted to include space between boxes */
+    margin: 0.5rem; /* Added space between boxes */
+
+
+  }
+  
+  
+  .books___box,
+  .fine___info,
+  .borrow___info,
+  .totalusers___info {
+    padding: 1rem;
+
+    box-shadow: 0 0 1px rgba(0,0,0,.125), 0 1px 3px rgba(0,0,0,.2);
+    border-radius: .25rem;
+    background: #fff;
+    display: flex;
+    margin-bottom: 1rem;
+    min-height: 80px;
+    padding: .5rem;
+    position: relative;
+    /* width: 100%; */
+  }
+  
+  .bx {
+
+    border-radius: .25rem;
+    align-items: center;
+    display: flex;
+    font-size: 1.875rem;
+    justify-content: center;
+    text-align: center;
+    width: 80px;
+
+  }
+  .bx.bxs-book{
+      background-color: #00c0ef;
+  }
+  .bx.bx-money{
+      background-color: #dc3545;
+  }.bx.bx-cart{
+      background-color: #ffc107;
+  }
+  .bx.bxs-user{
+      background-color: #28a745;
+  }
+  
+  .books___content,
+  .fine___content,
+  .borrow___content,
+  .totalusers___content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    line-height: 120%;
+    flex: 1;
+    padding: 0 10px;
+
+  }
+  
+  .book___boxtext,
+  .fine___boxtext,
+  .borrow___boxtext,
+  .totalusers___boxtext {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    /* white-space: nowrap; */
+  }
+  
+  .info___book___number,
+  .info___fine___number,
+  .info___borrow___number,
+  .info___users___number {
+
+    display: block;
+    margin-top: .25rem;
+    font-weight: 700;
+
+  }
+  
+.graph{
+    flex-basis: 0;
+    flex-grow: 1;
+    max-width: 100%;
+}
+  @media (max-width: 768px) {
+    .total___books,
+    .books___fine,
+    .books___borrow,
+    .total___users {
+        flex: 0 0 calc(50% - 1rem);
+        max-width: calc(50% - 1rem);
+    }
+}
+.graph___container {
+    position: relative;
+    width: 100%;
+    height: 380px; /* Adjust height as needed */
+  }
+  
+  h2 {
+    position: absolute;
+    left: 23%;
+    transform: translate(-50%, -50%);
+    font-size: 15px;
+    margin: 0;
+  }
+  
+
