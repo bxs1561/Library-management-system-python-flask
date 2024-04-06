@@ -47,3 +47,12 @@ def exec_commit(sql, args={}):
     conn.commit()
     conn.close()
     return result
+
+def exec_commit_return(sql, args={}):
+    conn = connect()
+    cur = conn.cursor()
+    cur.execute(sql, args)
+    result = cur.fetchone()  # Fetch the first row from the result set
+    conn.commit()
+    conn.close()
+    return result[0] if result else None # Return the ID if available, otherwise None

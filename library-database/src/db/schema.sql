@@ -23,6 +23,10 @@ CREATE TABLE Roles (
     role_id SERIAL PRIMARY KEY NOT NULL,
     name VARCHAR(50)
 );
+CREATE TABLE user_status(
+    id SERIAL PRIMARY KEY NOT NULL,
+    status_value boolean
+);
 CREATE TABLE Users (
     user_id SERIAL PRIMARY KEY NOT NULL,
     first_name VARCHAR(50),
@@ -33,8 +37,10 @@ CREATE TABLE Users (
     address VARCHAR(255),
     phone_number VARCHAR(15),
     email VARCHAR(255),
+    user_image_url VARCHAR(255),
     role_id INT,
     user_status_id INT,
+    FOREIGN KEY (user_status_id) REFERENCES user_status(id),
     FOREIGN KEY (role_id) REFERENCES Roles(role_id),
     session_key TEXT
 );
@@ -58,11 +64,6 @@ CREATE TABLE Admin(
     librarian_id INT,
     FOREIGN KEY (user_id) REFERENCES Users(user_id),
     FOREIGN KEY (librarian_id) REFERENCES Librarian(librarian_id)
-);
-
-CREATE TABLE user_status(
-    id SERIAL PRIMARY KEY NOT NULL,
-    status_value boolean
 );
 
 
@@ -95,6 +96,7 @@ ALTER TABLE Admin DROP CONSTRAINT IF EXISTS admin_user_id_fkey;
 ALTER TABLE Reservations DROP CONSTRAINT IF EXISTS reservations_student_id_fkey;
 ALTER TABLE Checkout DROP CONSTRAINT IF EXISTS checkout_student_id_fkey;
 ALTER TABLE Users DROP CONSTRAINT IF EXISTS users_role_id_fkey;
+
 
 
 
