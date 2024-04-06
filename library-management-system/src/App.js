@@ -9,6 +9,8 @@ import ViewUser from './User/Managed User/ViewUser';
 import LibraryCard from './User/Managed User/LibraryCard';
 import Dashboard from './dashboard/Dashboard';
 import VisitorStats from './Visitor/VisitorStats'
+import PopularBooks from './Book/PopularBook/PopularBook'
+import Registration from './Registration/Registration'
 
 function App() {
   return (
@@ -21,8 +23,10 @@ function App() {
         {/* <AddUser/> */}
         {/* <ViewUser/> */}
         {/* <LibraryCard/> */}
-        <Dashboard/>
+        {/* <Dashboard/> */}
         {/* <VisitorStats/> */}
+        {/* <PopularBooks/> */}
+        <Registration/>
     </div>
   );
 }

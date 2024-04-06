@@ -15,7 +15,6 @@ function Login() {
     // const history = useNavigate();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [role, setRole] = useState('');
     const dispatch = useDispatch();
 
 
@@ -24,7 +23,6 @@ function Login() {
       let userData = {
         username:username,
         password:password,
-        role_name:role
       }
       dispatch(loginRequest(userData))
       try{
@@ -73,18 +71,6 @@ function Login() {
                   onChange={(event) => setPassword(event.target.value)}
                 />
               </div>
-              <div className="form-group">
-            <h5>Select Role</h5>
-            <select
-              value={role}
-              onChange={(event) => setRole(event.target.value)}
-            >
-              <option value="">Select...</option>
-              <option value="admin">Admin</option>
-              <option value="librarian">Librarian</option>
-              <option value="student">Student</option>
-            </select>
-          </div>
               <button type="submit" onClick={handleLogin} className="login_signInButton">
                 Sign In
               </button>

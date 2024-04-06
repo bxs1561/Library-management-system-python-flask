@@ -9,15 +9,15 @@ const initialState = {
 
 const addUserReducer = (state = initialState, action) => {
     switch(action.type){
-      case 'ADDUSER_REQUEST':
+      case actions.ADDUSER_REQUEST:
         return{
           ...state, isLoading: true
         }
-      case 'ADDUSER_SUCCESS':
+      case actions.ADDUSER_SUCCESS:
         return{
           ...state, isLoading: false, user:action.payload
         }
-      case 'ADDUSER_FAILURE':
+      case actions.ADDUSER_FAILURE:
         return{
           ...state, isLoading: false, error:action.payload
         }

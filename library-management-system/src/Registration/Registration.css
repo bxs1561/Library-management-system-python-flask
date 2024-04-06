@@ -1,0 +1,100 @@
+.registration___container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.register___user {
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.register___header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.register___header strong {
+    font-size: 24px;
+}
+
+.register___body {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.register___information {
+    flex: 1;
+    padding-right: 20px;
+}
+
+.register___picture {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.registerimage___thumbnail {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.file input[type="file"] {
+    width: 100%;
+    max-width: 198px; 
+  
+}
+
+.first___name,
+.last___name,
+.email,
+.username,
+.password,
+.phone___number {
+    margin-bottom: 15px;
+}
+
+.first___name label,
+.last___name label,
+.email label,
+.username label,
+.password label,
+.phone___number label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.first___name input,
+.last___name input,
+.email input,
+.username input,
+.password input,
+.phone___number input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.add___button {
+    text-align: center;
+}
+
+.adduser___button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.adduser___button:hover {
+    background-color: #0056b3;
+}
