@@ -71,27 +71,27 @@ class UserStatus(dbs.Model):
         }
 class UsersApi(Resource):
     def get(self):
-        # users = Users.query.all()
-        # return jsonify([user.serialize() for user in users])
+        users = Users.query.all()
+        return jsonify([user.serialize() for user in users])
 
-        admin_data = []
-        for data in users.list_admin():
-            dictionary = dict()
-            dictionary["user_id"] = data[0]
-            dictionary["FirstName"] = data[1]
-            dictionary["LastName"] = data[2]
-            dictionary["username"] = data[3]
-            dictionary["password"] = data[4]
-            dictionary["DateOfBirth"] = str(data[5])
-            dictionary["Address"] = data[6]
-            dictionary["PhoneNumber"] = data[7]
-            dictionary["Email"] = data[8]
-            dictionary["RoleID"] = data[9]
-            dictionary["user_status_id"] = data[10]
-            dictionary["session_key"] = data[11]
-            admin_data.append(dictionary)
-
-        return admin_data
+        # admin_data = []
+        # for data in users.list_admin():
+        #     dictionary = dict()
+        #     dictionary["user_id"] = data[0]
+        #     dictionary["FirstName"] = data[1]
+        #     dictionary["LastName"] = data[2]
+        #     dictionary["username"] = data[3]
+        #     dictionary["password"] = data[4]
+        #     dictionary["DateOfBirth"] = str(data[5])
+        #     dictionary["Address"] = data[6]
+        #     dictionary["PhoneNumber"] = data[7]
+        #     dictionary["Email"] = data[8]
+        #     dictionary["RoleID"] = data[9]
+        #     dictionary["user_status_id"] = data[10]
+        #     dictionary["session_key"] = data[11]
+        #     admin_data.append(dictionary)
+        #
+        # return admin_data
 
 class UsersApiPost(Resource):
     def post(self):
@@ -162,14 +162,14 @@ class AdminApiRegister(Resource):
 
 class UserApiLogin(Resource):
     def post(self):
-        parser.add_argument('username', type=str)
+        parser.add_argument('email', type=str)
         parser.add_argument('password', type=str)
         args = parser.parse_args()
-        username = args['username']
+        email = args['email']
         password = args['password']
-        user = users.login_users(username, password)
+        user = users.login_users(email, password)
         # print(user)
-        return user
+        return jsonify(user)
 
 class EditApiUser(Resource):
     def put(self, id):

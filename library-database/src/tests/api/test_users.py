@@ -26,8 +26,6 @@ class TestUsers(unittest.TestCase):
         result = post_rest_call(self,'http://localhost:5000/user/add',jdata,header)
         print("user add test begin")
         self.assertTrue(result)
-        r = list_admin()
-        print(r)
 
 
     # def test_add_admin(self):
