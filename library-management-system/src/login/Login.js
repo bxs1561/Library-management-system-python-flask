@@ -8,20 +8,21 @@ import {
 } from "react-router-dom";
 import axios from "../API/axios";
 import { useSelector, useDispatch } from 'react-redux'
-import { loginRequest, loginSuccess } from "../Redux/action";
+import { loginFailure, loginRequest, loginSuccess } from "../Redux/action";
 
 
 function Login() {
     // const history = useNavigate();
-    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const dispatch = useDispatch();
-
+    const navigate = useNavigate();
+ 
 
     const handleLogin=async(event)=>{
       event.preventDefault();
       let userData = {
-        username:username,
+        email:email,
         password:password,
       }
       dispatch(loginRequest(userData))
@@ -31,16 +32,35 @@ function Login() {
             "content-type": "application/json"
         }
         }).then(result=>{
-          localStorage.setItem('sessionKey', result.data.session_key);
-          localStorage.setItem("user", JSON.stringify(result.data.user))
-          dispatch(loginSuccess(result.data.user))
+          const responseData = result.data;
+          // const parsedResponse = JSON.parse(responseData);
+          if(responseData.success==true){
+            localStorage.setItem('sessionKey', responseData.session_key);
+            localStorage.setItem("user", JSON.stringify(responseData.user))
+            dispatch(loginSuccess(responseData.user))  
+            const userRole = responseData.user.user_role;
+            if (userRole === 'admin') {
+              navigate('/dashboard');
+            }
+
+          }
+          else{
+            dispatch(loginFailure(responseData))
+            // console.log(parsedResponse)
+          }
         })
       }catch(error){
         console.log(error.message)
       }
-
-
+      
     }
+   
+    // // Get session key from local storage
+    // const sessionKey = localStorage.getItem('sessionKey');
+
+    // // Include session key in your request headers or wherever it's needed
+    // axios.defaults.headers.common['Authorization'] = `Bearer ${sessionKey}`;
+
 
 
     return (
@@ -56,10 +76,10 @@ function Login() {
               <div className="form-group">
                 <h5>E-mail</h5>
                 <input
-                  type="text"
+                  type="email"
                   placeholder="Email address"
-                  value={username}
-                  onChange={(event) => setUsername(event.target.value)}
+                  value={email}
+                  onChange={(event) => setEmail(event.target.value)}
                 />
               </div>
               <div className="form-group">
@@ -76,7 +96,9 @@ function Login() {
               </button>
             </form>
             <div className="login_registerButton">
+            <Link to="/register">
               <p>Don't have an account?</p>
+              </Link>
               {/* <p>Don't have an account? <Link to="/register">Register</Link></p> */}
 
             </div>

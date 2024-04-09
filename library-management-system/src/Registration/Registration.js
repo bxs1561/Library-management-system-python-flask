@@ -40,6 +40,7 @@ function Registration(){
         }
         if(password!==confirmPassword){
             alert("password do not match")
+            return;
         }
         dispatch(addUserRequest(userData));
 
@@ -50,12 +51,13 @@ function Registration(){
                 }
             });
             const responseData = response.data;
-            dispatch(addUserSuccess(responseData));
-            // if (responseData.success) {
-            //     dispatch(addUserSuccess(responseData));
-            //   } else {
-            //     dispatch(addUserFailure(responseData.message));
-            //   }
+            const parsedResponse = JSON.parse(responseData);
+            // dispatch(addUserSuccess(responseData));
+            if (parsedResponse.success==true) {
+                dispatch(addUserSuccess(responseData));
+              } else {
+                dispatch(addUserFailure(responseData));
+              }
 
         } catch (error) {
             dispatch(addUserFailure(error));

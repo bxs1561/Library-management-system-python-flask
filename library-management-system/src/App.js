@@ -11,11 +11,27 @@ import Dashboard from './dashboard/Dashboard';
 import VisitorStats from './Visitor/VisitorStats'
 import PopularBooks from './Book/PopularBook/PopularBook'
 import Registration from './Registration/Registration'
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useNavigate, Link
+} from "react-router-dom";
 
 function App() {
   return (
     <div className="App">
-        {/* <Login/> */}
+      <Router>
+        <Routes>
+          <Route exact path="/" element={<Login/>}/> 
+          <Route path="/register" element={<Registration/>} /> 
+          <Route path="/dashboard" element={<Dashboard/>} /> 
+
+          
+
+        </Routes>
+      </Router>
+
         {/* <ViewBook/> */}
         {/* <AddBook/> */}
         {/* <BookReservation/> */}
@@ -26,7 +42,7 @@ function App() {
         {/* <Dashboard/> */}
         {/* <VisitorStats/> */}
         {/* <PopularBooks/> */}
-        <Registration/>
+        {/* <Registration/> */}
     </div>
   );
 }

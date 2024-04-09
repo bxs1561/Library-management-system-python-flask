@@ -29,15 +29,15 @@ const addUserReducer = (state = initialState, action) => {
 
 const loginReducer = (state = initialState, action) => {
   switch(action.type){
-    case 'LOGIN_REQUEST':
+    case actions.LOGIN_REQUEST:
       return{
         ...state, isLoading: true
       }
-    case 'LOGIN_SUCCESS':
+    case actions.LOGIN_SUCCESS:
       return{
         ...state, isLoading: false, user:action.payload
       }
-    case 'LOGIN_FAILURE':
+    case actions.LOGIN_FAILURE:
       return{
         ...state, isLoading: false, error:action.payload
       }
