@@ -17,15 +17,21 @@ import {
   Route,
   useNavigate, Link
 } from "react-router-dom";
+import AdminDashboard from './dashboard/AdminDashboard';
 
 function App() {
+  const user = localStorage.getItem("user")
+  ? JSON.parse(localStorage.getItem("user")):
+  null
   return (
     <div className="App">
+      <AdminDashboard/>
       <Router>
         <Routes>
           <Route exact path="/" element={<Login/>}/> 
-          <Route path="/register" element={<Registration/>} /> 
-          <Route path="/dashboard" element={<Dashboard/>} /> 
+          {/* <Route path="/register" element={<Registration/>} />  */}
+
+
 
           
 

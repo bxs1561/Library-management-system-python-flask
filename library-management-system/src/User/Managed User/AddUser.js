@@ -19,7 +19,18 @@ function AddUser(){
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
     const [birthDate, setBirthDate] = useState('');
-    const [role, setRole] = useState('');
+    const [role_name, setRole] = useState('');
+    const users = useSelector(state => state.login);
+    // const user = localStorage.getItem("user")
+    // ? JSON.parse(localStorage.getItem("user")):
+    // null
+
+    const session_key = localStorage.getItem("sessionKey")
+    ? localStorage.getItem("sessionKey"):
+    null
+
+
+    
     const dispatch = useDispatch();
 
     const handleSumbit=async(event)=>{
@@ -33,23 +44,31 @@ function AddUser(){
             email:email,
             phone_number:phone,
             date_of_birth:birthDate,
-            role:role,
+            user_image_url:selectedFile,
+            role_name:role_name,
+
+
         }
         dispatch(addUserRequest(userData));
 
         try {
-            const response = await axios.post('/user/add', JSON.stringify(userData),{
+            const response = await axios.post('/user/add', userData,{
                 headers: {
-                    "content-type": "application/json"
+                    "content-type": "application/json",
+                    Authorization: `Session ${session_key}`
                 }
             });
-            dispatch(addUserSuccess(response));
-           
-
-
+            const responseData = response.data
+            if(responseData.success==true){
+                dispatch(addUserSuccess(responseData));
+            }
+            else{
+                dispatch(addUserFailure(responseData))
+            }
+            console.log(responseData)
 
         } catch (error) {
-            dispatch(addUserFailure(error));
+            // dispatch(addUserFailure(error));
         }
     };
     const handleFileChange = (event) => {
@@ -63,6 +82,11 @@ function AddUser(){
           setSelectedFile(null);
         }
       };
+
+    // // Include session key in your request headers or wherever it's needed
+    // axios.defaults.headers.common['Authorization'] = `Bearer ${sessionKey}`;
+
+
       
     return(
         <div className="adduser___container">
@@ -160,7 +184,7 @@ function AddUser(){
                         <div className="role">
                         <h5>Select Role</h5>
                         <select
-              value={role}
+              value={role_name}
               onChange={(event) => setRole(event.target.value)}
             >
               <option value="">Select...</option>

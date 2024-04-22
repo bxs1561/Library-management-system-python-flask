@@ -4,7 +4,8 @@ import * as actions from './action'
 const initialState = {
     user: null,
     isLoading: false, 
-    error: null,   
+    error: null,
+    searchTerm:'',   
   };
 
 const addUserReducer = (state = initialState, action) => {
@@ -47,32 +48,52 @@ const loginReducer = (state = initialState, action) => {
   }
 }
 
-const deleteUser = (state=initialState,action)=>{
+const deleteUserReducer = (state=initialState,action)=>{
   switch(action.type){
-    case 'REMOVE_USER_BY_ADMIN':
+    case 'DELETE_USER_REQUEST':
       return{
         ...state,
-        users: state.users.filter(user => user.id !== action.payload)
+        isLoading: true,
       }
-      default:
-        return state;
+    case 'DELETE_USER_SUCCESS':
+      return{
+        ...state,
+        isLoading: false,
+        // user: state.user.filter(usr => usr.user_id !== action.payload)
+        user: state.user ? state.user.filter(usr => usr.user_id !== action.payload) : null,
+      }
+    case 'DELETE_USER_FAILURE':
+      return{
+        ...state,
+        isLoading: false,
+        error: action.payload
+
+      }
+    default:
+      return state;
   }
 }
 
 const getUserReducer=(state=initialState,action)=>{
   switch(action.type){
-    case actions.GET_USER_REQUEST:
+    case 'GET_USER_REQUEST':
       return{
         ...state,
         isLoading:true
       }
-    case actions.GET_USER_SUCCESS:
+    case 'GET_USER_SUCCESS':
       return{
         ...state,
         user: action.payload,
         isLoading:false
       }
-    case actions.GET_USER_FAILURE:
+    case 'UPDATE_FILTERED_USER':
+      return{
+        ...state,
+        user: action.payload,
+        isLoading: false
+      }
+    case 'GET_USER_FAILURE':
       return{
         ...state,
         isLoading:false,
@@ -83,6 +104,32 @@ const getUserReducer=(state=initialState,action)=>{
 
   }
 }
+
+const editUserReducer=(state=initialState,action)=>{
+  switch(action.type){
+    case 'EDIT_USER_REQUEST':
+      return{
+        ...state,
+        isLoading:true
+      }
+    case 'EDIT_USER_SUCCESS':
+      return{
+        ...state,
+        user: action.payload,
+        isLoading:false
+      }
+    case 'EDIT_USER_FAILURE':
+      return{
+        ...state,
+        isLoading:false,
+        error:action.payload
+      }
+      default:
+        return state;
+
+  }
+}
+
 
 // const userReducer = (state = initialState, action) => {
 //     switch (action.type) {
@@ -98,7 +145,7 @@ const getUserReducer=(state=initialState,action)=>{
 const reducer = combineReducers({
     user: addUserReducer,
     login: loginReducer,
-    deleteUser: deleteUser,
+    deleteUser: deleteUserReducer,
     getUser:getUserReducer,
 });
   

@@ -14,6 +14,19 @@ export const REMOVE_USER_BY_ADMIN = 'REMOVE_USER_BY_ADMIN';
 export const GET_USER_REQUEST = 'GET_USER_REQUEST';
 export const GET_USER_SUCCESS = 'GET_USER_SUCCESS';
 export const GET_USER_FAILURE = 'GET_USER_FAILURE';
+export const UPDATE_SEARCH_TERM = 'UPDATE_SEARCH_TERM';
+
+export const DELETE_USER_REQUEST = 'DELETE_USER_REQUEST';
+export const DELETE_USER_SUCCESS = 'DELETE_USER_SUCCESS';
+export const DELETE_USER_FAILURE = 'DELETE_USER_FAILURE';
+
+export const EDIT_USER_REQUEST = 'EDIT_USER_REQUEST';
+export const EDIT_USER_SUCCESS = 'EDIT_USER_SUCCESS';
+export const EDIT_USER_FAILURE = 'EDIT_USER_FAILURE';
+
+
+
+
 
 
 
@@ -49,50 +62,89 @@ export const loginRequest = (credentials) => ({
     payload: error,
   });
 
-  //remove user
-  export const removeUser=(userID)=>(dispatch)=>{
-    axios.delete(`/user/${userID}`)
-    dispatch({
-      type: REMOVE_USER_BY_ADMIN,
-      payload:userID,
-    })
-    
-  };
+  //delte user
+  export const delteUserRequest = () => ({
+    type: DELETE_USER_REQUEST,
+  });
+  
+  export const deleteUserSuccess = (user_id) => ({
+    type: DELETE_USER_SUCCESS,
+    payload: user_id,
+  });
+  
+  export const deleteUserFailure = (error) => ({
+    type: DELETE_USER_FAILURE,
+    payload: error,
+  });
+
+  //edit user
+  export const editUserRequest = () => ({
+    type: EDIT_USER_REQUEST,
+  });
+  
+  export const editUserSuccess = (user) => ({
+    type: EDIT_USER_SUCCESS,
+    payload: user,
+  });
+  
+  export const editUserFailure = (error) => ({
+    type: EDIT_USER_FAILURE,
+    payload: error,
+  });
+
+
+
+
+
+  // export const getUserRequest=()
+
 
   //get user from api to display in page
  
-  // export const getUserRequest=()=>({
-  //   type: GET_USER_REQUEST,
-  // })
-  // export const getUserSuccess=(user)=>({
-  //   type: GET_USER_SUCCESS,
-  //   payload:user
-  // })
+export const getUserRequest = () => ({
+    type: 'GET_USER_REQUEST',
+  });
+  
+export const getUserSuccess = (data) => ({
+    type: 'GET_USER_SUCCESS',
+    payload: data,
+  });
+  
+export const getUserFailure = (error) => ({
+    type: 'GET_USER_FAILURE',
+    payload: error,
+  });
 
-  // export const getUserFailure=(error)=>({
-  //   type: GET_USER_FAILURE,
-  //   payload:error
-  // })
+export const updateFilteredUser = (data) => ({
+    type: 'UPDATE_FILTERED_USER',
+    payload: data,
+  });
 
+export const updateSearchTerm = (searchTerm) => ({
+  type: UPDATE_SEARCH_TERM,
+  payload: searchTerm,
+});
 
-  export const getUser = ()=>
-  async (dispatch)=>{
-  dispatch({
-      type: GET_USER_REQUEST
-  })
-      try {
-          const {data} = await axios.get("/users")
-          dispatch({
-              type: GET_USER_SUCCESS, 
-              payload: data
-          })
-      }catch (error) {
-      dispatch({
-          type: GET_USER_FAILURE,
-          payload: error.message
-      })
-      }
+  
 
-}
+//   export const getUser = ()=>
+//   async (dispatch)=>{
+//   dispatch({
+//       type: GET_USER_REQUEST
+//   })
+//       try {
+//           const {data} = await axios.get("/users")
+//           dispatch({
+//               type: GET_USER_SUCCESS, 
+//               payload: data
+//           })
+//       }catch (error) {
+//       dispatch({
+//           type: GET_USER_FAILURE,
+//           payload: error.message
+//       })
+//       }
+
+// }
 
 // loginFailure, loginRequest,loginSuccess
