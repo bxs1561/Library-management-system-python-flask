@@ -13,7 +13,7 @@ def rebuild_tables():
     # exec_sql_file('src/db/data.sql')
 
 
-def list_admin():
+def list_users():
     """Get the list of all admin info from database."""
     # return exec_get_all(
     # 'SELECT u.user_id, u.first_name, u.last_name, u.username, u.password, u.date_of_birth, u.address, u.phone_number, u.email, '
@@ -56,13 +56,12 @@ def getRoleName(role_id):
         return False
 
 
-def add_admin_register(first_name, last_name, username, password, phone_number, email,user_image_url):
+def add_admin_register(first_name, last_name, username, password, phone_number, email, user_image_url):
     """Add admin user"""
 
     # Check if any of the required fields are empty
     if not all([first_name, last_name, username, password, phone_number, email]):
         return json.dumps({"success": False, "message": "Please provide all required fields"})
-    "Godisgreat+123"
 
     local_user_id = getUserID(username)
     role_id = getRoleID('admin')
@@ -81,37 +80,60 @@ def add_admin_register(first_name, last_name, username, password, phone_number, 
                                     VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s)"""
             locked = exec_commit_return(sql)
             exec_commit(sql_query, (
-                                    first_name, last_name, username, hashed_password, phone_number,
-                                    email,user_image_url, locked, role_id))
+                first_name, last_name, username, hashed_password, phone_number,
+                email, user_image_url, locked, role_id))
             return json.dumps({"success": True, "message": "User added successfully"})
             # return True
         except Exception as e:
             return json.dumps({"success": False, "message": "An error occurred"})
 
-def add_users(user_id, first_name, last_name, date_of_birth, username, password, address, phone_number, email,
-              role_name):
-    """Add users to database"""
-    local_user_id = getUserID(username)
-    role_id = getRoleID(role_name)
-    if local_user_id:
-        return False
-        # return "user already exist"
-    else:
-        encode_password = password.encode('utf-8')
-        hashed_password = hashlib.sha512(encode_password).hexdigest()
-        sql_lock = """
-                  INSERT INTO user_status (status_value)
-                  VALUES (False) RETURNING id ;
-                """
-        locked = exec_commit_return(sql_lock)
 
-        sql_query = """INSERT INTO users(user_id,first_name,last_name,username,password,date_of_birth,address,phone_number,email,user_status_id,role_id)
-                        VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"""
-        exec_commit(sql_query, (user_id,
-                                first_name, last_name, username, hashed_password, date_of_birth, address, phone_number,
-                                email, locked,
-                                role_id))
-        return True
+def add_users(first_name, last_name, date_of_birth, username, password, address, phone_number, email,
+            user_image_url,role_name):
+    """Add users to database"""
+    try:
+        local_user_id = getUserID(username)
+        role_id = getRoleID(role_name)
+        if not role_id:
+            data = {"success": False, "message": "Please fill out this fields"}
+            return data
+        STUDENT_ROLE_ID = getRoleName(role_id)
+        LIBRARIAN_ROLE_ID = getRoleName(role_id)
+    # Check if any of the required fields are empty
+        if not all([first_name, last_name, date_of_birth, username, password, phone_number, email]):
+            data = {"success": False, "message": "Please fill out this fields"}
+            return data
+
+        if local_user_id:
+            data = {"success": False, "message": "User already exists"}
+            return data
+    # Check if the role is valid (student or librarian)
+
+        # if role_id not in [STUDENT_ROLE_ID, LIBRARIAN_ROLE_ID]:
+        #     data = {"success": False, "message": "Invalid role. Please provide a valid role (student or librarian)"}
+        #     return data
+
+        else:
+            encode_password = password.encode('utf-8')
+            hashed_password = hashlib.sha512(encode_password).hexdigest()
+            sql_lock = """
+                      INSERT INTO user_status (status_value)
+                      VALUES (False) RETURNING id ;
+                    """
+            locked = exec_commit_return(sql_lock)
+
+            sql_query = """INSERT INTO users(first_name,last_name,username,password,date_of_birth,address,phone_number,email,user_image_url,user_status_id,role_id)
+                            VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"""
+            exec_commit(sql_query, (
+                first_name, last_name, username, hashed_password, date_of_birth, address, phone_number,
+                email, user_image_url, locked,
+                role_id))
+            data = {"success": True, "message": "User added successfully"}
+            return data
+
+    except Exception as e:
+        data={"success": False, "message": "An error occurred"}
+        return data
 
 
 def login_users(email, password):
@@ -119,11 +141,11 @@ def login_users(email, password):
     otherWise return error message
     """
     if email is None or password is None:
-        data = {"success":False,'error': "Email or password is missing"}
+        data = {"success": False, 'error': "Email or password is missing"}
         return data
 
     if len(email) == 0 or len(password) == 0:
-        data = {"success":False,'error': "Please fill in both the email and password"}
+        data = {"success": False, 'error': "Please fill in both the email and password"}
         return data
 
     if len(email) > 0 and len(password) > 0:
@@ -142,10 +164,10 @@ def login_users(email, password):
             }}
             return data
         else:
-            data = {"success":False, 'error': 'login failed'}
+            data = {"success": False, 'error': 'login failed'}
             return data
     else:
-        data = {"success":False, 'error': 'login failed'}
+        data = {"success": False, 'error': 'login failed'}
         return data
 
 
@@ -179,13 +201,13 @@ def edit_user(user_id, first_name, username, last_name, date_of_birth, address, 
     return jsonify(data)
 
 
-def remove_user_account(user_id, session_key):
+def remove_user_account(user_id):
     """Remove user from database table"""
-    if validate_session_key(session_key) is False:
-        return False
+    # if validate_session_key(session_key) is False:
+    #     return False
     sql_query = """DELETE FROM users WHERE users.user_id =%s"""
     exec_commit(sql_query, (user_id,))
-    data={'message':'remove user account successfully'}
+    data = {'message': 'remove user account successfully'}
     return jsonify(data)
 
 
@@ -211,7 +233,3 @@ def get_user_checkout_books(username, session_key):
     sql_query = """ SELECT checkout.checkout_id,checkout.student_id,checkout.book_id,checkout.checkout_date,checkout.due_date,checkout.return_date,checkout.borrow_days FROM checkout,books
                     WHERE checkout.student_id=%s and checkout.book_id=books.book_id ORDER BY checkout.checkout_id"""
     return exec_get_all(sql_query, (user,))
-
-
-
-

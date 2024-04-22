@@ -74,6 +74,10 @@ class UsersApi(Resource):
         users = Users.query.all()
         return jsonify([user.serialize() for user in users])
 
+        # serialized_users=[user.serialize() for user in users]
+        # return jsonify({'success': True, 'users': serialized_users})
+
+
         # admin_data = []
         # for data in users.list_admin():
         #     dictionary = dict()
@@ -92,11 +96,16 @@ class UsersApi(Resource):
         #     admin_data.append(dictionary)
         #
         # return admin_data
+class AdminApi(Resource):
+    def get(self,role_type):
+        role = Roles.query.filter_by(name=role_type).first()
+        users = Users.query.filter_by(role_id=role.role_id).all()
+        return jsonify([user.serialize() for user in users])
 
 class UsersApiPost(Resource):
     def post(self):
-        parser.add_argument('user_id', type=int)
         parser.add_argument('first_name', type=str)
+        parser.add_argument('user_image_url', type=str)
         parser.add_argument('last_name', type=str)
         parser.add_argument('username', type=str)
         parser.add_argument('password', type=str)
@@ -107,8 +116,8 @@ class UsersApiPost(Resource):
         parser.add_argument('role_name', type=str)
 
         args = parser.parse_args()
-        user_id = args['user_id']
         first_name = args['first_name']
+        user_image_url = args['user_image_url']
         last_name = args['last_name']
         username = args['username']
         password = args['password']
@@ -117,9 +126,9 @@ class UsersApiPost(Resource):
         phone_number = args['phone_number']
         email = args['email']
         role_name = args['role_name']
-        user = users.add_users(user_id,first_name, last_name, date_of_birth, username, password, address, phone_number, email,
-                               role_name)
-        return user
+        user = users.add_users(first_name, last_name, date_of_birth, username, password, address, phone_number, email,
+                               user_image_url, role_name)
+        return jsonify(user)
 
         # try:
         #     if user == False:
@@ -190,11 +199,10 @@ class EditApiUser(Resource):
             return 'authentication failed'
 
 class RemoveUserApi(Resource):
-    def delete(self):
+    def delete(self,user_id):
         """Delete user information"""
-        user_id =request.args.get('user_id')
         session_key = request.headers.get('Session')
-        delete_user = users.remove_user_account(user_id, session_key)
+        delete_user = users.remove_user_account(user_id)
         return delete_user
 
 class GetCheckoutApi(Resource):

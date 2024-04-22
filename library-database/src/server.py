@@ -1,7 +1,7 @@
 from flask import Flask
 from flask_restful import Resource, Api
 from db.users import rebuild_tables
-from api.users_api import UsersApi,UsersApiPost, UserApiLogin,EditApiUser,AdminApiRegister,RemoveUserApi
+from api.users_api import UsersApi,UsersApiPost, UserApiLogin,EditApiUser,AdminApiRegister,RemoveUserApi,AdminApi
 from flask_cors import CORS
 from api.users_api import dbs
 
@@ -15,9 +15,11 @@ api = Api(app)
 
 api.add_resource(UsersApi, '/users')
 api.add_resource(UsersApiPost,'/user/add')
+api.add_resource(AdminApi,'/user/<string:role_type>')
+
 api.add_resource(UserApiLogin,'/user/login')
-api.add_resource(EditApiUser,'/user/edit/<int:id>')
-api.add_resource(RemoveUserApi,'/user/delete/<int:id>')
+api.add_resource(EditApiUser,'/user/<int:id>')
+api.add_resource(RemoveUserApi,'/user/<int:user_id>')
 
 
 api.add_resource(AdminApiRegister,'/admin/add')

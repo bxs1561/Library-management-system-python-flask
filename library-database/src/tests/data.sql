@@ -1,6 +1,8 @@
 INSERT INTO Roles(role_id,name) VALUES
     (1,'admin'),
-    (2,'student');
+    (2,'student'),
+    (3,'librarian');
+
 
 INSERT INTO user_status(status_value) VALUES
     (TRUE),
