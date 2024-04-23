@@ -2,6 +2,7 @@ from flask import Flask
 from flask_restful import Resource, Api
 from db.users import rebuild_tables
 from api.users_api import UsersApi,UsersApiPost, UserApiLogin,EditApiUser,AdminApiRegister,RemoveUserApi,AdminApi
+from api.books_api import BookApiGet,BookApiPost
 from flask_cors import CORS
 from api.users_api import dbs
 
@@ -23,7 +24,9 @@ api.add_resource(RemoveUserApi,'/user/<int:user_id>')
 
 
 api.add_resource(AdminApiRegister,'/admin/add')
-# api.add_resource(RemoveUserApi,'/user/<int:user_id>')
+api.add_resource(BookApiGet, '/books')
+api.add_resource(BookApiPost,'/book/add')
+
 
 
 

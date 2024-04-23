@@ -175,7 +175,6 @@ def validate_session_key(session_key):
     "Given session key return true if session key exist in database"
     sql_query = ('SELECT * FROM users WHERE session_key=%s')
     result = exec_get_all(sql_query, (session_key,))
-    print(result)
     if len(result) > 0:
         return True
     else:
