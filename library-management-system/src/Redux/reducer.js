@@ -5,7 +5,8 @@ const initialState = {
     user: null,
     isLoading: false, 
     error: null,
-    searchTerm:'',   
+    searchTerm:'',
+    books:[],   
   };
 
 const addUserReducer = (state = initialState, action) => {
@@ -131,22 +132,38 @@ const editUserReducer=(state=initialState,action)=>{
 }
 
 
-// const userReducer = (state = initialState, action) => {
-//     switch (action.type) {
-//       case actionTypes.SET_USER:
-//         return{
-//           ...state,
-//           user: action.user
-//         }
-//             default:
-//         return state;
-//     }
-//   };
+const addBookReducer=(state=initialState,action)=>{
+  switch(action.type){
+    case 'ADD_BOOK_REQUEST':
+      return{
+        ...state,
+        isLoading:true
+      }
+    case 'ADD_BOOK_SUCCESS':
+      return{
+        ...state,
+        books: action.payload,
+        isLoading:false
+      }
+    case 'ADD_BOOK_FAILURE':
+      return{
+        ...state,
+        isLoading:false,
+        error:action.payload
+      }
+      default:
+        return state;
+
+  }
+}
+
 const reducer = combineReducers({
     user: addUserReducer,
     login: loginReducer,
     deleteUser: deleteUserReducer,
     getUser:getUserReducer,
+    editUser: editUserReducer,
+    addBook: addBookReducer,
 });
   
 

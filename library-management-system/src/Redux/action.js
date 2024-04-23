@@ -24,6 +24,11 @@ export const EDIT_USER_REQUEST = 'EDIT_USER_REQUEST';
 export const EDIT_USER_SUCCESS = 'EDIT_USER_SUCCESS';
 export const EDIT_USER_FAILURE = 'EDIT_USER_FAILURE';
 
+export const ADD_BOOK_REQUEST = 'ADD_BOOK_REQUEST';
+export const ADD_BOOK_SUCCESS = 'ADD_BOOK_SUCCESS';
+export const ADD_BOOK_FAILURE = 'ADD_BOOK_FAILURE';
+
+
 
 
 
@@ -127,24 +132,17 @@ export const updateSearchTerm = (searchTerm) => ({
 
   
 
-//   export const getUser = ()=>
-//   async (dispatch)=>{
-//   dispatch({
-//       type: GET_USER_REQUEST
-//   })
-//       try {
-//           const {data} = await axios.get("/users")
-//           dispatch({
-//               type: GET_USER_SUCCESS, 
-//               payload: data
-//           })
-//       }catch (error) {
-//       dispatch({
-//           type: GET_USER_FAILURE,
-//           payload: error.message
-//       })
-//       }
+//add book
+export const addBookRequest = () => ({
+  type: ADD_BOOK_REQUEST,
+});
 
-// }
+export const addBookSuccess = (book) => ({
+  type: ADD_BOOK_SUCCESS,
+  payload: book,
+});
 
-// loginFailure, loginRequest,loginSuccess
+export const addBookFailure = (error) => ({
+  type: ADD_BOOK_FAILURE,
+  payload: error,
+});

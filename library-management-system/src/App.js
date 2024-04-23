@@ -25,21 +25,21 @@ function App() {
   null
   return (
     <div className="App">
-      <AdminDashboard/>
+      {/* <AdminDashboard/>
       <Router>
         <Routes>
-          <Route exact path="/" element={<Login/>}/> 
+          <Route exact path="/" element={<Login/>}/>  */}
           {/* <Route path="/register" element={<Registration/>} />  */}
 
 
 
           
 
-        </Routes>
-      </Router>
+        {/* </Routes>
+      </Router> */}
 
         {/* <ViewBook/> */}
-        {/* <AddBook/> */}
+        <AddBook/>
         {/* <BookReservation/> */}
         {/* <ViewReservedBook/> */}
         {/* <AddUser/> */}
