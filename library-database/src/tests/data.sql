@@ -24,7 +24,7 @@ INSERT INTO Student(student_id,user_id,fine_balance,membership_expiry_date) VALU
 INSERT INTO Admin(admin_id, user_id,librarian_id) VALUES
     (1,1,1);
 
-INSERT INTO Checkout(checkout_id,student_id,librarian_id,book_id,checkout_date,due_date,return_date,borrow_days) VALUES
+INSERT INTO Checkout(checkout_id,student_id,librarian_id,book_id,checkout_date,due_date,return_date,days_delay) VALUES
     (1,1,1,1,'2024-2-10','2024-3-13','2024-3-13',3),
     (2,1,1,1,'2024-2-10','2024-3-13','2024-3-13',3);
 

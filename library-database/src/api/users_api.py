@@ -205,21 +205,140 @@ class RemoveUserApi(Resource):
         delete_user = users.remove_user_account(user_id)
         return delete_user
 
-class GetCheckoutApi(Resource):
-    def get(self, username):
-        """Get the list of checkout books per username"""
-        session_key = request.headers.get('Session')
-        checkout_books = users.getCheckoutBooks(username, session_key)
-        if not checkout_books is False:
-            for data in checkout_books:
-                dictionary = dict()
-                dictionary['checkoutId'] = data[0]
-                dictionary['userId'] = data[1]
-                dictionary['booksId'] = data[2]
-                dictionary['checkoutDate'] = data[3]
-                dictionary['returnDate'] = data[4]
-                dictionary['borrowDays'] = data[5]
-                return json.dumps(dictionary)
+class CheckOutBookPost(Resource):
+    def post(self):
+        parser.add_argument('title', type=str)
+        parser.add_argument('checkout_date', type=str)
+        parser.add_argument('due_date', type=str)
+        parser.add_argument('student_name', type=str)
+        # parser.add_argument('librarian_id', type=int)
 
-        else:
-            return 'authentication failed'
+
+        args = parser.parse_args()
+        # user_id = args['user_id']
+        title = args['title']
+        checkout_date = args['checkout_date']
+        due_date = args['due_date']
+        student_name = args['student_name']
+        # librarian_id = args['librarian_id']
+
+        checkout_book=users.checkout_book(title, checkout_date, due_date)
+        return checkout_book
+
+
+
+
+class Checkout(dbs.Model):
+    __tablename__ = 'checkout'
+
+    checkout_id = dbs.Column(dbs.Integer, primary_key=True)
+    student_id = dbs.Column(dbs.Integer, dbs.ForeignKey('student.student_id'))  # Foreign key referencing Student table
+    librarian_id = dbs.Column(dbs.Integer, dbs.ForeignKey('librarian.librarian_id'))
+    book_id = dbs.Column(dbs.Integer, dbs.ForeignKey('books.book_id'))
+    checkout_date = dbs.Column(dbs.Date)
+    due_date = dbs.Column(dbs.Date)
+    return_date = dbs.Column(dbs.Date)
+    borrow_days = dbs.Column(dbs.Integer)
+
+    # Define relationships
+    student = dbs.relationship("Student", backref="checkout")
+    librarian = dbs.relationship("Librarian", backref="checkout")
+    book = dbs.relationship("Books", backref="checkout")
+
+    def serialize(self):
+        return {
+            'checkout_id': self.checkout_id,
+            'student': self.student.serialize(),
+            'librarian': self.librarian.serialize(),
+            'books': self.book.serialize(),
+            'checkout_date': self.checkout_date.isoformat() if self.checkout_date else None,
+            'due_date': self.due_date.isoformat() if self.due_date else None,
+            'return_date': self.return_date.isoformat() if self.return_date else None,
+            'borrow_days': self.borrow_days
+        }
+
+
+
+class Student(dbs.Model):
+    __tablename__ = 'student'
+
+    student_id = dbs.Column(dbs.Integer, primary_key=True)
+    user_id = dbs.Column(dbs.Integer, dbs.ForeignKey('users.user_id'))  # Foreign key referencing Users table
+    fine_balance = dbs.Column(dbs.Integer)
+    membership_expiry_date = dbs.Column(dbs.Date)
+
+    # Define relationship
+    users = dbs.relationship("Users", backref="student")
+
+    def serialize(self):
+        return {
+            'student_id': self.student_id,
+            'user': self.users.serialize(),
+            'fine_balance': self.fine_balance,
+            'membership_expiry_date': self.membership_expiry_date.isoformat() if self.membership_expiry_date else None
+        }
+
+# Define the librarian table
+class Librarian(dbs.Model):
+    __tablename__ = 'librarian'
+
+    librarian_id = dbs.Column(dbs.Integer, primary_key=True)
+    hire_date = dbs.Column(dbs.Date)
+    user_id = dbs.Column(dbs.Integer, dbs.ForeignKey('users.user_id'))  # Foreign key referencing Users table
+
+    # Define relationship
+    users = dbs.relationship("Users", backref="librarian")
+
+    def serialize(self):
+        return {
+            'librarian_id': self.librarian_id,
+            'hire_date': self.hire_date.isoformat() if self.hire_date else None,
+            'user': self.users.serialize()
+        }
+
+
+# Define the books table
+class Books(dbs.Model):
+    __tablename__ = 'books'
+
+    book_id = dbs.Column(dbs.Integer, primary_key=True)
+    isbn = dbs.Column(dbs.String(13), unique=True)
+    title = dbs.Column(dbs.String(255))
+    genre = dbs.Column(dbs.String(255))
+    publication_year = dbs.Column(dbs.String(255))
+    publisher = dbs.Column(dbs.String(255))
+    language = dbs.Column(dbs.String(255))
+    copies_available = dbs.Column(dbs.Integer)
+    total_copies = dbs.Column(dbs.Integer)
+    location = dbs.Column(dbs.String(50))
+    cover_image_url = dbs.Column(dbs.String(255))
+    availability_status = dbs.Column(dbs.String(50))
+    rating = dbs.Column(dbs.String(50))
+    review = dbs.Column(dbs.String(50))
+
+    # Define relationship
+
+    def serialize(self):
+        return {
+            'book_id': self.book_id,
+            'ISBN': self.isbn,
+            'title': self.title,
+            'genre': self.genre,
+            'publication_year': self.publication_year,
+            'publisher': self.publisher,
+            'language': self.language,
+            'copies_available': self.copies_available,
+            'total_copies': self.total_copies,
+            'location': self.location,
+            'cover_image_url': self.cover_image_url,
+            'availability_status': self.availability_status,
+            'rating': self.rating,
+            'review': self.review
+        }
+
+
+class GetCheckOutApi(Resource):
+    def get(self):
+        checkouts = Checkout.query.all()
+        return jsonify([checkout.serialize() for checkout in checkouts])
+

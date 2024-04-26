@@ -49,3 +49,32 @@ def add_book(ISBN, title, genre, total_copies, copies_available, cover_image_url
             return data
     except Exception as e:
         print(e)
+
+
+def get_book_id(ISBN):
+    sql_query = "SELECT book_id FROM Books WHERE ISBN=%s"
+    result = exec_get_one(sql_query, (ISBN,))
+    if result is not None:
+        return result
+    else:
+        return False
+
+
+def edit_book(book_id, ISBN, title, genre, total_copies, copies_available, cover_image_url, author, publisher):
+    "edit book"
+    sql_query = (
+        'UPDATE books SET ISBN=%s,title=%s, genre = %s,total_copies=%s,copies_available=%s,cover_image_url=%s,author=%s,publisher=%s, WHERE id= %s  ')
+    exec_commit(sql_query,
+                (ISBN, title, genre, total_copies, copies_available, cover_image_url, author, publisher, book_id))
+    data = {'message': 'edit success'}
+    return jsonify(data)
+
+
+def remove_book(book_id):
+    "Remove book"
+    sql_query = """DELETE FROM book WHERE users.user_id =%s"""
+    exec_commit(sql_query, (book_id,))
+    data = {'message': 'remove user account successfully'}
+    return jsonify(data)
+
+

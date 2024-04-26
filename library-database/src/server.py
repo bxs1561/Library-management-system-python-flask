@@ -1,8 +1,8 @@
 from flask import Flask
 from flask_restful import Resource, Api
 from db.users import rebuild_tables
-from api.users_api import UsersApi,UsersApiPost, UserApiLogin,EditApiUser,AdminApiRegister,RemoveUserApi,AdminApi
-from api.books_api import BookApiGet,BookApiPost
+from api.users_api import UsersApi,UsersApiPost, UserApiLogin,EditApiUser,AdminApiRegister,RemoveUserApi,AdminApi,GetCheckOutApi,CheckOutBookPost
+from api.books_api import BookApiGet,BookApiPost,BooksApiEdit,RemoveBookApi
 from flask_cors import CORS
 from api.users_api import dbs
 
@@ -26,6 +26,10 @@ api.add_resource(RemoveUserApi,'/user/<int:user_id>')
 api.add_resource(AdminApiRegister,'/admin/add')
 api.add_resource(BookApiGet, '/books')
 api.add_resource(BookApiPost,'/book/add')
+api.add_resource(BooksApiEdit,'/book/edit/<int:book_id>')
+api.add_resource(RemoveBookApi,'/book/<int:book_id>')
+api.add_resource(GetCheckOutApi,'/books/checkout')
+api.add_resource(CheckOutBookPost,'/checkout-book')
 
 
 

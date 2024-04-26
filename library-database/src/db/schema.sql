@@ -75,7 +75,7 @@ CREATE TABLE Checkout (
     checkout_date DATE,
     due_date DATE,
     return_date DATE,
-    borrow_days INTEGER,
+    days_delay INTEGER,
     FOREIGN KEY (student_id) REFERENCES Student(student_id),
     FOREIGN KEY (librarian_id) REFERENCES Librarian(librarian_id),
     FOREIGN KEY (book_id) REFERENCES Books(book_id)

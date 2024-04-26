@@ -60,3 +60,24 @@ class BookApiPost(Resource):
         publisher = args['publisher']
         books_add = books.add_book(ISBN,title,genre,total_copies,copies_available,cover_image_url,author,publisher)
         return jsonify(books_add)
+
+class BooksApiEdit(Resource):
+    def put(self, book_id):
+        """Edit users information"""
+        args = parser.parse_args()
+        ISBN = args['ISBN']
+        title = args['title']
+        genre = args['genre']
+        total_copies = args['total_copies']
+        copies_available = args['copies_available']
+        cover_image_url = args['cover_image_url']
+        author = args['author']
+        publisher = args['publisher']
+
+        user_edit = books.edit_book(book_id, ISBN, title, genre, total_copies, copies_available, cover_image_url, author, publisher)
+        return user_edit
+class RemoveBookApi(Resource):
+    def delete(self,book_id):
+        """Delete user information"""
+        delete_user = books.remove_book(book_id)
+        return delete_user
