@@ -29,7 +29,7 @@
     font-weight: bold;
   }
   
-  .card {
+  .reservation___card {
     position: relative;
     display: flex;
     flex-direction: column;
@@ -48,12 +48,12 @@
     margin-bottom: 20px;
   }
   
-  .card {
+  .reservation___card {
     border: 1px solid #ccc;
     border-radius: 5px;
   }
   
-  .card___header {
+  .reservationCard___header {
     font-size: 20px;
     margin-bottom: 20px;
     padding: 10px;
@@ -68,7 +68,7 @@
     margin-bottom: 5px;
   }
   
-  .input___user{
+  .reservationInput___user{
     flex: 1;
     display: flex;
     margin-left: 12px;
@@ -193,8 +193,14 @@
     }
   
     .form-control {
-      width: 87%;
+      width: 84%;
     }
+    .reservationInput___user{
+      flex-direction: column; /* Display search boxes in a column on smaller screens */
+    align-items: flex-start;
+      
+    }
+   
   }
   
   
@@ -266,4 +272,15 @@ button {
 
 .date___wrapper{
     display: flex;
+}
+
+
+@media (max-width: 768px) {
+  .reservationInput___user {
+    flex-direction: column;
+  }
+
+  .input-group-text {
+    width: 80%; /* Set input box width to 100% on smaller screens */
+  }
 }

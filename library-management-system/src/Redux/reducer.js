@@ -7,6 +7,7 @@ const initialState = {
     error: null,
     searchTerm:'',
     books:[],   
+    checkoutBook:[],
   };
 
 const addUserReducer = (state = initialState, action) => {
@@ -157,6 +158,84 @@ const addBookReducer=(state=initialState,action)=>{
   }
 }
 
+const getCheckoutBookReducer=(state=initialState,action)=>{
+  switch(action.type){
+    case 'GET_CHECKOUT_REQUEST':
+      return{
+        ...state,
+        isLoading:true
+      }
+    case 'GET_CHECKOUT_SUCCESS':
+      return{
+        ...state,
+        checkoutBook: action.payload,
+        isLoading:false
+      }
+    case 'GET_CHECKOUT_FAILURE':
+      return{
+        ...state,
+        isLoading:false,
+        error:action.payload
+      }
+      default:
+        return state;
+
+  }
+}
+
+const getBookReducer=(state=initialState,action)=>{
+  switch(action.type){
+    case 'GET_BOOK_REQUEST':
+      return{
+        ...state,
+        isLoading:true
+      }
+    case 'GET_BOOK_SUCCESS':
+      return{
+        ...state,
+        book: action.payload,
+        isLoading:false
+      }
+    case 'getBookFailure':
+      return{
+        ...state,
+        isLoading:false,
+        error:action.payload
+      }
+      default:
+        return state;
+
+  }
+}
+
+const addCheckoutBookReducer=(state=initialState,action)=>{
+  switch(action.type){
+    case 'ADD_BOOK_CHECKOUT_REQUEST':
+      return{
+        ...state,
+        isLoading:true
+      }
+    case 'ADD_BOOK_CHECKOUT_SUCCESS':
+      return{
+        ...state,
+        checkoutBook: action.payload,
+        isLoading:false
+      }
+    case 'ADD_BOOK_CHECKOUT_FAILURE':
+      return{
+        ...state,
+        isLoading:false,
+        error:action.payload
+      }
+      default:
+        return state;
+
+  }
+}
+
+
+
+
 const reducer = combineReducers({
     user: addUserReducer,
     login: loginReducer,
@@ -164,6 +243,9 @@ const reducer = combineReducers({
     getUser:getUserReducer,
     editUser: editUserReducer,
     addBook: addBookReducer,
+    checkoutBooks: getCheckoutBookReducer,
+    getBook: getBookReducer,
+    addCheckoutBook: addCheckoutBookReducer,
 });
   
 

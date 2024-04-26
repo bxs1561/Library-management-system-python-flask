@@ -31,6 +31,19 @@ export const ADD_BOOK_FAILURE = 'ADD_BOOK_FAILURE';
 
 
 
+export const GET_CHECKOUT_REQUEST = 'GET_CHECKOUT_REQUEST';
+export const GET_CHECKOUT_SUCCESS = 'GET_CHECKOUT_SUCCESS';
+export const GET_CHECKOUT_FAILURE = 'GET_CHECKOUT_FAILURE';
+
+export const GET_BOOK_REQUEST = 'GET_BOOK_REQUEST';
+export const GET_BOOK_SUCCESS = 'GET_BOOK_SUCCESS';
+export const GET_BOOK_FAILURE = 'GET_BOOK_FAILURE';
+
+export const ADD_BOOK_CHECKOUT_REQUEST = 'ADD_BOOK_CHECKOUT_REQUEST';
+export const ADD_BOOK_CHECKOUT_SUCCESS = 'ADD_BOOK_CHECKOUT_SUCCESS';
+export const ADD_BOOK_CHECKOUT_FAILURE = 'ADD_BOOK_CHECKOUT_FAILURE';
+
+
 
 
 
@@ -144,5 +157,50 @@ export const addBookSuccess = (book) => ({
 
 export const addBookFailure = (error) => ({
   type: ADD_BOOK_FAILURE,
+  payload: error,
+});
+
+//get checkout book
+export const getChceckoutBookRequest = () => ({
+  type: GET_CHECKOUT_REQUEST,
+});
+
+export const getChceckoutBookSuccess = (book) => ({
+  type: GET_CHECKOUT_SUCCESS,
+  payload: book,
+});
+
+export const getChceckoutBookFailure = (error) => ({
+  type: GET_CHECKOUT_FAILURE,
+  payload: error,
+});
+
+//get  book
+export const getBookRequest = () => ({
+  type: GET_BOOK_REQUEST,
+});
+
+export const getBookSuccess = (book) => ({
+  type: GET_BOOK_SUCCESS,
+  payload: book,
+});
+
+export const getBookFailure = (error) => ({
+  type: GET_BOOK_FAILURE,
+  payload: error,
+});
+
+//get  book
+export const addBookCheckoutRequest = () => ({
+  type: ADD_BOOK_CHECKOUT_REQUEST,
+});
+
+export const addBookCheckoutSuccess = (checkoutBook) => ({
+  type: ADD_BOOK_CHECKOUT_SUCCESS,
+  payload: checkoutBook,
+});
+
+export const addBookCheckoutFailure = (error) => ({
+  type: ADD_BOOK_CHECKOUT_FAILURE,
   payload: error,
 });

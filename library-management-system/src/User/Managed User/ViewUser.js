@@ -22,7 +22,7 @@ function ViewUser(){
     const  {user}  = useSelector((state) => state.getUser);
     // const user = useSelector(state => state.getUser.user); 
     // const [searchTerm, setSearchTerm] = useState('');
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
 
     
     const session_key = localStorage.getItem("sessionKey")
@@ -45,7 +45,9 @@ function ViewUser(){
         try {
             const response = await axios.get('/users');
             const responseData = await response.data
-            dispatch(getUserSuccess(responseData));
+            const filteredUsers = responseData?.filter(usr => usr.role.name === 'student' || usr.role.name === 'librarian');
+
+            dispatch(getUserSuccess(filteredUsers));
         } catch (error) {
             // dispatch(addUserFailure(error));
             dispatch(getUserFailure(error))
@@ -56,7 +58,7 @@ function ViewUser(){
 
 
 
-    const filteredUsers = user?.filter(usr => usr.role.name === 'student' || usr.role.name === 'librarian');
+    // const filteredUsers = user?.filter(usr => usr.role.name === 'student' || usr.role.name === 'librarian');
 
     
   
@@ -109,7 +111,7 @@ function ViewUser(){
 
     const handlePrintButton=(user)=>{
         setSelectedUser(user);
-        navigate(`/library-card/${user.user_id}`, { state: user });
+        // navigate(`/library-card/${user.user_id}`, { state: user });
 
         
     } 
@@ -143,7 +145,7 @@ function ViewUser(){
                                     />
                                 </div>
                                 <div className="user___info">
-                                {filteredUsers?.length > 0 && (
+                                {user?.length > 0 && (
                                     <table className="usertable___info">
                                         <thead>
                                             <tr>
@@ -160,7 +162,7 @@ function ViewUser(){
                                             </tr>
                                         </thead>
                                         <tbody>
-                                        { filteredUsers?.map(user=>(
+                                        { user?.map(user=>(
                                             <tr key={user.user_id}>
                                                 <td><input type ="checkbox"></input></td>
                                                 <td>{user.user_id}</td>
@@ -194,7 +196,7 @@ function ViewUser(){
                                         </tbody>
                                     </table>
                                 )}
-                                {filteredUsers?.length === 0 && (
+                                {user?.length === 0 && (
                                     <p>No matching users found.</p>
                                 )}
                                 

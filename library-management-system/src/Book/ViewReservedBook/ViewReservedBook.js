@@ -1,10 +1,34 @@
 import React, {useEffect, useState} from "react";
 import person1 from "../../images/person1.jpg"
 import book1 from "../../images/book1.jpg"
+import { useSelector, useDispatch } from 'react-redux'
+
 import "./ViewReservedBook.css"
+
+import axios from '../../API/axios'
+import { getChceckoutBookFailure, getChceckoutBookRequest, getChceckoutBookSuccess } from "../../Redux/action";
 
 
 function ViewReservedBook(){
+    const dispatch = useDispatch();
+    const  {checkoutBook}  = useSelector((state) => state.checkoutBooks);
+
+
+    const getCheckout=async()=>{
+        dispatch(getChceckoutBookRequest())
+        try{
+            const response = await axios.get('/books/checkout')
+            const responseData = response.data
+            dispatch(getChceckoutBookSuccess(responseData));
+
+        }catch(error){
+            dispatch(getChceckoutBookFailure(error))
+
+        }
+    }
+    useEffect(()=>{
+        getCheckout()
+    },[])
     return(
         <div className="reserved___container">
             <div className="heading___title">
@@ -20,14 +44,15 @@ function ViewReservedBook(){
                       id="user_autocomplete"
                       placeholder="Type to search."
                       type="text"
-                      class="form-control ui-autocomplete-input"
-                      autocomplete="off"
+                      className="form-control ui-autocomplete-input"
+                      autoComplete="off"
                     ></input>
                   </div>
                 </div>
               </div>
                     <div className="reserved___row">
                         <div className="reservedbook___info">
+                            {checkoutBook?.length>0&&(
                             <table className="reservedbook___table">
                             <thead>
                         <tr>
@@ -43,159 +68,46 @@ function ViewReservedBook(){
                         </tr>
                     </thead>
                     <tbody>
+                        {checkoutBook?.map(checkout=>(
                         <tr>
-                            <td>123456789</td>
+                            <td>{checkout.books.book_id}</td>
                             <td>
                                 <img
-                                src={person1}
+                                src={checkout.student.user.user_image_url}
                                 alt="user Cover"
                                 className="user-cover"
                                 />
                             </td>
                             <td>
                                 <img
-                                src={book1}
+                                src={checkout.books.cover_image_url}
                                 alt="Book Cover"
                                 className="book-cover"
                                 />
                             </td>
-                            <td>9/10/2023</td>
-                            <td>9/15/2023</td>
-                            <td>5</td>
+                            <td>{checkout.checkout_date}</td>
+                            <td>{checkout.due_date}</td>
+                            <td>{checkout.return_date}</td>
                             <td>
-                                A captivating novel about love and adventure.
+                                {checkout.borrow_days}
                             </td>
                             <td>
-                                0
+                                ${checkout.student.fine_balance}
                             </td>
                             <td>
                                 <button className="action-button">Edit</button>
                                 <button className="action-button">Delete</button>
                             </td>
                             </tr>
-                            <tr>
-                            <td>123456789</td>
+                            ))}
                             
-                            <td>
-                                <img
-                                src={person1}
-                                alt="Book Cover"
-                                className="book-cover"
-                                />
-                            </td>
-                            <td>
-                                <img
-                                src={book1}
-                                alt="Book Cover"
-                                className="book-cover"
-                                />
-                            </td>
-                            <td>9/10/2023</td>
-                            <td>9/15/2023</td>
-                            <td>5</td>
-                            <td>
-                                A captivating novel about love and adventure.
-                            </td>
-                            <td>
-                                0
-                            </td>
-                            <td>
-                                <button className="action-button">Edit</button>
-                                <button className="action-button">Delete</button>
-                            </td>
-                            </tr>
-                            <tr>
-                            <td>123456789</td>
-                            <td>
-                                <img
-                                src={person1}
-                                alt="Book Cover"
-                                className="book-cover"
-                                />
-                            </td>
-                            <td>
-                                <img
-                                src={book1}
-                                alt="Book Cover"
-                                className="book-cover"
-                                />
-                            </td>
-                            <td>9/10/2023</td>
-                            <td>9/15/2023</td>
-                            <td>5</td>
-                            <td>
-                                A captivating novel about love and adventure.
-                            </td>
-                            <td>
-                                0
-                            </td>
-                            <td>
-                                <button className="action-button">Edit</button>
-                                <button className="action-button">Delete</button>
-                            </td>
-                            </tr>
-                            <tr>
-                            <td>123456789</td>
-                            
-                            <td>
-                                <img
-                                src={person1}
-                                alt="Book Cover"
-                                className="book-cover"
-                                />
-                            </td>
-                            <td>
-                                <img
-                                src={book1}
-                                alt="Book Cover"
-                                className="book-cover"
-                                />
-                            </td>
-                            <td>9/10/2023</td>
-                            <td>9/15/2023</td>
-                            <td>5</td>
-                            <td>
-                                A captivating novel about love and adventure.
-                            </td>
-                            <td>
-                                0
-                            </td>
-                            <td>
-                            <span className="received">Edit</span>
-                            </td>
-                            </tr>
-                            <tr>
-                            <td>123456789</td>
-                            <td>
-                                <img
-                                src={person1}
-                                alt="Book Cover"
-                                className="book-cover"
-                                />
-                            </td>
-                            <td>
-                                <img
-                                src={book1}
-                                alt="Book Cover"
-                                className="book-cover"
-                                />
-                            </td>
-                            <td>9/10/2023</td>
-                            <td>9/15/2023</td>
-                            <td>5</td>
-                            <td>
-                                A captivating novel about love and adventure.
-                            </td>
-                            <td>
-                                0
-                            </td>
-                            <td>
-                                <span className="received">Edit</span>
-                            </td>
-                            </tr>
                             </tbody>
 
                             </table>
+                            )}
+                            {checkoutBook?.length === 0 && (
+                                    <p>No book checkout.</p>
+                                )}
                         </div>
 
                     </div>

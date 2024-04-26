@@ -38,12 +38,13 @@ function App() {
         {/* </Routes>
       </Router> */}
 
-        {/* <ViewBook/> */}
-        <AddBook/>
-        {/* <BookReservation/> */}
+        {/* <AddBook/> */}
+        <BookReservation/>
+        <ViewBook/>
+
         {/* <ViewReservedBook/> */}
         {/* <AddUser/> */}
-        {/* <ViewUser/> */}
+        <ViewUser/>
         {/* <LibraryCard/> */}
         {/* <Dashboard/> */}
         {/* <VisitorStats/> */}

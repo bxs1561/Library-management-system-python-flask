@@ -1,14 +1,62 @@
 import React, {useEffect, useState} from "react";
 import "./ViewBook.css"
 import book1 from "../../images/book1.jpg"
-
+import { getBookFailure, getBookRequest, getBookSuccess } from "../../Redux/action";
+import { useSelector, useDispatch } from 'react-redux'
+import axios from '../../API/axios'
+import _ from 'lodash'
 
 function ViewBook(){
     const [searchQuery, setSearchQuery] = useState("");
+    const dispatch = useDispatch();
+    const  {book}  = useSelector((state) => state.getBook);
+    const [books, setBooks] = useState(book);
+
+
+
   
 //   const filteredData = yourDataArray.filter((item) =>
 //     item.isbn.includes(searchQuery)
 //   );
+
+const getViewBook=async()=>{
+    dispatch(getBookRequest())
+    try{
+        const response = await axios.get('/books')
+        const responseData = response.data
+        dispatch(getBookSuccess(responseData));
+
+    }catch(error){
+        dispatch(getBookFailure(error))
+
+    }
+}
+useEffect(()=>{
+    getViewBook()
+},[])
+
+const searchBookByTitle=(searchTerm)=>{
+    const lowerCaseSearchTerm = searchTerm.toUpperCase();
+
+    
+
+    const newData=_.filter(book, (bok) => {
+        return (
+          bok.title.toUpperCase().includes(lowerCaseSearchTerm) 
+        )
+      });
+      
+
+      setBooks(newData);
+      
+      
+    // setUserData(newData)
+    // dispatch(updateFilteredUser(newData));
+    setSearchQuery(searchTerm)
+
+}
+
+
   
     return(
         <div className="view___container">
@@ -22,8 +70,10 @@ function ViewBook(){
       id="book_autocomplete"
       placeholder="Type to search."
       type="text"
-      class="form-control ui-autocomplete-input"
-      autocomplete="off"
+      className="form-control ui-autocomplete-input"
+      autoComplete="off"
+      value={searchQuery}
+      onChange={(event) => searchBookByTitle(event.target.value)}
     ></input>
   </div>
 </div>
@@ -34,149 +84,60 @@ function ViewBook(){
       id="book_autocomplete"
       placeholder="Type to search."
       type="text"
-      class="form-control ui-autocomplete-input"
-      autocomplete="off"
+      className="form-control ui-autocomplete-input"
+      autoComplete="off"
     ></input>
   </div>
 </div>
 
         </div>
-
+        {/* {book?.lenght>0&&( */}
                 <table className="book___info">
                     <thead>
                         <tr>
                             <th>ISBN</th>
                             <th>Image</th>
-                            <th>Category</th>
+                            <th>Title</th>
                             <th>Genre</th>
                             <th>Quanitiy</th>
-                            <th>Description</th>
                             <th>Borrow</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
+                        {books?.map(bok=>(
                         <tr>
-                            <td>123456789</td>
+                            <td>{bok.ISBN}</td>
                             <td>
                                 <img
-                                src={book1}
+                                src={bok.cover_image_url}
                                 alt="Book Cover"
                                 className="book-cover"
                                 />
                             </td>
-                            <td>Fiction</td>
-                            <td>Romance</td>
-                            <td>5</td>
+                            <td>{bok.title}</td>
+                            <td>{bok.genre}</td>
+                            <td>{bok.total_copies}</td>
+
                             <td>
-                                A captivating novel about love and adventure.
-                            </td>
-                            <td>
-                                0
+                                {bok.total_copies - bok.copies_available}
                             </td>
                             <td>
                                 <button className="action-button">Edit</button>
                                 <button className="action-button">Delete</button>
                             </td>
                             </tr>
-                            <tr>
-                            <td>123456789</td>
-                            <td>
-                                <img
-                                src="book_image_url.jpg"
-                                alt="Book Cover"
-                                className="book-cover"
-                                />
-                            </td>
-                            <td>Fiction</td>
-                            <td>Romance</td>
-                            <td>5</td>
-                            <td>
-                                A captivating novel about love and adventure.
-                            </td>
-                            <td>
-                                0
-                            </td>
-                            <td>
-                                <button className="action-button">Edit</button>
-                                <button className="action-button">Delete</button>
-                            </td>
-                            </tr>
-                            <tr>
-                            <td>123456789</td>
-                            <td>
-                                <img
-                                src="book_image_url.jpg"
-                                alt="Book Cover"
-                                className="book-cover"
-                                />
-                            </td>
-                            <td>Fiction</td>
-                            <td>Romance</td>
-                            <td>5</td>
-                            <td>
-                                A captivating novel about love and adventure.
-                            </td>
-                            <td>
-                                0
-                            </td>
-                            <td>
-                                <button className="action-button">Edit</button>
-                                <button className="action-button">Delete</button>
-                            </td>
-                            </tr>
-                            <tr>
-                            <td>123456789</td>
-                            <td>
-                                <img
-                                src="book_image_url.jpg"
-                                alt="Book Cover"
-                                className="book-cover"
-                                />
-                            </td>
-                            <td>Fiction</td>
-                            <td>Romance</td>
-                            <td>5</td>
-                            <td>
-                                A captivating novel about love and adventure.
-                            </td>
-                            <td>
-                                0
-                            </td>
-                            <td>
-                                <button className="action-button">Edit</button>
-                                <button className="action-button">Delete</button>
-                            </td>
-                            </tr>
-                            <tr>
-                            <td>123456789</td>
-                            <td>
-                                <img
-                                src="book_image_url.jpg"
-                                alt="Book Cover"
-                                className="book-cover"
-                                />
-                            </td>
-                            <td>Fiction</td>
-                            <td>Romance</td>
-                            <td>5</td>
-                            <td>
-                                A captivating novel about love and adventure.
-                            </td>
-                            <td>
-                                0
-                            </td>
-                            <td>
-                                <button className="action-button">Edit</button>
-                                <button className="action-button">Delete</button>
-                            </td>
-                            </tr>
+                            ))}
                             </tbody>
 
 
 
 
                 </table>
+        {/* )} */}
+        {book?.length === 0 && (
+                                    <p>No matching users found.</p>
+                                )}
             </div>
         </div>
     )

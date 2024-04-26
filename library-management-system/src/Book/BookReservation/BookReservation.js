@@ -2,9 +2,120 @@ import React, {useEffect, useState} from "react";
 import "./BookReservation.css"
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { useSelector, useDispatch } from 'react-redux'
+import _ from 'lodash'
+import avatar from '../../images/avatar.png'
+import book1 from "../../images/book.png"
+import axios from '../../API/axios';
+import { addBookCheckoutRequest, addBookCheckoutSuccess } from "../../Redux/action";
+
+
 
 function BookReservation(){
     const [selectedDate, setSelectedDate] = useState(new Date());
+    const  {user}  = useSelector((state) => state.getUser);
+    const  {book}  = useSelector((state) => state.getBook);
+    const [isbn, setIsbn] = useState(book);
+
+
+    const [userData, setUserData] = useState(user);
+    const [searchQuery, setSearchQuery] = useState("");
+    const[title,setTitle] = useState('')
+    const[checkoutDate, setCheckoutDate] = useState(new Date())
+    const[dueDate, setDueDate] = useState(new Date())
+    const[studentID, setStudentID] = useState('')
+    const[librarianID,setLibrarianID] = useState('')
+
+    const [users,setUsers] = useState('');
+    const dispatch = useDispatch()
+
+    const searchUserByID=(searchID)=>{
+
+  
+      const newData=_.filter(user, (usr) => {
+          return (
+            usr.user_id == searchID
+          )
+        }); 
+        setUserData(newData);
+        setUsers(searchID)
+
+  }
+
+  const searchBookByISBN=(searchISBN)=>{
+
+  
+    const newData=_.filter(book, (bok) => {
+        return (
+          bok.ISBN == searchISBN
+        )
+      }); 
+      setIsbn(newData);
+      setSearchQuery(searchISBN)
+
+}
+
+const addCheckoutBook=async(event)=>{
+  event.preventDefault();
+  {userData?.map(usr=>{
+    setStudentID(usr.user_id)
+  })}
+  {isbn?.map(bok=>{
+    setTitle(bok.title)
+  })}
+  let year = checkoutDate.getFullYear();
+  let month = ('0' + (checkoutDate.getMonth() + 1)).slice(-2); 
+  let day = ('0' + checkoutDate.getDate()).slice(-2);
+  let formattedCheckoutDate = `${year}-${month}-${day}`;
+
+  let year1 = dueDate.getFullYear();
+  let month1 = ('0' + (dueDate.getMonth() + 1)).slice(-2); 
+  let day1 = ('0' + dueDate.getDate()).slice(-2);
+  let formattedDueDate = `${year}-${month}-${day}`;
+
+
+  
+  let checkoutBookData={
+    title:title,
+    checkout_date:formattedCheckoutDate,
+    due_date:formattedDueDate,
+
+  }
+  dispatch(addBookCheckoutRequest())
+  try{
+    const response = await axios.post('/checkout-book',checkoutBookData,{
+      headers: {
+        "content-type": "application/json",
+    }
+
+    })
+    console.log(response)
+    dispatch(addBookCheckoutSuccess(response.data))
+  }
+    catch(error){
+
+    }
+
+  }
+
+
+ 
+  
+
+
+  useEffect(() => {
+    // Trigger initial user search when component mounts
+    searchUserByID("");
+    searchBookByISBN("")
+   
+
+  }, []); // Empty dependency array ensures this effect runs only once
+ 
+
+
+
+
+
 
     return(
     <div className="reservation___container">
@@ -14,42 +125,73 @@ function BookReservation(){
   <div className="reservation___page">
     <div className="reservation___box">
       <form id="ReserveBook">
-        <div className="card">
-          <div className="card___header">
+        <div className="reservation___card">
+          <div className="reservationCard___header">
             <span className="header___title">Issue book</span>
           </div>
           <div className="card___body">
               <div className="card___container">
-            <div className="search___box">
+            <div className="reservationSearch___box">
                 <div className="user___search">
-                  <div className="input___user">
+                  <div className="reservationInput___user">
                     <span className="input-group-text ">Search User</span>
                     <input
                       id="user_autocomplete"
                       placeholder="Type to search."
                       type="text"
-                      class="form-control ui-autocomplete-input"
-                      autocomplete="off"
+                      className="form-control ui-autocomplete-input"
+                      autoComplete="off"
+                      value={users}
+                      onChange={(event) => searchUserByID(event.target.value)}
                     ></input>
                   </div>
                 </div>
-              <UserSearch/>
+                {userData?.length === 0 ? (
+                                            <UserSearch user_id={''} first_name={''}
+                                                last_name={''} phone_number={''} email={''} status_value={''} user_image_url={'https://via.placeholder.com/400X400'} />
+                                        ) : (
+                                            userData?.map(result => (
+                                                <UserSearch key={result.user_id} 
+                                                user_id={result.user_id}
+                                                first_name={result.first_name} 
+                                                last_name={result.last_name} 
+                                                phone_number={result.last_name}
+                                                email={result.email} 
+                                                status_value={result?.user_status.status_value} 
+                                                user_image_url={result.user_image_url} />
+                                                    
+                                            ))
+                                        )}
               </div>
-              <div className="search___box">
+              <div className="reservationSearch___box">
 
                 <div className="user___search">
-                  <div className="input___user">
+                  <div className="reservationInput___user">
                     <span className="input-group-text ">Search book</span>
                     <input
                       id="book_autocomplete"
                       placeholder="Type to search."
                       type="text"
-                      class="form-control ui-autocomplete-input"
-                      autocomplete="off"
+                      className="form-control ui-autocomplete-input"
+                      autoComplete="off"
+                      value={searchQuery}
+                      onChange={(event) => searchBookByISBN(event.target.value)}
+
                     ></input>
                   </div>
                 </div>
-              <BookSearch/>
+                {isbn?.length === 0 ? (
+                                            <BookSearch book_id={''} title={''} ISBN={''} copies_available={''} cover_image_url={'https://via.placeholder.com/400X400'} />
+                                        ) : (
+                                            isbn?.map(result => (
+                                                <BookSearch key={result.book_id} 
+                                                book_id={result.book_id} 
+                                                title={result.title} 
+                                                ISBN={result.ISBN} 
+                                                copies_available={result.copies_available} 
+                                                cover_image_url={result.cover_image_url}/>                                                    
+                                            ))
+                                        )}
             </div>
             <div>
 
@@ -64,8 +206,8 @@ function BookReservation(){
                     </div>
                     <div className="date-picker">
   <DatePicker
-    selected={selectedDate}
-    onChange={(date) => setSelectedDate(date)}
+    selected={checkoutDate}
+    onChange={(date) => setCheckoutDate(date)}
     dateFormat="MM/dd/yyyy" 
   />
 </div>
@@ -78,15 +220,15 @@ function BookReservation(){
                     </div>
                     <div className="date-picker">
   <DatePicker
-    selected={selectedDate}
-    onChange={(date) => setSelectedDate(date)}
+    selected={dueDate}
+    onChange={(date) => setDueDate(date)}
     dateFormat="MM/dd/yyyy" 
   />
 </div>
 
                 </div>
                 <div className="button">
-                <button >Issue Book</button>
+                <button onClick={addCheckoutBook}>Issue Book</button>
                 </div>
 
             
@@ -101,14 +243,14 @@ function BookReservation(){
 
     )
 }
-const UserSearch=()=>{
+const UserSearch=({user_id,first_name,last_name,phone_number,email,status_value,user_image_url})=>{
     return(
         <div className="user___result">
               <div className="result___image">
                 <img
-                  src="https://via.placeholder.com/400X400"
+                  src={user_image_url?user_image_url:avatar}
                   alt="img"
-                  class="ui-state-default img-thumbnail"
+                  className="ui-state-default img-thumbnail"
                 />
               </div>
               <div className="user___right">
@@ -123,19 +265,19 @@ const UserSearch=()=>{
                   </thead>
                   <tbody>
                     <tr>
-                      <td>User ID :</td>
+                      <td>User ID : {user_id}</td>
                     </tr>
                     <tr>
-                      <td>User ID :</td>
+                      <td>Name :{first_name + last_name}</td>
                     </tr>
                     <tr>
-                      <td>User ID :</td>
+                      <td>phone :{phone_number}</td>
                     </tr>
                     <tr>
-                      <td>User ID :</td>
+                      <td>email :{email}</td>
                     </tr>
                     <tr>
-                      <td>User ID :</td>
+                      <td>status: {`${status_value}`}</td>
                     </tr>
                   </tbody>
                 </table>
@@ -144,12 +286,12 @@ const UserSearch=()=>{
     )
 }
 
-const BookSearch=()=>{
+const BookSearch=({book_id,title,ISBN,copies_available,cover_image_url})=>{
     return(
         <div className="user___result">
         <div className="result___image">
           <img
-            src="https://via.placeholder.com/400X400"
+            src={cover_image_url?cover_image_url:avatar}
             alt="img"
             className="ui-state-default img-thumbnail"
           />
@@ -166,19 +308,16 @@ const BookSearch=()=>{
             </thead>
             <tbody>
               <tr>
-                <td>book ID :</td>
+                <td>book ID :{book_id}</td>
               </tr>
               <tr>
-                <td>book ID :</td>
+                <td>title :{title}</td>
               </tr>
               <tr>
-                <td>book ID :</td>
+                <td>ISBN :{ISBN}</td>
               </tr>
               <tr>
-                <td>book ID :</td>
-              </tr>
-              <tr>
-                <td>book ID :</td>
+                <td>copies_available :{copies_available}</td>
               </tr>
             </tbody>
           </table>
