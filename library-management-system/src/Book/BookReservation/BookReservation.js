@@ -6,8 +6,9 @@ import { useSelector, useDispatch } from 'react-redux'
 import _ from 'lodash'
 import avatar from '../../images/avatar.png'
 import book1 from "../../images/book.png"
-import axios from '../../API/axios';
-import { addBookCheckoutRequest, addBookCheckoutSuccess } from "../../Redux/action";
+import { fetchBook } from "../../Redux/Action/BooksAction";
+import { fetchUser } from "../../Redux/Action/UsersAction";
+
 
 
 
@@ -15,10 +16,10 @@ function BookReservation(){
     const [selectedDate, setSelectedDate] = useState(new Date());
     const  {user}  = useSelector((state) => state.getUser);
     const  {book}  = useSelector((state) => state.getBook);
-    const [isbn, setIsbn] = useState(book);
+    const [isbn, setIsbn] = useState('');
 
 
-    const [userData, setUserData] = useState(user);
+    const [userData, setUserData] = useState('');
     const [searchQuery, setSearchQuery] = useState("");
     const[title,setTitle] = useState('')
     const[checkoutDate, setCheckoutDate] = useState(new Date())
@@ -28,6 +29,18 @@ function BookReservation(){
 
     const [users,setUsers] = useState('');
     const dispatch = useDispatch()
+
+   
+
+  
+  useEffect(()=>{
+    dispatch(fetchBook())
+},[dispatch])
+
+  useEffect(()=>{
+    dispatch(fetchUser())
+
+},[dispatch])
 
     const searchUserByID=(searchID)=>{
 
@@ -46,14 +59,15 @@ function BookReservation(){
 
   
     const newData=_.filter(book, (bok) => {
+
         return (
           bok.ISBN == searchISBN
         )
       }); 
       setIsbn(newData);
-      setSearchQuery(searchISBN)
-
+      setSearchQuery(searchISBN)   
 }
+
 
 const addCheckoutBook=async(event)=>{
   event.preventDefault();
@@ -71,7 +85,7 @@ const addCheckoutBook=async(event)=>{
   let year1 = dueDate.getFullYear();
   let month1 = ('0' + (dueDate.getMonth() + 1)).slice(-2); 
   let day1 = ('0' + dueDate.getDate()).slice(-2);
-  let formattedDueDate = `${year}-${month}-${day}`;
+  let formattedDueDate = `${year1}-${month1}-${day1}`;
 
 
   
@@ -81,22 +95,10 @@ const addCheckoutBook=async(event)=>{
     due_date:formattedDueDate,
 
   }
-  dispatch(addBookCheckoutRequest())
-  try{
-    const response = await axios.post('/checkout-book',checkoutBookData,{
-      headers: {
-        "content-type": "application/json",
-    }
-
-    })
-    console.log(response)
-    dispatch(addBookCheckoutSuccess(response.data))
-  }
-    catch(error){
-
-    }
+  dispatch(addCheckoutBook(checkoutBookData))
 
   }
+  console.log(isbn)
 
 
  
@@ -110,6 +112,7 @@ const addCheckoutBook=async(event)=>{
    
 
   }, []); // Empty dependency array ensures this effect runs only once
+ 
  
 
 

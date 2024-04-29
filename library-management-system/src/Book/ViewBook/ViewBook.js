@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import "./ViewBook.css"
 import book1 from "../../images/book1.jpg"
-import { getBookFailure, getBookRequest, getBookSuccess } from "../../Redux/action";
+import { fetchBook,deleteBook } from "../../Redux/Action/BooksAction";
 import { useSelector, useDispatch } from 'react-redux'
 import axios from '../../API/axios'
 import _ from 'lodash'
@@ -10,7 +10,7 @@ function ViewBook(){
     const [searchQuery, setSearchQuery] = useState("");
     const dispatch = useDispatch();
     const  {book}  = useSelector((state) => state.getBook);
-    const [books, setBooks] = useState(book);
+    const [books, setBooks] = useState([]);
 
 
 
@@ -19,21 +19,25 @@ function ViewBook(){
 //     item.isbn.includes(searchQuery)
 //   );
 
-const getViewBook=async()=>{
-    dispatch(getBookRequest())
-    try{
-        const response = await axios.get('/books')
-        const responseData = response.data
-        dispatch(getBookSuccess(responseData));
+// const getViewBook=async()=>{
+//     dispatch(getBookRequest())
+//     try{
+//         const response = await axios.get('/books')
+//         const responseData = response.data
+//         dispatch(getBookSuccess(responseData));
 
-    }catch(error){
-        dispatch(getBookFailure(error))
+//     }catch(error){
+//         dispatch(getBookFailure(error))
 
-    }
-}
+//     }
+// }
 useEffect(()=>{
-    getViewBook()
-},[])
+    setBooks(book)
+},[book])
+
+useEffect(()=>{
+    dispatch(fetchBook())
+},[dispatch])
 
 const searchBookByTitle=(searchTerm)=>{
     const lowerCaseSearchTerm = searchTerm.toUpperCase();
@@ -47,14 +51,16 @@ const searchBookByTitle=(searchTerm)=>{
       });
       
 
-      setBooks(newData);
-      
-      
-    // setUserData(newData)
-    // dispatch(updateFilteredUser(newData));
+    setBooks(newData);
     setSearchQuery(searchTerm)
 
 }
+
+const removeUser=(book_id) => {
+    dispatch(deleteBook(book_id))
+    setBooks(books.filter(book => book.book_id !== book_id));
+  };
+
 
 
   
@@ -106,7 +112,7 @@ const searchBookByTitle=(searchTerm)=>{
                     </thead>
                     <tbody>
                         {books?.map(bok=>(
-                        <tr>
+                        <tr key={bok.book_id}>
                             <td>{bok.ISBN}</td>
                             <td>
                                 <img
@@ -124,7 +130,7 @@ const searchBookByTitle=(searchTerm)=>{
                             </td>
                             <td>
                                 <button className="action-button">Edit</button>
-                                <button className="action-button">Delete</button>
+                                <button className="action-button" onClick={()=>removeUser(bok.book_id)}>Delete</button>
                             </td>
                             </tr>
                             ))}

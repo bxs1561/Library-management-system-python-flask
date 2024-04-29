@@ -6,29 +6,25 @@ import { useSelector, useDispatch } from 'react-redux'
 import "./ViewReservedBook.css"
 
 import axios from '../../API/axios'
-import { getChceckoutBookFailure, getChceckoutBookRequest, getChceckoutBookSuccess } from "../../Redux/action";
+import { bookCheckout } from "../../Redux/Action/BooksAction";
 
 
 function ViewReservedBook(){
     const dispatch = useDispatch();
     const  {checkoutBook}  = useSelector((state) => state.checkoutBooks);
+    const [checkoutBooks, setCheckoutBooks] = useState([]);
+    console.log(checkoutBook)
 
 
-    const getCheckout=async()=>{
-        dispatch(getChceckoutBookRequest())
-        try{
-            const response = await axios.get('/books/checkout')
-            const responseData = response.data
-            dispatch(getChceckoutBookSuccess(responseData));
 
-        }catch(error){
-            dispatch(getChceckoutBookFailure(error))
-
-        }
-    }
+    
     useEffect(()=>{
-        getCheckout()
-    },[])
+        setCheckoutBooks(checkoutBook)
+    },[checkoutBook])
+
+    useEffect(()=>{
+        dispatch(bookCheckout())
+    },[dispatch])
     return(
         <div className="reserved___container">
             <div className="heading___title">
@@ -52,7 +48,7 @@ function ViewReservedBook(){
               </div>
                     <div className="reserved___row">
                         <div className="reservedbook___info">
-                            {checkoutBook?.length>0&&(
+                            {checkoutBooks?.length>0&&(
                             <table className="reservedbook___table">
                             <thead>
                         <tr>
@@ -68,7 +64,7 @@ function ViewReservedBook(){
                         </tr>
                     </thead>
                     <tbody>
-                        {checkoutBook?.map(checkout=>(
+                        {checkoutBooks?.map(checkout=>(
                         <tr>
                             <td>{checkout.books.book_id}</td>
                             <td>
@@ -105,7 +101,7 @@ function ViewReservedBook(){
 
                             </table>
                             )}
-                            {checkoutBook?.length === 0 && (
+                            {checkoutBooks?.length === 0 && (
                                     <p>No book checkout.</p>
                                 )}
                         </div>

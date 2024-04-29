@@ -2,8 +2,8 @@ import React, {useEffect, useState} from "react";
 import "./ViewUser.css"
 import person1 from "../../images/person1.jpg"
 import { useSelector, useDispatch } from 'react-redux'
-import { getUserSuccess,getUserFailure, getUserRequest,updateFilteredUser,updateSearchTerm, delteUserRequest, deleteUserFailure, deleteUserSuccess, editUserRequest, editUserSuccess, editUserFailure } from "../../Redux/action";
 import axios from '../../API/axios'
+import {fetchUser,deleteUser} from '../../Redux/Action/UsersAction'
 import {userDataArray} from '../../data/UserData'
 import _ from 'lodash'
 import LibraryCard from './LibraryCard'
@@ -16,13 +16,12 @@ import {
   } from "react-router-dom";
 
 function ViewUser(){
-    const [student, setStudent] = useState('');
-    // const [userData, setUserData] = useState(userDataArray());
     const [selectedUser, setSelectedUser] = useState(null);
     const  {user}  = useSelector((state) => state.getUser);
-    // const user = useSelector(state => state.getUser.user); 
-    // const [searchTerm, setSearchTerm] = useState('');
-    // const navigate = useNavigate();
+    const [searchTerm, setSearchTerm] = useState('');
+    const [userData, setUserData] = useState([]);
+
+    const navigate = useNavigate();
 
     
     const session_key = localStorage.getItem("sessionKey")
@@ -37,28 +36,18 @@ function ViewUser(){
 
 
     const dispatch = useDispatch();
-    // const users = useSelector(state => state.getUser);
-   
-   
-    const getUser = async()=>{
-        dispatch(getUserRequest());
-        try {
-            const response = await axios.get('/users');
-            const responseData = await response.data
-            const filteredUsers = responseData?.filter(usr => usr.role.name === 'student' || usr.role.name === 'librarian');
 
-            dispatch(getUserSuccess(filteredUsers));
-        } catch (error) {
-            // dispatch(addUserFailure(error));
-            dispatch(getUserFailure(error))
-        }
-    };
+    useEffect(()=>{
+        setUserData(user)
+    },[user])
+    
+    
+    
 
 
 
 
 
-    // const filteredUsers = user?.filter(usr => usr.role.name === 'student' || usr.role.name === 'librarian');
 
     
   
@@ -73,51 +62,33 @@ function ViewUser(){
               usr.last_name.toUpperCase().includes(lowerCaseSearchTerm)
             )
           });
-          if (searchTerm.trim() === '') {
-            dispatch(updateFilteredUser(user));
-          } else {
-
-            dispatch(updateFilteredUser(newData));
-          }
+         
           
-        // setUserData(newData)
-        // dispatch(updateFilteredUser(newData));
-        setStudent(searchTerm)
+        setUserData(newData)
+        setSearchTerm(searchTerm)
 
     }
+    
+    
 
       //remove user
-      const removeUser = async (userID) => {
-        try {
-          dispatch(delteUserRequest()); // Dispatch delete request action
-          await axios.delete(`/user/${userID}`);
-          dispatch(deleteUserSuccess(userID)); // Dispatch success action after deletion
-        } catch (error) {
-          dispatch(deleteUserFailure(error)); // Dispatch failure action if an error occurs
-        }
+      const removeUser=(userID) => {
+        dispatch(deleteUser(userID))
+        setUserData(userData.filter(user => user.user_id !== userID));
       };
+
     
-    const editUser=async(user_id)=>{
-        dispatch(editUserRequest())
-        try{
-            const response = await axios.put(`/user/${user_id}`, user)
-            const updatedResponse = response.data
-            dispatch(editUserSuccess(updatedResponse))
-        }catch(error){
-            dispatch(editUserFailure(error))
-        }
-    }
     
 
     const handlePrintButton=(user)=>{
         setSelectedUser(user);
-        // navigate(`/library-card/${user.user_id}`, { state: user });
+        navigate(`/library-card/${user.user_id}`, { state: user });
 
         
     } 
     useEffect(()=>{
-        getUser()
-    },[])
+        dispatch(fetchUser())
+    },[dispatch])
     
     return(
         <div className="containers">
@@ -140,12 +111,12 @@ function ViewUser(){
                                     <input
                                         placeholder="Enter name"
                                         type="text"
-                                        value={student}
+                                        value={searchTerm}
                                         onChange={(event) => searchUserByName(event.target.value)}
                                     />
                                 </div>
                                 <div className="user___info">
-                                {user?.length > 0 && (
+                                {userData?.length > 0 && (
                                     <table className="usertable___info">
                                         <thead>
                                             <tr>
@@ -162,7 +133,7 @@ function ViewUser(){
                                             </tr>
                                         </thead>
                                         <tbody>
-                                        { user?.map(user=>(
+                                        { userData?.map(user=>(
                                             <tr key={user.user_id}>
                                                 <td><input type ="checkbox"></input></td>
                                                 <td>{user.user_id}</td>
@@ -183,7 +154,7 @@ function ViewUser(){
                                                 <button className="edit___button"  >
                                                 <i className="uil uil-edit"></i>
                                                 </button>
-                                                <button onClick={()=>removeUser(user.user_id)} className="delete___button">
+                                                <button onClick={()=>removeUser(user?.user_id)} className="delete___button">
                                                 <i className="uil uil-trash-alt"></i>
                                                 </button>
                                                 
@@ -196,7 +167,7 @@ function ViewUser(){
                                         </tbody>
                                     </table>
                                 )}
-                                {user?.length === 0 && (
+                                {userData?.length === 0 && (
                                     <p>No matching users found.</p>
                                 )}
                                 

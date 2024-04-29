@@ -1,8 +1,7 @@
 import React, {useEffect, useState} from "react";
 import "./AddUser.css";
-import axios from '../../API/axios'
 import { useSelector, useDispatch } from 'react-redux'
-import { addUserFailure, addUserRequest,addUserSuccess } from "../../Redux/action";
+import {addUser} from '../../Redux/Action/UsersAction'
 import avatar from '../../images/avatar.png'
 
 
@@ -20,10 +19,6 @@ function AddUser(){
     const [phone, setPhone] = useState('');
     const [birthDate, setBirthDate] = useState('');
     const [role_name, setRole] = useState('');
-    const users = useSelector(state => state.login);
-    // const user = localStorage.getItem("user")
-    // ? JSON.parse(localStorage.getItem("user")):
-    // null
 
     const session_key = localStorage.getItem("sessionKey")
     ? localStorage.getItem("sessionKey"):
@@ -46,30 +41,8 @@ function AddUser(){
             date_of_birth:birthDate,
             user_image_url:selectedFile,
             role_name:role_name,
-
-
         }
-        dispatch(addUserRequest(userData));
-
-        try {
-            const response = await axios.post('/user/add', userData,{
-                headers: {
-                    "content-type": "application/json",
-                    Authorization: `Session ${session_key}`
-                }
-            });
-            const responseData = response.data
-            if(responseData.success==true){
-                dispatch(addUserSuccess(responseData));
-            }
-            else{
-                dispatch(addUserFailure(responseData))
-            }
-            console.log(responseData)
-
-        } catch (error) {
-            // dispatch(addUserFailure(error));
-        }
+        dispatch(addUser(userData))
     };
     const handleFileChange = (event) => {
         const file = event.target.files && event.target.files[0];
@@ -77,14 +50,10 @@ function AddUser(){
         if (file) {
           setSelectedFile(URL.createObjectURL(event.target.files[0]));
         } else {
-          // Handle case where user canceled file selection
-          // For example, you can clear the selected file:
           setSelectedFile(null);
         }
       };
 
-    // // Include session key in your request headers or wherever it's needed
-    // axios.defaults.headers.common['Authorization'] = `Bearer ${sessionKey}`;
 
 
       

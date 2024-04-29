@@ -8,7 +8,7 @@ import {
 } from "react-router-dom";
 import axios from "../API/axios";
 import { useSelector, useDispatch } from 'react-redux'
-import { loginFailure, loginRequest, loginSuccess } from "../Redux/action";
+import { login } from "../Redux/Action/UsersAction";
 
 
 function Login() {
@@ -17,49 +17,21 @@ function Login() {
     const [password, setPassword] = useState('');
     const dispatch = useDispatch();
     const navigate = useNavigate();
- 
+    const user = useSelector(state => state.login);
 
-    const handleLogin=async(event)=>{
+
+    const handleLogin=(event)=>{
       event.preventDefault();
       let userData = {
-        email:email,
-        password:password,
-      }
-      dispatch(loginRequest(userData))
-      try{
-        axios.post('/user/login',userData,{
-          headers: {
-            "content-type": "application/json"
-        }
-        }).then(result=>{
-          const responseData = result.data;
-          // const parsedResponse = JSON.parse(responseData);
-          if(responseData.success==true){
-            localStorage.setItem('sessionKey', responseData.session_key);
-            localStorage.setItem("user", JSON.stringify(responseData.user))
-            dispatch(loginSuccess(responseData.user))  
-            const userRole = responseData.user.user_role;
-            if (userRole === 'admin') {
-              navigate('/dashboard');
-            }
-
+            email:email,
+            password:password,
           }
-          else{
-            dispatch(loginFailure(responseData))
-            // console.log(parsedResponse)
-          }
-        })
-      }catch(error){
-        console.log(error.message)
-      }
-      
+       dispatch(login(userData))
+       if (user && user.role === 'admin'){
+         navigate('/')
+       }
     }
-   
-    // // Get session key from local storage
-    // const sessionKey = localStorage.getItem('sessionKey');
-
-    // // Include session key in your request headers or wherever it's needed
-    // axios.defaults.headers.common['Authorization'] = `Bearer ${sessionKey}`;
+    
 
 
 

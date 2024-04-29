@@ -8,7 +8,6 @@ import {
 import axios from "../API/axios";
 import { useSelector, useDispatch } from 'react-redux'
 import { loginRequest, loginSuccess } from "../Redux/action";
-import { addUserFailure, addUserRequest,addUserSuccess } from "../Redux/action";
 
 import './Registration.css'
 

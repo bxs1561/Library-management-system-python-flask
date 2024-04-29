@@ -2,7 +2,9 @@ import React, {useEffect, useState} from "react";
 import "./AddBook.css"
 import book from '../../images/book.png'
 import axios from '../../API/axios'
-import { addBookRequest } from "../../Redux/action";
+import { addBook } from "../../Redux/Action/BooksAction";
+import { useSelector, useDispatch } from 'react-redux'
+
 
 function AddBook() {
     const [isbn, setIsbn] = useState('');
@@ -12,6 +14,8 @@ function AddBook() {
     const[totalCopies, setTotalCopies] = useState('')
     const[author, setAuthor] =useState('')
     const[publisher,setPublisher] = useState('')
+    const dispatch = useDispatch();
+
 
     
 
@@ -23,7 +27,7 @@ function AddBook() {
           setImage(null);
         }
        }
-    const addBook=async(event)=>{
+    const handleAddBook=async(event)=>{
       event.preventDefault();
       let bookData={
         ISBN:isbn,
@@ -34,19 +38,7 @@ function AddBook() {
         author:author,
         publisher: publisher,
       }
-      addBookRequest()
-      try{
-        const response = await axios.post('/book/add', bookData,{
-          headers: {
-              "content-type": "application/json",
-          }
-      });
-      const responseData = response.data
-      console.log(responseData)
-
-      }catch(error){
-
-      }
+      dispatch(addBook(bookData))      
     }
        
 
@@ -139,7 +131,7 @@ function AddBook() {
 
               </div>
               <div className="button">
-              <button class="primary-button" onClick={addBook}>Submit</button>
+              <button class="primary-button" onClick={handleAddBook}>Submit</button>
               </div>
 
           </div>

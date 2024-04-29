@@ -11,6 +11,8 @@ import Dashboard from './dashboard/Dashboard';
 import VisitorStats from './Visitor/VisitorStats'
 import PopularBooks from './Book/PopularBook/PopularBook'
 import Registration from './Registration/Registration'
+import React, {useEffect, useState} from "react";
+
 import {
   BrowserRouter as Router,
   Routes,
@@ -18,39 +20,63 @@ import {
   useNavigate, Link
 } from "react-router-dom";
 import AdminDashboard from './dashboard/AdminDashboard';
+import Navbar from './navbar/Navbar';
+import { useSelector, useDispatch } from 'react-redux'
+import PrivateRoute from './PrivateRoute/PrivateRoute'
+import Sidebar from './sidebar/SideBar';
+import StudentDashboard from './dashboard/StudentDashboard';
+
 
 function App() {
-  const user = localStorage.getItem("user")
-  ? JSON.parse(localStorage.getItem("user")):
-  null
+
+  
   return (
+    <>
+          <Navbar/>
+          {/* <Sidebar /> */}
+
+
     <div className="App">
-      {/* <AdminDashboard/>
       <Router>
         <Routes>
-          <Route exact path="/" element={<Login/>}/>  */}
+          <Route exact path="/" element={<Login/>}/>  
+          <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>}/>  
+          <Route path="/student" element={<PrivateRoute><StudentDashboard /></PrivateRoute>}/>  
+
+          <Route path="/add-user" element={<PrivateRoute><AddUser /></PrivateRoute>} />
+          <Route path="/view-user" element={<PrivateRoute><ViewUser /></PrivateRoute>} />
+          <Route path="/library-card/:user_id" element={<PrivateRoute><LibraryCard /></PrivateRoute>} />
+          <Route path="/add-book" element={<PrivateRoute><AddBook /></PrivateRoute>} />
+          <Route path="/view-book" element={<PrivateRoute><ViewBook /></PrivateRoute>} />
+          <Route path="/checkout" element={<PrivateRoute><ViewReservedBook /></PrivateRoute>} />
+          <Route path="/book-checkout" element={<PrivateRoute><BookReservation /></PrivateRoute>} />
+
+          
+
+
+
           {/* <Route path="/register" element={<Registration/>} />  */}
 
 
 
           
 
-        {/* </Routes>
-      </Router> */}
+         </Routes>
+      </Router>
 
+        {/* <ViewBook/> */}
         {/* <AddBook/> */}
-        <BookReservation/>
-        <ViewBook/>
-
+        {/* <BookReservation/> */}
         {/* <ViewReservedBook/> */}
         {/* <AddUser/> */}
-        <ViewUser/>
+        {/* <ViewUser/> */}
         {/* <LibraryCard/> */}
         {/* <Dashboard/> */}
         {/* <VisitorStats/> */}
         {/* <PopularBooks/> */}
         {/* <Registration/> */}
     </div>
+    </>
   );
 }
 
