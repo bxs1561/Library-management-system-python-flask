@@ -27,6 +27,8 @@ def check_book_exist(ISBN):
     return False
 
 
+
+
 def add_book(ISBN, title, genre, total_copies, copies_available, cover_image_url, author, publisher):
     """add book into database"""
     book_exist = check_book_exist(ISBN)
@@ -59,6 +61,11 @@ def get_book_id(ISBN):
     else:
         return False
 
+def check_book_exist_checkout(book_id):
+    """Check if book already exist in database"""
+    sql_query = "SELECT books.book_id FROM checkout,books WHERE checkout.book_id = %s"
+    result = exec_get_all(sql_query, (book_id,))
+    return result
 
 def edit_book(book_id, ISBN, title, genre, total_copies, copies_available, cover_image_url, author, publisher):
     "edit book"
@@ -72,7 +79,12 @@ def edit_book(book_id, ISBN, title, genre, total_copies, copies_available, cover
 
 def remove_book(book_id):
     "Remove book"
-    sql_query = """DELETE FROM book WHERE users.user_id =%s"""
+    check= check_book_exist_checkout(book_id)
+    if len(check)>0:
+        update_query = 'UPDATE books SET total_copies=total_copies-1'
+        exec_commit(update_query)
+
+    sql_query = """DELETE FROM books WHERE books.book_id =%s"""
     exec_commit(sql_query, (book_id,))
     data = {'message': 'remove user account successfully'}
     return jsonify(data)

@@ -202,7 +202,7 @@ class RemoveUserApi(Resource):
     def delete(self,user_id):
         """Delete user information"""
         session_key = request.headers.get('Session')
-        delete_user = users.remove_user_account(user_id)
+        delete_user = users.remove_user_account(user_id,session_key)
         return delete_user
 
 class CheckOutBookPost(Resource):
@@ -249,7 +249,7 @@ class Checkout(dbs.Model):
         return {
             'checkout_id': self.checkout_id,
             'student': self.student.serialize(),
-            'librarian': self.librarian.serialize(),
+            'librarian':self.librarian.serialize() if self.librarian else None,
             'books': self.book.serialize(),
             'checkout_date': self.checkout_date.isoformat() if self.checkout_date else None,
             'due_date': self.due_date.isoformat() if self.due_date else None,

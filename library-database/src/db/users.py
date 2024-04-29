@@ -38,6 +38,15 @@ def getUserID(username):
     else:
         return False
 
+def getUserEmail(email):
+    """Return the id of users from user table"""
+    sql_query = 'SELECT email FROM Users WHERE email=%s'
+    result = exec_get_one(sql_query, (email,))
+    if result is not None:
+        return result
+    else:
+        return False
+
 
 def getRoleID(name):
     """Return the id of  roles"""
@@ -97,19 +106,22 @@ def add_users(first_name, last_name, date_of_birth, username, password, address,
     try:
         local_user_id = getUserID(username)
         role_id = getRoleID(role_name)
+        existing_email = getUserEmail(email)
         if not role_id:
             data = {"success": False, "message": "Please fill out this fields"}
             return data
         STUDENT_ROLE_ID = getRoleName(role_id)
         LIBRARIAN_ROLE_ID = getRoleName(role_id)
+        print(existing_email)
         # Check if any of the required fields are empty
         if not all([first_name, last_name, date_of_birth, username, password, phone_number, email]):
             data = {"success": False, "message": "Please fill out this fields"}
             return data
 
-        if local_user_id:
+        if local_user_id or existing_email:
             data = {"success": False, "message": "User already exists"}
             return data
+
         # Check if the role is valid (student or librarian)
 
         # if role_id not in [STUDENT_ROLE_ID, LIBRARIAN_ROLE_ID]:
@@ -136,6 +148,7 @@ def add_users(first_name, last_name, date_of_birth, username, password, address,
 
     except Exception as e:
         data = {"success": False, "message": "An error occurred"}
+        print(e)
         return data
 
 
@@ -203,10 +216,10 @@ def edit_user(user_id, first_name, username, last_name, date_of_birth, address, 
     return jsonify(data)
 
 
-def remove_user_account(user_id):
+def remove_user_account(user_id, session_key):
     """Remove user from database table"""
-    # if validate_session_key(session_key) is False:
-    #     return False
+    if validate_session_key(session_key) is False:
+        return False
     sql_query = """DELETE FROM users WHERE users.user_id =%s"""
     exec_commit(sql_query, (user_id,))
     data = {'message': 'remove user account successfully'}
