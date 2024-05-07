@@ -127,6 +127,30 @@ export const addCheckoutBookReducer=(state=initialState,action)=>{
             return state;
         }
     }
+
+export const getPopularBookReducer=(state=initialState,action)=>{
+    switch(action.type){
+        case actions.GET_POPULAR_BOOK_REQUEST:
+        return{
+            ...state,
+            isLoading:true
+        }
+        case actions.GET_POPULAR_BOOK_SUCCESS:
+        return{
+            ...state,
+            checkoutBook: action.payload,
+            isLoading:false
+        }
+        case actions.GET_POPULAR_BOOK_FAILURE:
+        return{
+            ...state,
+            isLoading:false,
+            error:action.payload
+        }
+        default:
+            return state;
+        }
+    }
   
   
 

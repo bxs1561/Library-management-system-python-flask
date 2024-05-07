@@ -27,9 +27,13 @@ function Login() {
             password:password,
           }
        dispatch(login(userData))
-       if (user && user.role === 'admin'){
-         navigate('/')
+       console.log(user.user)
+       if (user && user.user.user_role === 'admin'){
+         navigate('/dashboard')
        }
+       if (user && user.user.user_role === 'student'){
+        navigate('/view-book')
+      }
     }
     
 

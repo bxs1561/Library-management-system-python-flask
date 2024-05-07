@@ -2,7 +2,8 @@ import {ADD_BOOK_REQUEST,ADD_BOOK_SUCCESS,ADD_BOOK_FAILURE,
     GET_BOOK_REQUEST,GET_BOOK_SUCCESS,GET_BOOK_FAILURE,
     DELETE_BOOK_REQUEST,DELETE_BOOK_SUCCESS,DELETE_BOOK_FAILURE,
     GET_CHECKOUT_REQUEST,GET_CHECKOUT_SUCCESS,GET_CHECKOUT_FAILURE,
-    ADD_BOOK_CHECKOUT_REQUEST,ADD_BOOK_CHECKOUT_SUCCESS,ADD_BOOK_CHECKOUT_FAILURE} from '../ActionTypes/BookActionTypes'
+    ADD_BOOK_CHECKOUT_REQUEST,ADD_BOOK_CHECKOUT_SUCCESS,ADD_BOOK_CHECKOUT_FAILURE,
+    GET_POPULAR_BOOK_REQUEST,GET_POPULAR_BOOK_SUCCESS,GET_POPULAR_BOOK_FAILURE} from '../ActionTypes/BookActionTypes'
 
 import axios from '../../API/axios'
 
@@ -82,6 +83,21 @@ export const addBookCheckoutFailure = (error) => ({
   payload: error,
 });
 
+//get popular  book
+export const getPopularBookRequest = () => ({
+  type: GET_POPULAR_BOOK_REQUEST,
+});
+
+export const getPopularBookSuccess = (checkoutBook) => ({
+  type: GET_POPULAR_BOOK_SUCCESS,
+  payload: checkoutBook,
+});
+
+export const getPopularBookFailure = (error) => ({
+  type: GET_POPULAR_BOOK_FAILURE,
+  payload: error,
+});
+
 
 
 export const addBook=(bookData)=>async(dispatch)=>{
@@ -148,6 +164,18 @@ export const addCheckoutBook=(checkoutBookData)=>async(dispatch)=>{
   }
     catch(error){
 
+    }
+
+  }
+
+  export const popularBook=()=>async(dispatch)=>{
+    dispatch(getPopularBookRequest())
+    try{
+      const response = await axios.get('/popular-book')
+      const responseData = response.data
+      dispatch(getPopularBookSuccess(responseData))
+    }catch(error){
+      dispatch(getPopularBookFailure(error))
     }
 
   }

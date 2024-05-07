@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import book1 from "../images/book1.jpg"
 import './Dashboard.css'
 import VisitorStats from '../Visitor/VisitorStats'
+import PopularBooks from "../Book/PopularBook/PopularBook";
 
 
 function Dashboard(){
@@ -77,7 +78,7 @@ function Dashboard(){
                             </div>
                             <div className="graph">
                                 <div className="visitor___stats" style={{height: '380px', width: '100%'}}>
-                                <VisitorStats/>
+                                <PopularBooks/>
 
                                 </div>
                             </div>

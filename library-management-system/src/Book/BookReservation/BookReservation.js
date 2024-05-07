@@ -6,7 +6,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import _ from 'lodash'
 import avatar from '../../images/avatar.png'
 import book1 from "../../images/book.png"
-import { fetchBook } from "../../Redux/Action/BooksAction";
+import { fetchBook,addCheckoutBook } from "../../Redux/Action/BooksAction";
 import { fetchUser } from "../../Redux/Action/UsersAction";
 
 
@@ -69,7 +69,7 @@ function BookReservation(){
 }
 
 
-const addCheckoutBook=async(event)=>{
+const addBookCheckout=(event)=>{
   event.preventDefault();
   {userData?.map(usr=>{
     setStudentID(usr.user_id)
@@ -231,7 +231,7 @@ const addCheckoutBook=async(event)=>{
 
                 </div>
                 <div className="button">
-                <button onClick={addCheckoutBook}>Issue Book</button>
+                <button onClick={addBookCheckout}>Issue Book</button>
                 </div>
 
             

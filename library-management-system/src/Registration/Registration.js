@@ -7,8 +7,7 @@ import {
 } from "react-router-dom";
 import axios from "../API/axios";
 import { useSelector, useDispatch } from 'react-redux'
-import { loginRequest, loginSuccess } from "../Redux/action";
-
+import {addAdmin} from '../Redux/Action/UsersAction'
 import './Registration.css'
 
 
@@ -41,26 +40,8 @@ function Registration(){
             alert("password do not match")
             return;
         }
-        dispatch(addUserRequest(userData));
+        dispatch(addAdmin(userData));
 
-        try {
-            const response = await axios.post('/admin/add', userData,{
-                headers: {
-                    "content-type": "application/json"
-                }
-            });
-            const responseData = response.data;
-            const parsedResponse = JSON.parse(responseData);
-            // dispatch(addUserSuccess(responseData));
-            if (parsedResponse.success==true) {
-                dispatch(addUserSuccess(responseData));
-              } else {
-                dispatch(addUserFailure(responseData));
-              }
-
-        } catch (error) {
-            dispatch(addUserFailure(error));
-        }
     };
 
 

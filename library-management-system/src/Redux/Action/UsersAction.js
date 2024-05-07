@@ -186,3 +186,26 @@ export const signout = ()=> (dispatch)=>{
           type: USER_SIGNOUT
       })
   };
+
+
+export const addAdmin=(userData)=>async(dispatch)=>{
+    dispatch(addUserRequest())
+    try {
+        const response = await axios.post('/admin/add', userData,{
+            headers: {
+                "content-type": "application/json"
+            }
+        });
+        const responseData = response.data;
+        const parsedResponse = JSON.parse(responseData);
+        // dispatch(addUserSuccess(responseData));
+        if (parsedResponse.success==true) {
+            dispatch(addUserSuccess(responseData));
+          } else {
+            dispatch(addUserFailure(responseData));
+          }
+
+    } catch (error) {
+        dispatch(addUserFailure(error));
+    }
+};
