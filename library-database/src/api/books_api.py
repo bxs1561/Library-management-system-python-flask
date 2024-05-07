@@ -8,9 +8,9 @@ parser = reqparse.RequestParser()
 
 from flask import Flask, jsonify
 
+
 class BookApiGet(Resource):
     def get(self):
-
         books_data = []
         for data in books.list_all_books():
             dictionary = dict()
@@ -32,10 +32,10 @@ class BookApiGet(Resource):
             dictionary['review'] = data[13]
             dictionary['author'] = data[14]
 
-
             books_data.append(dictionary)
 
         return books_data
+
 
 class BookApiPost(Resource):
     def post(self):
@@ -48,7 +48,6 @@ class BookApiPost(Resource):
         parser.add_argument('author', type=str)
         parser.add_argument('publisher', type=str)
 
-
         args = parser.parse_args()
         ISBN = args['ISBN']
         title = args['title']
@@ -58,8 +57,10 @@ class BookApiPost(Resource):
         cover_image_url = args['cover_image_url']
         author = args['author']
         publisher = args['publisher']
-        books_add = books.add_book(ISBN,title,genre,total_copies,copies_available,cover_image_url,author,publisher)
+        books_add = books.add_book(ISBN, title, genre, total_copies, copies_available, cover_image_url, author,
+                                   publisher)
         return jsonify(books_add)
+
 
 class BooksApiEdit(Resource):
     def put(self, book_id):
@@ -74,10 +75,25 @@ class BooksApiEdit(Resource):
         author = args['author']
         publisher = args['publisher']
 
-        user_edit = books.edit_book(book_id, ISBN, title, genre, total_copies, copies_available, cover_image_url, author, publisher)
+        user_edit = books.edit_book(book_id, ISBN, title, genre, total_copies, copies_available, cover_image_url,
+                                    author, publisher)
         return user_edit
+
+
 class RemoveBookApi(Resource):
-    def delete(self,book_id):
+    def delete(self, book_id):
         """Delete user information"""
         delete_user = books.remove_book(book_id)
         return delete_user
+
+
+class PopulateBookApi(Resource):
+    def get(self):
+        popular = books.popular_book()
+        books_data = []
+        for data in popular:
+            dictionary = dict()
+            dictionary['title'] = data[0]
+            dictionary['checkout_count'] = data[1]
+            books_data.append(dictionary)
+        return books_data

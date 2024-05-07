@@ -89,4 +89,9 @@ def remove_book(book_id):
     data = {'message': 'remove user account successfully'}
     return jsonify(data)
 
+def popular_book():
+    sql_query = "SELECT b.title, COUNT(c.checkout_id) AS checkout_count FROM Books b JOIN Checkout c ON b.book_id = c.book_id " \
+                "GROUP BY b.book_id ORDER BY checkout_count DESC"
+    result = exec_get_all(sql_query)
+    return result
 
