@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit'
 import {thunk} from 'redux-thunk';
-import {addUserReducer,loginReducer,getUserReducer,deleteUserReducer,editUserReducer} from './Reducers/UsersReducer';
+import {addUserReducer,loginReducer,getUserReducer,deleteUserReducer,editUserReducer,getLogEventReducer} from './Reducers/UsersReducer';
 import {addBookReducer,getBookReducer,deleteBookReducer,getCheckoutBookReducer,addCheckoutBookReducer,getPopularBookReducer} from './Reducers/BooksReducer'
 import { combineReducers,applyMiddleware, compose } from 'redux';
 
@@ -17,6 +17,7 @@ const reducer = combineReducers({
     checkoutBooks: getCheckoutBookReducer,
     addCheckoutBook: addCheckoutBookReducer,
     getPopularBook: getPopularBookReducer,
+    getLogEvent: getLogEventReducer,
 });
 
 

@@ -2,7 +2,8 @@ import {LOGIN_REQUEST,LOGIN_SUCCESS,LOGIN_FAILURE,
         ADDUSER_REQUEST,ADDUSER_SUCCESS,ADDUSER_FAILURE,
         GET_USER_REQUEST,GET_USER_SUCCESS,GET_USER_FAILURE,USER_SIGNOUT,UPDATE_FILTERED_USER,
         DELETE_USER_REQUEST,DELETE_USER_SUCCESS,DELETE_USER_FAILURE,
-        EDIT_USER_REQUEST,EDIT_USER_SUCCESS,EDIT_USER_FAILURE} from '../ActionTypes/UserActionTypes'
+        EDIT_USER_REQUEST,EDIT_USER_SUCCESS,EDIT_USER_FAILURE,
+        GET_LOG_EVENTS_REQUEST,GET_LOG_EVENTS_SUCCESS,GET_LOG_EVENTS_FAILURE} from '../ActionTypes/UserActionTypes'
 
 import axios from '../../API/axios'
 
@@ -82,6 +83,22 @@ export const editUserFailure = (error) => ({
   type: EDIT_USER_FAILURE,
   payload: error,
 });
+
+//edit user
+export const getLogEventRequest = () => ({
+  type: GET_LOG_EVENTS_REQUEST,
+});
+
+export const getLogEventSuccess = (log) => ({
+  type: GET_LOG_EVENTS_SUCCESS,
+  payload: log,
+});
+
+export const getLogEventFailure = (error) => ({
+  type: GET_LOG_EVENTS_FAILURE,
+  payload: error,
+});
+  
   
 
 
@@ -208,4 +225,16 @@ export const addAdmin=(userData)=>async(dispatch)=>{
     } catch (error) {
         dispatch(addUserFailure(error));
     }
+};
+
+
+export const fetchLogEvebt=() => async(dispatch)=>{
+  dispatch(getLogEventRequest());
+  try {
+      const response = await axios.get('/weekly-report');
+      const responseData =  response.data
+      dispatch(getLogEventSuccess(responseData));
+  } catch (error) {
+      dispatch(getLogEventFailure(error))
+  }
 };

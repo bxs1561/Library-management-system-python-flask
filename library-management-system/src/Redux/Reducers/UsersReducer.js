@@ -4,7 +4,8 @@ import * as actions from '../ActionTypes/UserActionTypes'
 const initialState = {
     user: null,
     isLoading: false, 
-    error: null,   
+    error: null,
+    log:[],   
   };
 
 
@@ -123,6 +124,31 @@ export const editUserReducer=(state=initialState,action)=>{
         isLoading:false
       }
     case actions.EDIT_USER_FAILURE:
+      return{
+        ...state,
+        isLoading:false,
+        error:action.payload
+      }
+      default:
+        return state;
+
+  }
+}
+
+export const getLogEventReducer=(state=initialState,action)=>{
+  switch(action.type){
+    case actions.GET_LOG_EVENTS_REQUEST:
+      return{
+        ...state,
+        isLoading:true
+      }
+    case actions.GET_LOG_EVENTS_SUCCESS:
+      return{
+        ...state,
+        log: action.payload,
+        isLoading:false
+      }
+    case actions.GET_LOG_EVENTS_FAILURE:
       return{
         ...state,
         isLoading:false,

@@ -56,7 +56,7 @@ function App() {
 
 
 
-          {/* <Route path="/register" element={<Registration/>} />  */}
+          <Route path="/register" element={<Registration/>} /> 
 
 
 
