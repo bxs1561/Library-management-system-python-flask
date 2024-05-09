@@ -9,7 +9,6 @@ from datetime import datetime, timedelta
 import time
 
 
-
 def rebuild_tables():
     """re-build the tables"""
     exec_sql_file('src/db/schema.sql')
@@ -37,6 +36,7 @@ def getUserID(username):
         return result
     else:
         return False
+
 
 def getUserEmail(email):
     """Return the id of users from user table"""
@@ -171,6 +171,12 @@ def login_users(email, password):
         result = exec_get_all(sql_query, (email, hashed_password))
         if len(result) > 0:
             user_id, first_name, last_name, username, _, _, _, _, _, role_id = result[0]
+            try:
+                login_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                sql_login_event_query = "INSERT INTO Login_Events(user_id,login_time)VALUES(%s,%s)"
+                exec_commit(sql_login_event_query, (user_id, login_time))
+            except Exception as e:
+                print(e)
             role_name = getRoleName(role_id)[0]
             session_key = secrets.token_hex(512)
             sql_update = 'UPDATE users SET session_key = %s WHERE email=%s'
@@ -185,6 +191,20 @@ def login_users(email, password):
     else:
         data = {"success": False, 'error': 'login failed'}
         return data
+
+
+def weekly_login_report():
+    """Get the date and how many times user login on each date on weekly basis"""
+    end_date = datetime.now()
+    start_date = end_date - timedelta(days=6)
+    sql_query = "SELECT login_time FROM login_events WHERE login_time BETWEEN %s AND %s"
+    login_events = exec_get_all(sql_query, (start_date, end_date))
+
+    login_counts = {}
+    for event in login_events:
+        login_date = event[0]
+        login_counts[login_date] = login_counts.get(login_date, 0) + 1
+    return login_counts
 
 
 def validate_session_key(session_key):
@@ -281,6 +301,7 @@ def returnDifferenceBetweenDates(checkout_date, return_date):
 
     return delta.days
 
+
 def lateFeePenalty(checkout_date, return_date):
     """This return a late fees base on late days.
        If book is return exact after 14 days, no late fee is added.
@@ -295,13 +316,12 @@ def lateFeePenalty(checkout_date, return_date):
     totalFees = 0
     if daysDifference is not None:
         fees = daysDifference - 14
-        if daysDifference<0:
-            totalFees=0
-        totalFees += fees*1.5
+        if daysDifference < 0:
+            totalFees = 0
+        totalFees += fees * 1.5
     else:
         return 0
     return totalFees
-
 
 
 def checkout_book(title, checkout_date, due_date):
@@ -327,9 +347,9 @@ def checkout_book(title, checkout_date, due_date):
 
         sql_query = "INSERT INTO checkout(book_id,student_id,checkout_date,due_date)" \
                     "VALUES (%s,%s,%s,%s)"
-        exec_commit(sql_query, (book_id, student_id,checkout_date, due_date))
-        days_delay = returnDifferenceBetweenDates(checkout_date,due_date)
-        late_fees = lateFeePenalty(checkout_date,due_date)
+        exec_commit(sql_query, (book_id, student_id, checkout_date, due_date))
+        days_delay = returnDifferenceBetweenDates(checkout_date, due_date)
+        late_fees = lateFeePenalty(checkout_date, due_date)
         return True
     except Exception as e:
         print(e.message)
@@ -338,6 +358,4 @@ def checkout_book(title, checkout_date, due_date):
 #     user_id = getUserID(username)
 
 
-
-
-    # when user return
+# when user return

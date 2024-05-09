@@ -28,7 +28,8 @@ INSERT INTO Checkout(checkout_id,student_id,librarian_id,book_id,checkout_date,d
     (1,1,1,1,'2024-2-10','2024-3-13','2024-3-13',3),
     (2,1,1,1,'2024-2-10','2024-3-13','2024-3-13',3);
 
-
+INSERT INTO Login_Events(login_events_id,user_id,login_time) VALUES
+    (1,1,'2024-05-09');
 
 INSERT INTO Reservations(reservation_id,student_id,book_id,reservation_date) VALUES
     (1,1,1,'2024-2-16');

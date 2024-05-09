@@ -342,3 +342,16 @@ class GetCheckOutApi(Resource):
         checkouts = Checkout.query.all()
         return jsonify([checkout.serialize() for checkout in checkouts])
 
+
+class GetLoginReport(Resource):
+    def get(self):
+        report = []
+        for date, count in users.weekly_login_report().items():
+            date_str = date.strftime('%Y-%m-%d')
+            dictionary = dict()
+            dictionary['date'] = date_str
+            dictionary['count'] = count
+            report.append(dictionary)
+        return report
+
+

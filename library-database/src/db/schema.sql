@@ -1,5 +1,5 @@
 -- DROP TABLE IF EXISTS Books,Students,Admin,UserRoles,Transactions,Reservations;
-DROP TABLE IF EXISTS Books,Users,Roles,Librarian,Student,Admin,user_status,Checkout,Reservations;
+DROP TABLE IF EXISTS Books,Users,Roles,Librarian,Student,Admin,user_status,Checkout,Reservations,Login_Events;
 
 CREATE TABLE Books(
     book_id SERIAL PRIMARY KEY NOT NULL,
@@ -89,6 +89,12 @@ CREATE TABLE Reservations (
     FOREIGN KEY (student_id) REFERENCES Student(student_id),
     FOREIGN KEY (book_id) REFERENCES Books(book_id)
 );
+CREATE TABLE Login_Events(
+    login_events_id SERIAL PRIMARY KEY NOT NULL,
+    user_id INT,
+    FOREIGN KEY (user_id) REFERENCES Users(user_id),
+    login_time DATE
+);
 
 ALTER TABLE Librarian DROP CONSTRAINT IF EXISTS librarian_user_id_fkey;
 ALTER TABLE Student DROP CONSTRAINT IF EXISTS student_user_id_fkey;
@@ -96,7 +102,7 @@ ALTER TABLE Admin DROP CONSTRAINT IF EXISTS admin_user_id_fkey;
 ALTER TABLE Reservations DROP CONSTRAINT IF EXISTS reservations_student_id_fkey;
 ALTER TABLE Checkout DROP CONSTRAINT IF EXISTS checkout_student_id_fkey;
 ALTER TABLE Users DROP CONSTRAINT IF EXISTS users_role_id_fkey;
-
+ALTER TABLE Login_Events DROP CONSTRAINT IF EXISTS fk_login_events_user_id;
 
 
 
