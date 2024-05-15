@@ -2,7 +2,7 @@ from flask_restful import Resource, reqparse, request
 import json
 from flask import json, jsonify
 from datetime import datetime, timedelta
-from db import users
+from db import users,recomendation
 
 parser = reqparse.RequestParser()
 
@@ -353,5 +353,35 @@ class GetLoginReport(Resource):
             dictionary['count'] = count
             report.append(dictionary)
         return report
+
+class GetRecommendationBook(Resource):
+    def get(self):
+        user_id = request.args.get('user_id')
+        books_data = []
+        for data in recomendation.recomendation(user_id):
+            dictionary = dict()
+            dictionary['book_id'] = data[0]
+            dictionary['ISBN'] = data[1]
+            dictionary['title'] = data[2]
+            dictionary['genre'] = data[3]
+            dictionary['publication_year'] = data[4]
+            dictionary['publisher'] = data[5]
+            dictionary['language'] = data[6]
+            dictionary['copies_available'] = data[7]
+
+            dictionary['total_copies'] = data[8]
+            dictionary['location'] = data[9]
+            dictionary['cover_image_url'] = data[10]
+            dictionary['availability_status'] = data[11]
+
+            dictionary['rating'] = data[12]
+            dictionary['review'] = data[13]
+            dictionary['author'] = data[14]
+
+            books_data.append(dictionary)
+
+        return books_data
+
+        # return jsonify(recomendation.recomendation(user_id))
 
 

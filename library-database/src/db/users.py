@@ -359,3 +359,8 @@ def checkout_book(title, checkout_date, due_date):
 
 
 # when user return
+
+
+#user borrow book, what genre of book the borrow,
+
+
