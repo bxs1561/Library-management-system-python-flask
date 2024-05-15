@@ -2,7 +2,7 @@ from flask_restful import Resource, reqparse, request
 import json
 from flask import json, jsonify
 from datetime import datetime, timedelta
-from db import users,recomendation
+from db import users,recomendation,chatbot
 
 parser = reqparse.RequestParser()
 
@@ -385,3 +385,10 @@ class GetRecommendationBook(Resource):
         # return jsonify(recomendation.recomendation(user_id))
 
 
+class PostChatbotApi(Resource):
+    def post(self):
+        parser.add_argument('user_query', type=str)
+        args = parser.parse_args()
+        user_query = args['user_query']
+        chat=chatbot.chatbot_library(user_query)
+        return jsonify({'response': chat})
