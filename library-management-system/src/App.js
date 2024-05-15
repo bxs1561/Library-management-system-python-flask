@@ -25,6 +25,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import PrivateRoute from './PrivateRoute/PrivateRoute'
 import Sidebar from './sidebar/SideBar';
 import StudentDashboard from './dashboard/StudentDashboard';
+import Chatbot from './chatbot/Chatbot';
 
 
 function App() {
@@ -32,12 +33,13 @@ function App() {
   
   return (
     <>
-          <Navbar/>
+          {/* <Navbar/> */}
           {/* <Sidebar /> */}
 
 
     <div className="App">
-      <Router>
+      <Chatbot/>
+      {/* <Router>
         <Routes>
           <Route exact path="/" element={<Login/>}/>  
           <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>}/>  
@@ -63,7 +65,7 @@ function App() {
           
 
          </Routes>
-      </Router>
+      </Router> */}
 
         {/* <ViewBook/> */}
         {/* <AddBook/> */}

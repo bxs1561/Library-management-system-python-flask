@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Chart from 'chart.js/auto';
-import { Bar } from 'react-chartjs-2';
+import { Line } from 'react-chartjs-2';
 import { useSelector, useDispatch } from 'react-redux'
 import { fetchLogEvebt } from '../Redux/Action/UsersAction';
 
@@ -30,9 +30,9 @@ const VisitorStats = () => {
 
   return (
     <div className="graph___container">
-    <h2>Popular Book</h2>
+    <h2>Visitor Stat</h2>
     <div style={{ width: '50%', margin: '0' }}>
-      <Bar
+      <Line
         data={{
           labels:date,
           datasets: [

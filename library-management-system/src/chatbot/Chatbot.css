@@ -1,0 +1,98 @@
+/* Chat container */
+.chat-container {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    background: linear-gradient(to bottom, #ffffff, #f3f3f3);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+
+}
+
+/* Chat messages */
+.chat-messages {
+    overflow-y: auto;
+    max-height: 300px;
+    min-height: 300px
+}
+
+/* Individual message */
+.message {
+    margin: 5px 0;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 0.3s ease;
+}
+
+/* User message */
+.user {
+    background-color: #007bff; 
+    color: #fff; 
+    align-self: flex-end; 
+}
+
+/* Bot message */
+.bot {
+    background-color: #4caf50; 
+    color: #fff; 
+    align-self: flex-start; 
+}
+
+/* Input container */
+.input-container {
+    margin-top: 10px;
+    display: flex;
+}
+
+/* Input field */
+.input-container input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+}
+.input-container input:focus {
+    background-color: #ffffff; 
+}
+/* Send button */
+.input-container button {
+    margin-left: 10px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/* Send button hover effect */
+.input-container button:hover {
+    background-color: #0056b3;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .chat-container {
+        max-width: 100%;
+        border-radius: 0;
+    }
+}
+
+
