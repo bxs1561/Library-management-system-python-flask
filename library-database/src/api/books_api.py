@@ -43,7 +43,7 @@ class BookApiPost(Resource):
         parser.add_argument('title', type=str)
         parser.add_argument('genre', type=str)
         parser.add_argument('total_copies', type=int)
-        parser.add_argument('copies_available', type=int)
+        # parser.add_argument('copies_available', type=int)
         parser.add_argument('cover_image_url', type=str)
         parser.add_argument('author', type=str)
         parser.add_argument('publisher', type=str)
@@ -53,11 +53,11 @@ class BookApiPost(Resource):
         title = args['title']
         genre = args['genre']
         total_copies = args['total_copies']
-        copies_available = args['copies_available']
+        # copies_available = args['copies_available']
         cover_image_url = args['cover_image_url']
         author = args['author']
         publisher = args['publisher']
-        books_add = books.add_book(ISBN, title, genre, total_copies, copies_available, cover_image_url, author,
+        books_add = books.add_book(ISBN, title, genre, total_copies, cover_image_url, author,
                                    publisher)
         return jsonify(books_add)
 
@@ -65,6 +65,15 @@ class BookApiPost(Resource):
 class BooksApiEdit(Resource):
     def put(self, book_id):
         """Edit users information"""
+        parser.add_argument('ISBN', type=str)
+        parser.add_argument('title', type=str)
+        parser.add_argument('genre', type=str)
+        parser.add_argument('total_copies', type=int)
+        parser.add_argument('copies_available', type=int)
+        parser.add_argument('cover_image_url', type=str)
+        parser.add_argument('author', type=str)
+        parser.add_argument('publisher', type=str)
+
         args = parser.parse_args()
         ISBN = args['ISBN']
         title = args['title']

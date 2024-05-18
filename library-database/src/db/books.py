@@ -29,12 +29,14 @@ def check_book_exist(ISBN):
 
 
 
-def add_book(ISBN, title, genre, total_copies, copies_available, cover_image_url, author, publisher):
+def add_book(ISBN, title, genre, total_copies, cover_image_url, author, publisher):
     """add book into database"""
     book_exist = check_book_exist(ISBN)
-    if not all([ISBN, title, genre]):
-        data = {"success": False, "message": "Please fill out this fields"}
+
+    if not all([ISBN, title, genre, total_copies, author, publisher]):
+        data = {"success": False, "error": "Please fill out this fields"}
         return data
+
     try:
         if book_exist:
             update_query = "UPDATE Books SET total_copies = total_copies + %s WHERE ISBN = %s"
@@ -43,10 +45,10 @@ def add_book(ISBN, title, genre, total_copies, copies_available, cover_image_url
             return data
 
         else:
-            sql_query = "INSERT INTO Books(ISBN,title,genre,total_copies,copies_available,cover_image_url,author,publisher)VALUES" \
-                        "(%s,%s,%s,%s,%s,%s,%s,%s)"
+            sql_query = "INSERT INTO Books(ISBN,title,genre,total_copies,cover_image_url,author,publisher)VALUES" \
+                        "(%s,%s,%s,%s,%s,%s,%s)"
             exec_commit(sql_query,
-                        (ISBN, title, genre, total_copies, copies_available, cover_image_url, author, publisher))
+                        (ISBN, title, genre, total_copies, cover_image_url, author, publisher))
             data = {"success": True, "message": "book added successfully"}
             return data
     except Exception as e:
@@ -69,12 +71,15 @@ def check_book_exist_checkout(book_id):
 
 def edit_book(book_id, ISBN, title, genre, total_copies, copies_available, cover_image_url, author, publisher):
     "edit book"
-    sql_query = (
-        'UPDATE books SET ISBN=%s,title=%s, genre = %s,total_copies=%s,copies_available=%s,cover_image_url=%s,author=%s,publisher=%s, WHERE id= %s  ')
-    exec_commit(sql_query,
-                (ISBN, title, genre, total_copies, copies_available, cover_image_url, author, publisher, book_id))
-    data = {'message': 'edit success'}
-    return jsonify(data)
+    try:
+        sql_query = (
+            'UPDATE books SET ISBN=%s,title=%s, genre = %s,total_copies=%s,copies_available=%s,cover_image_url=%s,author=%s,publisher=%s WHERE book_id= %s  ')
+        exec_commit(sql_query,
+                    (ISBN, title, genre, total_copies, copies_available, cover_image_url, author, publisher, book_id))
+        data = {'message': 'edit success'}
+        return data
+    except Exception as e:
+        print(e)
 
 
 def remove_book(book_id):

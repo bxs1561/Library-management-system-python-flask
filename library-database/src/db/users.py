@@ -5,7 +5,7 @@ import hashlib
 import secrets
 from flask import jsonify
 import json
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, date
 import time
 
 
@@ -73,19 +73,18 @@ def add_admin_register(first_name, last_name, username, password, phone_number, 
 
     # Check if any of the required fields are empty
     if not all([first_name, last_name, username, password, phone_number, email]):
-        return json.dumps({"success": False, "message": "Please provide all required fields"})
+        data = {"success": False, "error": "Please provide all required fields"}
+        return data
 
     local_user_id = getUserID(username)
     role_id = getRoleID('admin')
     if local_user_id:
-        return json.dumps({"success": False, "message": "User already exists"})
-        # return False
+        data = {"success": False, "error": "User already exists"}
+        return data
     else:
-
         try:
             sql = """INSERT INTO user_status (status_value) VALUES (False)
                     RETURNING id"""
-
             encode_password = password.encode('utf-8')
             hashed_password = hashlib.sha512(encode_password).hexdigest()
             sql_query = """INSERT INTO users(first_name, last_name, username, password, phone_number, email,user_image_url,user_status_id,role_id)
@@ -94,10 +93,12 @@ def add_admin_register(first_name, last_name, username, password, phone_number, 
             exec_commit(sql_query, (
                 first_name, last_name, username, hashed_password, phone_number,
                 email, user_image_url, locked, role_id))
-            return json.dumps({"success": True, "message": "User added successfully"})
+            data = {"success": True, "error": "User added successfully"}
+            return data
             # return True
         except Exception as e:
-            return json.dumps({"success": False, "message": "An error occurred"})
+            data = {"success": False, "error": "An error occurred"}
+            return data
 
 
 def add_users(first_name, last_name, date_of_birth, username, password, address, phone_number, email,
@@ -108,18 +109,17 @@ def add_users(first_name, last_name, date_of_birth, username, password, address,
         role_id = getRoleID(role_name)
         existing_email = getUserEmail(email)
         if not role_id:
-            data = {"success": False, "message": "Please fill out this fields"}
+            data = {"success": False, "error": "Please fill out this fields"}
             return data
         STUDENT_ROLE_ID = getRoleName(role_id)
         LIBRARIAN_ROLE_ID = getRoleName(role_id)
-        print(existing_email)
         # Check if any of the required fields are empty
         if not all([first_name, last_name, date_of_birth, username, password, phone_number, email]):
-            data = {"success": False, "message": "Please fill out this fields"}
+            data = {"success": False, "error": "Please fill out this fields"}
             return data
 
         if local_user_id or existing_email:
-            data = {"success": False, "message": "User already exists"}
+            data = {"success": False, "error": "User already exists"}
             return data
 
         # Check if the role is valid (student or librarian)
@@ -147,19 +147,13 @@ def add_users(first_name, last_name, date_of_birth, username, password, address,
             return data
 
     except Exception as e:
-        data = {"success": False, "message": "An error occurred"}
         print(e)
-        return data
 
 
 def login_users(email, password):
     """Return session key if user exist and make login successfully
     otherWise return error message
     """
-    if email is None or password is None:
-        data = {"success": False, 'error': "Email or password is missing"}
-        return data
-
     if len(email) == 0 or len(password) == 0:
         data = {"success": False, 'error': "Please fill in both the email and password"}
         return data
@@ -223,17 +217,20 @@ def check_user_role(username):
     return exec_get_one(sql_query, (username,))[1]
 
 
-def edit_user(user_id, first_name, username, last_name, date_of_birth, address, phone_number, email, session_key):
+def edit_user(user_id, first_name, username, last_name, date_of_birth, address, phone_number, email):
     """edit user information"""
-    role = check_user_role(username)
-    if validate_session_key(session_key) is False:
-        return False
+    # role = check_user_role(username)
+    # if validate_session_key(session_key) is False:
+    #     return False
     # elif role == 'admin':
-    sql_query = (
-        'UPDATE users SET first_name=%s,username=%s, last_name = %s,date_of_birth=%s,phone_number=%s,address=%s,email=%s, WHERE id= %s  ')
-    exec_commit(sql_query, (first_name, username, last_name, date_of_birth, address, phone_number, email, user_id))
-    data = {'message': 'edit success'}
-    return jsonify(data)
+    try:
+        sql_query = (
+            'UPDATE users SET first_name=%s,username=%s, last_name = %s,date_of_birth=%s,address=%s,phone_number=%s,email=%s WHERE user_id= %s  ')
+        exec_commit(sql_query, (first_name, username, last_name, date_of_birth, address, phone_number, email, user_id))
+        data = {'message': 'edit success'}
+        return data
+    except Exception as e:
+        print(e)
 
 
 def remove_user_account(user_id, session_key):
@@ -260,7 +257,7 @@ def getBookID(book_name):
 
 def getStudentID():
     """Return the id of student from student table"""
-    sql_query = 'SELECT student_id FROM Student,Users WHERE Users.user_id=Student.user_id'
+    sql_query = 'SELECT Users.user_id FROM Users,Student WHERE Users.user_id=Student.user_id'
     result = exec_get_one(sql_query)
     if result is not None:
         return result
@@ -302,6 +299,13 @@ def returnDifferenceBetweenDates(checkout_date, return_date):
     return delta.days
 
 
+# def days_late(checkout_date, return_date):
+#     if return_date is not None:
+#         checkout_date = datetime.strptime(checkout_date, '%Y-%m-%d').date()
+#         return_date = datetime.strptime(return_date, '%Y-%m-%d').date()
+#         delta =
+
+
 def lateFeePenalty(checkout_date, return_date):
     """This return a late fees base on late days.
        If book is return exact after 14 days, no late fee is added.
@@ -327,32 +331,53 @@ def lateFeePenalty(checkout_date, return_date):
 def checkout_book(title, checkout_date, due_date):
     "Checkout book"
     # librarian_id = getLibrarianID(librarian_id)
+    borrow_days = 0
     try:
         student_id = getStudentID()
         book_id = getBookID(title)[0]
         copies_available = checkAvailableCopies(title)
+
         if not book_id:
-            data = {"success": False, "message": "Book not found"}
+            data = {"success": False, "error": "Book not found"}
             return data
 
         if copies_available <= 0:
-            data = {'success': False, 'message': 'Book is not available for checkout'}
+            data = {'success': False, 'error': 'Book is not available for checkout'}
             return data
+        # Automatically set the return date to two weeks from the checkout date
+        checkout_date_obj = datetime.strptime(checkout_date, '%Y-%m-%d')
+        default_due_date = checkout_date_obj + timedelta(weeks=2)
+
         # Check if a checkout record already exists for the same book and student
         existing_checkout_query = "SELECT checkout_id FROM Checkout WHERE book_id = %s AND student_id = %s"
         existing_checkout_result = exec_commit(existing_checkout_query, (book_id, student_id))
         if existing_checkout_result:
-            data = {'success': False, 'message': 'Book has already been checked out by the same student'}
+            data = {'success': False, 'error': 'Book has already been checked out by the same student'}
             return data
 
-        sql_query = "INSERT INTO checkout(book_id,student_id,checkout_date,due_date)" \
-                    "VALUES (%s,%s,%s,%s)"
-        exec_commit(sql_query, (book_id, student_id, checkout_date, due_date))
         days_delay = returnDifferenceBetweenDates(checkout_date, due_date)
+        if days_delay<=14:
+            borrow_days=0
+        else:
+            current_date = date.today()
+            days_delay = returnDifferenceBetweenDates(checkout_date, str(current_date))
+            borrow_days = days_delay - 14
+        sql_checkout_update_query = """UPDATE books SET total_copies = %s WHERE book_id=%s"""
+        if copies_available > 0:
+
+
+            sql_query = "INSERT INTO checkout(book_id,student_id,checkout_date,due_date,days_delay)" \
+                        "VALUES (%s,%s,%s,%s,%s)"
+            exec_commit(sql_query, (book_id, student_id, checkout_date, due_date,borrow_days))
+            total_copies = copies_available - 1
+            exec_commit(sql_checkout_update_query, (total_copies, book_id))
+
         late_fees = lateFeePenalty(checkout_date, due_date)
+        print(late_fees)
+
         return True
     except Exception as e:
-        print(e.message)
+        print(e)
 
 # def return_book(username):
 #     user_id = getUserID(username)
@@ -361,6 +386,4 @@ def checkout_book(title, checkout_date, due_date):
 # when user return
 
 
-#user borrow book, what genre of book the borrow,
-
-
+# user borrow book, what genre of book the borrow,

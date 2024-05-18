@@ -156,7 +156,6 @@ class AdminApiRegister(Resource):
 
 
         args = parser.parse_args()
-        # user_id = args['user_id']
         first_name = args['first_name']
         last_name = args['last_name']
         username = args['username']
@@ -164,9 +163,8 @@ class AdminApiRegister(Resource):
         phone_number = args['phone_number']
         email = args['email']
         user_image_url=args['user_image_url']
-
         user=users.add_admin_register(first_name, last_name, username, password, phone_number, email,user_image_url)
-        return user
+        return jsonify(user)
 
 
 class UserApiLogin(Resource):
@@ -181,8 +179,18 @@ class UserApiLogin(Resource):
         return jsonify(user)
 
 class EditApiUser(Resource):
-    def put(self, id):
+    def put(self, user_id):
         """Edit users information"""
+
+        parser.add_argument('first_name', type=str)
+        parser.add_argument('last_name', type=str)
+        parser.add_argument('username', type=str)
+        parser.add_argument('date_of_birth', type=str)
+        parser.add_argument('address', type=str)
+        parser.add_argument('phone_number', type=str)
+        parser.add_argument('email', type=str)
+
+
         args = parser.parse_args()
         session_key = request.headers.get('Session')
         first_name = args['first_name']
@@ -192,12 +200,8 @@ class EditApiUser(Resource):
         address = args['address']
         phone_number = args['phone_number']
         email = args['email']
-        user_edit = users.edit_user(id,first_name,username, last_name,date_of_birth,phone_number,email, address, session_key)
-        if not user_edit is False:
-            return user_edit
-        else:
-            return 'authentication failed'
-
+        user_edit = users.edit_user(user_id,first_name,username, last_name,date_of_birth,address,phone_number,email)
+        return jsonify(user_edit)
 class RemoveUserApi(Resource):
     def delete(self,user_id):
         """Delete user information"""
@@ -238,7 +242,7 @@ class Checkout(dbs.Model):
     checkout_date = dbs.Column(dbs.Date)
     due_date = dbs.Column(dbs.Date)
     return_date = dbs.Column(dbs.Date)
-    borrow_days = dbs.Column(dbs.Integer)
+    days_delay = dbs.Column(dbs.Integer)
 
     # Define relationships
     student = dbs.relationship("Student", backref="checkout")
@@ -254,7 +258,7 @@ class Checkout(dbs.Model):
             'checkout_date': self.checkout_date.isoformat() if self.checkout_date else None,
             'due_date': self.due_date.isoformat() if self.due_date else None,
             'return_date': self.return_date.isoformat() if self.return_date else None,
-            'borrow_days': self.borrow_days
+            'borrow_days': self.days_delay
         }
 
 

@@ -28,7 +28,7 @@ def create_user_genre_dict(borrowing_history):
 def recomendation(user_id):
     "Books recomendation to user based on genre"
     count_vectorizer = CountVectorizer()
-    sql_query = "SELECT c.student_id, b.genre FROM Checkout c JOIN Books b ON " \
+    sql_query = "SELECT s.user_id, b.genre FROM Checkout c JOIN Books b ON " \
                 "c.book_id = b.book_id JOIN Student s ON c.student_id = s.student_id JOIN Users u ON s.user_id = u.user_id"
 
     result = exec_get_all(sql_query)

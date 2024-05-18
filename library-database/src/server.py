@@ -19,7 +19,7 @@ api.add_resource(UsersApiPost,'/user/add')
 api.add_resource(AdminApi,'/user/<string:role_type>')
 
 api.add_resource(UserApiLogin,'/user/login')
-api.add_resource(EditApiUser,'/user/<int:id>')
+api.add_resource(EditApiUser,'/user/<int:user_id>')
 api.add_resource(RemoveUserApi,'/user/<int:user_id>')
 
 
