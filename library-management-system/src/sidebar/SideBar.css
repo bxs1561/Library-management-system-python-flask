@@ -24,22 +24,18 @@
 
 
 
-.sideBar___menu>li {
+.sideBar___menu>.nav___items {
     position: relative;
     margin: 0;
     padding: 0;
-}
-.sideBar___menu>.nav___items>.clicked>a {
-    color: #fff;
-    background: #1e282c;
-    border-left-color: #434f56;
-
+    
+    left: 5px;
 }
 .sideBar___menu>li>a {
-    padding: 12px 5px 12px 15px;
-    display: block;
+    padding: 12px 5px 12px 1px;
     position: relative;
-    border-left: 3px solid transparent
+    align-items: center;
+    display: flex;
 }
 
 .sidebar___container {
@@ -54,7 +50,6 @@
     min-height: 100%;
     width: 230px;
     z-index: 810;
-    /* transition: transform .3s ease-in-out, width .3s ease-in-out; */
     background-color: #434f56;
     transition: margin-left .3s ease-in-out,width .3s ease-in-out;
 
@@ -80,34 +75,19 @@
   }
   
   .user___panel {
-    /* display: flex;
-    align-items: center;
-    margin-bottom: 20px; */
-
     position: relative;
     width: 100%;
     padding: 10px;
     overflow: hidden;
   }
-  /* .user___panel .left___image {
-    display: inline-block;
-    padding-left: .8rem;
-  } */
+
   .left___image,.left___info {
     float: left !important;
 }
   .left___image{
       float: left;
   }
-  /* .left___image img {
-    width: 50px; 
-    height: 50px; 
-    border-radius: 50%;
-    width: 100%;
-    max-width: 45px;
-    height: auto;
-    
-  } */
+
 
   
 .left___info {
@@ -122,7 +102,6 @@
   
   .nav___items {
     margin-bottom: 10px;
-    display: flex;
   }
   
   .nav___items a {
@@ -142,7 +121,7 @@
   }
   
   
-
+.sideBar___menu>.nav___items>p,
 .sideBar___menu>.nav___items>a>p {
     font-weight: 600;
     margin-bottom: 9px;
@@ -151,11 +130,24 @@
     margin:0;
 
 }
-.sideBar___menu>.nav___items>a>.bx {
+.sideBar___menu>.nav___items>p:hover{
+  cursor: pointer;
+}
+
+.sideBar___menu>.items li a {
+  display: block;
+  text-decoration: none;
+  transition: background-color 0.3s;
+  color:#fff;
+}
+
+.sideBar___menu>.nav___items>.bxs-dashboard,
+.sideBar___menu>.nav___items>a>.bxs-dashboard {
     display: inline-block;
     font-size: inherit;
     text-rendering: auto;
     width:20px;
+    margin-top: 1px;
 }
 .user___panel>.left___info>span{
     display: inline-block;
@@ -176,9 +168,12 @@
 
 
 
+
+
+
   
   .sidebar___container.show {
-    left: 0; /* Show the sidebar when the show prop is true */
+    left: 0;
   }
   
   .sidebar__menu {
@@ -198,3 +193,19 @@
   .sidebar__menu li a:hover {
     background-color: #444;
   }
+
+
+  .treeview-menu {
+    display: block;
+    position: absolute;
+    top: calc(100% - 11px); 
+    padding: 8px 0; 
+    width: 150px; 
+    right: 12px;
+    left: auto;
+  }
+
+  .inner___items {
+    padding-left: 20px; 
+}
+

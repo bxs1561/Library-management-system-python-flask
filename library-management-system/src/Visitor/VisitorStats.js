@@ -30,8 +30,8 @@ const VisitorStats = () => {
 
   return (
     <div className="graph___container">
-    <h2>Visitor Stat</h2>
-    <div style={{ width: '50%', margin: '0' }}>
+    <h2 style={{fontSize:"20px",textAlign:"center"}}>Visitor Stat</h2>
+    <div style={{ margin: '0' }}>
       <Line
         data={{
           labels:date,
@@ -57,9 +57,7 @@ const VisitorStats = () => {
           scales: {
             yAxes: [
               {
-                ticks: {
                   beginAtZero: true,
-                },
               },
             ],
           },

@@ -3,6 +3,7 @@ import "./AddUser.css";
 import { useSelector, useDispatch } from 'react-redux'
 import {addUser} from '../../Redux/Action/UsersAction'
 import avatar from '../../images/avatar.png'
+import MessageBox from "../../error/MessageBox";
 
 
 function AddUser(){
@@ -19,6 +20,8 @@ function AddUser(){
     const [phone, setPhone] = useState('');
     const [birthDate, setBirthDate] = useState('');
     const [role_name, setRole] = useState('');
+    const {error} = useSelector(state => state.addUser);
+
 
     const session_key = localStorage.getItem("sessionKey")
     ? localStorage.getItem("sessionKey"):
@@ -63,6 +66,8 @@ function AddUser(){
             <div className="adduser___header">
                 <strong>Add user</strong>
             </div>
+            {error && <MessageBox variant="danger">{error?.error}</MessageBox>}
+
             <form>
 
             <div className="adduser___body">
@@ -163,7 +168,7 @@ function AddUser(){
                         </div>
                     </div>
                 </div>
-                <div className="add___button">
+                <div className="add___button" style={{textAlign:"right"}}>
               <button type= "submit" onClick={handleSumbit} className="adduser___button" style={{width:'168px', marginTop:'10px'}}>Submit</button>
               </div>
               </form>

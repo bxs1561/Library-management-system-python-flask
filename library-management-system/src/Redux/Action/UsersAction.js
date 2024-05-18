@@ -120,12 +120,12 @@ export const addUser=(userData)=>async(dispatch)=>{
       }
 
   } catch (error) {
-      dispatch(addUserFailure(error));
+      console.log(error.message);
   }
 };
 
 
-export const login=(userData)=>async(dispatch)=>{
+export const login=(userData,navigate)=>async(dispatch)=>{
     dispatch(loginRequest())
     try{
         const result = await axios.post('/user/login',userData,{
@@ -142,6 +142,9 @@ export const login=(userData)=>async(dispatch)=>{
               const userRole = responseData.user.user_role;
               // if (userRole === 'admin') {
               //   navigate('/dashboard');
+              // }
+              // if(userRole=="student"){
+              //   navigate('/view-book')
               // }
   
             }
@@ -194,7 +197,7 @@ export const editUser=(user_id,user)=>async(dispatch)=>{
       const updatedResponse = response.data
       dispatch(editUserSuccess(updatedResponse))
   }catch(error){
-      dispatch(editUserFailure(error))
+      console.log(error.message)
   }
 }
 export const signout = ()=> (dispatch)=>{
@@ -214,16 +217,15 @@ export const addAdmin=(userData)=>async(dispatch)=>{
             }
         });
         const responseData = response.data;
-        const parsedResponse = JSON.parse(responseData);
         // dispatch(addUserSuccess(responseData));
-        if (parsedResponse.success==true) {
+        if (responseData.success==true) {
             dispatch(addUserSuccess(responseData));
           } else {
             dispatch(addUserFailure(responseData));
           }
 
     } catch (error) {
-        dispatch(addUserFailure(error));
+        console.log(error.message);
     }
 };
 

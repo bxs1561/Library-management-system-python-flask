@@ -3,7 +3,9 @@ import {ADD_BOOK_REQUEST,ADD_BOOK_SUCCESS,ADD_BOOK_FAILURE,
     DELETE_BOOK_REQUEST,DELETE_BOOK_SUCCESS,DELETE_BOOK_FAILURE,
     GET_CHECKOUT_REQUEST,GET_CHECKOUT_SUCCESS,GET_CHECKOUT_FAILURE,
     ADD_BOOK_CHECKOUT_REQUEST,ADD_BOOK_CHECKOUT_SUCCESS,ADD_BOOK_CHECKOUT_FAILURE,
-    GET_POPULAR_BOOK_REQUEST,GET_POPULAR_BOOK_SUCCESS,GET_POPULAR_BOOK_FAILURE} from '../ActionTypes/BookActionTypes'
+    GET_POPULAR_BOOK_REQUEST,GET_POPULAR_BOOK_SUCCESS,GET_POPULAR_BOOK_FAILURE,
+    GET_BOOK_RECOMMENDATION_REQUEST,GET_BOOK_RECOMMENDATION_SUCCESS,GET_BOOK_RECOMMENDATION_FAILURE,
+    EDIT_BOOK_REQUEST,EDIT_BOOK_SUCCESS,EDIT_BOOK_FAILURE} from '../ActionTypes/BookActionTypes'
 
 import axios from '../../API/axios'
 
@@ -52,6 +54,20 @@ export const deleteBookFailure = (error) => ({
 type: DELETE_BOOK_FAILURE,
 payload: error,
 });
+//Edit Book
+export const editBookRequest = () => ({
+  type: EDIT_BOOK_REQUEST,
+});
+
+export const editBookSuccess = (book_id) => ({
+type: EDIT_BOOK_SUCCESS,
+payload: book_id,
+});
+
+export const editBookFailure = (error) => ({
+type: EDIT_BOOK_FAILURE,
+payload: error,
+});
 
 //get checkout book
 export const getChceckoutBookRequest = () => ({
@@ -98,6 +114,20 @@ export const getPopularBookFailure = (error) => ({
   payload: error,
 });
 
+//get book Recommendation
+export const getBookRecommendationRequest = () => ({
+  type: GET_BOOK_RECOMMENDATION_REQUEST,
+});
+
+export const getBookRecommendationSuccess = (recommendation) => ({
+type: GET_BOOK_RECOMMENDATION_SUCCESS,
+payload: recommendation,
+});
+
+export const getBookRecommendationFailure = (error) => ({
+type: GET_BOOK_RECOMMENDATION_FAILURE,
+payload: error,
+});
 
 
 export const addBook=(bookData)=>async(dispatch)=>{
@@ -109,10 +139,17 @@ export const addBook=(bookData)=>async(dispatch)=>{
         }
     });
     const responseData = response.data
-    dispatch(addBookSuccess(responseData))
+    if (responseData.success==true){
+      dispatch(addBookSuccess(responseData))
+      dispatch(addBookFailure(null))
+    }
+    else{
+      dispatch(addBookFailure(responseData))
+    }
+    
 
     }catch(error){
-        dispatch(addBookFailure(error))
+      console.log(error.message)
     }
   }
 
@@ -137,6 +174,16 @@ export const deleteBook=(book_id)=>async(dispatch)=>{
   }
 }
 
+export const editBook=(book_id,bookData)=>async(dispatch)=>{
+  dispatch(editBookRequest())
+  try{
+    await axios.put(`/book/edit/${book_id}`,bookData)
+    dispatch(editBookSuccess(book_id))
+  }
+  catch(error){
+    console.log(error.message)
+  }
+}
 export const bookCheckout=()=>async(dispatch)=>{
   dispatch(getChceckoutBookRequest())
   try{
@@ -178,4 +225,16 @@ export const addCheckoutBook=(checkoutBookData)=>async(dispatch)=>{
       dispatch(getPopularBookFailure(error))
     }
 
+  }
+
+  export const fetchBookRecommendation=(student_id)=>async(dispatch)=>{
+    dispatch(getBookRecommendationRequest())
+    try{
+      const response = await axios.get(`recommendations?user_id=${student_id}`)
+      const responseData = response.data
+      dispatch(getBookRecommendationSuccess(responseData))
+    }
+    catch(error){
+      console.log(error.message)
+    }
   }

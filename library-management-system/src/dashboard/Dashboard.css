@@ -1,10 +1,30 @@
 .dashboard___container {
     min-height: 600px;
+    margin-top: 90px;
   }
   
   .content {
     padding: 0 1rem;
   }
+
+.dashboard___header{
+    background-color: #007bff;
+    padding: 20px;
+    text-align: center;
+    color: #fff;
+    position: relative;
+    left: 25px; 
+    width: calc(100% - 31px);
+    margin-left: -10px; 
+    margin-right: -10px; 
+    border-top-left-radius: 5px; 
+    border-top-right-radius: 5px;
+    border-bottom: 2px solid #dd4b39;
+  }
+
+.dashboard___header>h1{
+    font-size:17px;
+}
   
   .dashboard___card {
     position: relative;
@@ -69,15 +89,13 @@
   }
   
   .bx {
-
-    border-radius: .25rem;
-    align-items: center;
-    display: flex;
-    font-size: 1.875rem;
-    justify-content: center;
-    text-align: center;
-    width: 80px;
-
+    border-radius: .25rem;;
+    align-items: center;;
+    display: flex;;
+    font-size: 1.875rem;;
+    justify-content: center;;
+    text-align: center;;
+    width: 80px; 
   }
   .bx.bxs-book{
       background-color: #00c0ef;
@@ -138,19 +156,23 @@
         flex: 0 0 calc(50% - 1rem);
         max-width: calc(50% - 1rem);
     }
+    .graph {
+      flex: 0 0 100%; /* Set the flex property to ensure it takes the full width */
+      max-width: 100%;
+    }
 }
 .graph___container {
     position: relative;
     width: 100%;
     height: 380px; /* Adjust height as needed */
   }
-  
+/*   
   h2 {
-    position: absolute;
-    left: 23%;
-    transform: translate(-50%, -50%);
-    font-size: 15px;
-    margin: 0;
-  }
+    position: absolute !important;
+    left: 23% !important;
+    transform: translate(-50%, -50%) !important;
+    font-size: 15px !important;
+    margin: 0 !important;
+  } */
   
 

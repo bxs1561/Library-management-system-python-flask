@@ -1,40 +1,43 @@
 import React, {useEffect, useState} from "react";
-import "./AddBook.css"
-import book from '../../images/book.png'
-import axios from '../../API/axios'
-import { addBook } from "../../Redux/Action/BooksAction";
+import "./EditBook.css";
+import { useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux'
-import MessageBox from "../../error/MessageBox";
+import { editBook } from "../../Redux/Action/BooksAction";
+import book from '../../images/book.png'
 import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  useNavigate, Link
-} from "react-router-dom";
+    BrowserRouter as Router,
+    Routes,
+    Route,
+    useNavigate, Link,useParams
+  } from "react-router-dom";
+function EditBook(){
+    const location = useLocation();
+    const books = location.state;
 
-
-function AddBook() {
-    const [isbn, setIsbn] = useState('');
-    const [image, setImage] = useState(null)
-    const [title,setTitle] = useState('');
-    const [genre,setGenre] = useState('')
-    const[totalCopies, setTotalCopies] = useState('')
-    const[author, setAuthor] =useState('')
-    const[publisher,setPublisher] = useState('')
-    const dispatch = useDispatch();
-    const {error} = useSelector(state => state.addBook);
-    const {books} = useSelector(state => state.addBook);
-
-
-
+    const [isbn, setIsbn] = useState(books.ISBN);
+    const [image, setImage] = useState(books.cover_image_url)
+    const [title,setTitle] = useState(books.title);
+    const [genre,setGenre] = useState(books.genre)
+    const[totalCopies, setTotalCopies] = useState(books.total_copies)
+    const[author, setAuthor] =useState(books.author)
+    const[publisher,setPublisher] = useState(books.publisher)
+    const dispatch = useDispatch()
     const navigate = useNavigate();
 
-    
-
-
-
-    
-
+    const handleEdit = () => {
+        const updatedBook = {
+          ...books,
+          isbn,
+          title,
+          genre,
+          total_copies: totalCopies,
+          author,
+          publisher,
+          image,
+        };
+        dispatch(editBook(books.book_id,updatedBook));
+        navigate("/view-book")
+    }
     const loadFile = async(event) => {
         if (event.target.files && event.target.files[0]) {
           setImage(URL.createObjectURL(event.target.files[0]));
@@ -43,54 +46,16 @@ function AddBook() {
           setImage(null);
         }
        }
+    
 
-    const validateBookData = () => {
-    if (
-      !isbn ||
-      !title ||
-      !genre ||
-      !totalCopies ||
-      !author ||
-      !publisher 
-    ) {
-      return false;
-    }
-    return true;
-  };
-  const handleAddBook=(event)=>{
-    event.preventDefault();
-    let bookData={
-      ISBN:isbn,
-      cover_image_url:image,
-      title:title,
-      genre:genre,
-      total_copies:totalCopies || 0,
-      author:author,
-      publisher: publisher,
-    }
-    dispatch(addBook(bookData));
-    if (validateBookData()) {
-      navigate("/dashboard")
-      
-    }
   
-    }
-    
-   
-    
-
-    
-       
-
-    return (
-        
-      <div className="addbook___container">
+    return(
+        <div className="addbook___container">
         <div className="book___container">
           <div className="heading">
             <strong>Add Book</strong>
 
           </div>
-          {error && <MessageBox variant="danger">{error?.error}</MessageBox>}
           <div className="book___body">
             <div className="book___information">
               <div className="book___isbn">
@@ -171,13 +136,13 @@ function AddBook() {
 
             </div>
             <div className="button">
-            <button style={{width:"168px"}} className="primary-button" onClick={handleAddBook} >Submit</button>
+            <button style={{width:"168px"}} className="primary-button" onClick={handleEdit} >Submit</button>
 
             </div>
 
         </div>
       </div>
       </div>
-    );
-  }
-export default AddBook;
+
+    )
+}export default EditBook

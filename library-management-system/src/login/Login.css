@@ -16,7 +16,7 @@
     border-radius: 5px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
     width: 100%;
-    max-width: 340px;
+    max-width: 435px;
     text-align: center;
     border: 1px solid lightgray;
     margin-top: 115px;
@@ -29,13 +29,13 @@
     text-align: center;
     color: #fff;
     position: relative;
-    left: -11px; /* Adjust as needed */
-    width: calc(100% + 40px); /* Add left padding to account for negative left position */
-    margin-left: -10px; /* Offset for negative left position */
-    margin-right: -10px; /* Offset for negative left position */
-    margin-top: -21px; /* Offset for negative top position */
-    border-top-left-radius: 5px; /* Rounded corners for top left */
-    border-top-right-radius: 5px; /* Rounded corners for top right */
+    left: -11px; 
+    width: calc(100% + 22px);
+    margin-left: -10px; 
+    margin-right: -10px; 
+    margin-top: -21px; 
+    border-top-left-radius: 5px; 
+    border-top-right-radius: 5px; 
   }
 
 .header>h1{
@@ -114,8 +114,6 @@
 
 @media (max-width: 768px) {
     .login_container {
-      /* padding: 10px; */
-      /* max-width: 500px; */
       width: 80%;
 
     }
@@ -129,7 +127,7 @@
     }
     .header {
         font-size: 10px;
-        padding: 1px; /* Decreased padding */
+        padding: 1px;
 
       }
   }

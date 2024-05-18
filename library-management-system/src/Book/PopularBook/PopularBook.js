@@ -21,75 +21,20 @@ const PopularBooks = () => {
     dispatch(popularBook())
   }, [dispatch]);
 
-  
-
-    // Mock data (replace with real data from API or database)
-    // const [popularBooks, setPopularBooks] = useState({
-    //   labels: [],
-    //   datasets: [
-    //     {
-          // label: 'Library Visits',
-          // backgroundColor: 'rgba(0, 255, 0, 0.5)',
-          // borderColor: 'rgba(75,192,192,1)',
-          // borderWidth: 1,
-          // hoverBackgroundColor: 'rgba(75,192,192,0.4)',
-          // hoverBorderColor: 'rgba(75,192,192,1)',
-          // data: [],
-    //     },
-    //   ],
-    // });
-
-    
-
-    useEffect(() => {
-      // if (checkoutBook && checkoutBook.length > 0) {
+  useEffect(() => {
         const labels = checkoutBook.map(book => book.title);
         const data = checkoutBook.map(book => book.checkout_count);
         setLabel(labels)
         setTitle(data)
-      //   setPopularBooks(prevState => ({
-      //     ...prevState,
-      //     labels: labels,
-      //     datasets: [{
-      //       ...prevState.datasets[0],
-      //       data: data,
-      //     }],
-      //   }));
-      // }
-    }, [checkoutBook,popularBooks]);
+  }, [checkoutBook,popularBooks]);
   
 
   
 
-    return (
-      // <div style={{ display: 'flex', flexDirection: 'column', alignItems:'center' }}>
-      //   <h2 style={{fontSize: '15px', margin: '0'}}>Visitor Stats</h2>
-      //   <div style={{ width: '100%', margin: '0' }}>
-      //     <Bar
-      //       data={visitData}
-            
-      //       height="300px"
-      //       width="300px"
-      //                 options={{
-      //         responsive: true,
-      //         maintainAspectRatio: false,
-      //         scales: {
-      //           yAxes: [
-      //             {
-      //               ticks: {
-      //                 beginAtZero: true,
-      //               },
-      //             },
-      //           ],
-      //         },
-      //       }}
-      //     />
-      //   </div>
-       
-      // </div>
+  return (
       <div className="graph___container">
-    <h2>Popular Book</h2>
-    <div style={{ width: '50%', margin: '0' }}>
+    <h2 style={{fontSize:"20px", textAlign:"center"}}>Popular Book</h2>
+    <div style={{ margin: '0' }}>
       <Bar
         data={{
           labels:label,
@@ -112,21 +57,24 @@ const PopularBooks = () => {
         options={{
           responsive: true,
           maintainAspectRatio: false,
-          scales: {
-            yAxes: [
-              {
-                ticks: {
-                  beginAtZero: true,
-                },
-              },
-            ],
-          },
+          // scales: {
+          //   yAxes: [
+          //     {
+          //       ticks: {
+          //         beginAtZero: true,
+          //       },
+          //     },
+          //   ],
+          // },
         }}
       />
     </div>
   </div>
   
     );
+   
+  
   };
 
 export default PopularBooks;
+

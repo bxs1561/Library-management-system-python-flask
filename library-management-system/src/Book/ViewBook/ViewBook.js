@@ -1,39 +1,38 @@
 import React, {useEffect, useState} from "react";
 import "./ViewBook.css"
-import book1 from "../../images/book1.jpg"
-import { fetchBook,deleteBook } from "../../Redux/Action/BooksAction";
+import BookAvatar from '../../images/book.png'
+import { fetchBook,deleteBook, editBook } from "../../Redux/Action/BooksAction";
 import { useSelector, useDispatch } from 'react-redux'
 import axios from '../../API/axios'
 import _ from 'lodash'
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useNavigate, Link,useParams
+} from "react-router-dom";
+import Chatbot from "../../chatbot/Chatbot";
 
 function ViewBook(){
     const [searchQuery, setSearchQuery] = useState("");
+    const [searchISBNQuery, setSearchISBNQuery] = useState("");
+
     const dispatch = useDispatch();
-    const  {book}  = useSelector((state) => state.getBook);
-    const [books, setBooks] = useState([]);
+    const  {books}  = useSelector((state) => state.getBook);
+    const [bookData, setBookData] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [booksPerPage] = useState(10); 
+    const [selectedBook, setSelectedBook] = useState(null);
+    const navigate = useNavigate();
 
 
 
-  
-//   const filteredData = yourDataArray.filter((item) =>
-//     item.isbn.includes(searchQuery)
-//   );
 
-// const getViewBook=async()=>{
-//     dispatch(getBookRequest())
-//     try{
-//         const response = await axios.get('/books')
-//         const responseData = response.data
-//         dispatch(getBookSuccess(responseData));
 
-//     }catch(error){
-//         dispatch(getBookFailure(error))
 
-//     }
-// }
 useEffect(()=>{
-    setBooks(book)
-},[book])
+    setBookData(books)
+},[books])
 
 useEffect(()=>{
     dispatch(fetchBook())
@@ -44,22 +43,52 @@ const searchBookByTitle=(searchTerm)=>{
 
     
 
-    const newData=_.filter(book, (bok) => {
+    const newData=_.filter(books, (bok) => {
         return (
           bok.title.toUpperCase().includes(lowerCaseSearchTerm) 
         )
       });
       
 
-    setBooks(newData);
+    setBookData(newData);
     setSearchQuery(searchTerm)
+
+}
+const searchBookByISBN=(searchTerm)=>{
+  const lowerCaseSearchTerm = searchTerm
+
+  const newData=_.filter(books, (bok) => {
+    return (
+      bok.ISBN.includes(lowerCaseSearchTerm) 
+    )
+  });
+    
+
+  setBookData(newData);
+  setSearchISBNQuery(searchTerm)
 
 }
 
 const removeUser=(book_id) => {
     dispatch(deleteBook(book_id))
-    setBooks(books.filter(book => book.book_id !== book_id));
+    setBookData(bookData.filter(book => book.book_id !== book_id));
   };
+
+  const handleEdit=(book)=>{
+    // setSelectedBook(book);
+    navigate(`/book/edit/${book.book_id}`,{state:book});
+} 
+  
+
+    // Logic for pagination
+    const indexOfLastBook = currentPage * booksPerPage;
+    const indexOfFirstBook = indexOfLastBook - booksPerPage;
+    const currentBooks = bookData?.slice(indexOfFirstBook, indexOfLastBook);
+
+    const paginate = (pageNumber) => setCurrentPage(pageNumber);
+   
+
+
 
 
 
@@ -74,7 +103,7 @@ const removeUser=(book_id) => {
     <span className="input-group-text-book ">Search book</span>
     <input
       id="book_autocomplete"
-      placeholder="Type to search."
+      placeholder="Search Title."
       type="text"
       className="form-control ui-autocomplete-input"
       autoComplete="off"
@@ -88,10 +117,12 @@ const removeUser=(book_id) => {
     <span className="input-group-text-book ">Search book</span>
     <input
       id="book_autocomplete"
-      placeholder="Type to search."
+      placeholder="Search ISBN."
       type="text"
+      value={searchISBNQuery}
       className="form-control ui-autocomplete-input"
       autoComplete="off"
+      onChange={(event) => searchBookByISBN(event.target.value)}
     ></input>
   </div>
 </div>
@@ -111,12 +142,12 @@ const removeUser=(book_id) => {
                         </tr>
                     </thead>
                     <tbody>
-                        {books?.map(bok=>(
+                        {currentBooks?.map(bok=>(
                         <tr key={bok.book_id}>
                             <td>{bok.ISBN}</td>
                             <td>
                                 <img
-                                src={bok.cover_image_url}
+                                src={bok.cover_image_url?bok.cover_image_url:BookAvatar}
                                 alt="Book Cover"
                                 className="book-cover"
                                 />
@@ -129,8 +160,14 @@ const removeUser=(book_id) => {
                                 {bok.total_copies - bok.copies_available}
                             </td>
                             <td>
-                                <button className="action-button">Edit</button>
-                                <button className="action-button" onClick={()=>removeUser(bok.book_id)}>Delete</button>
+                            <button onClick={()=>handleEdit(bok)} className="edit___button"  >
+                                                <i className="uil uil-edit"></i>
+                                                </button>
+                                                <button  onClick={()=>removeUser(bok.book_id)} className="delete___button">
+                                                <i className="uil uil-trash-alt"></i>
+                                                </button>
+                                {/* <button className="action-button"><i className="uil uil-edit"></i></button>
+                                <button className="action-button" onClick={()=>removeUser(bok.book_id)}><i className="uil uil-trash-alt"></i></button> */}
                             </td>
                             </tr>
                             ))}
@@ -140,10 +177,30 @@ const removeUser=(book_id) => {
 
 
                 </table>
-        {/* )} */}
-        {book?.length === 0 && (
-                                    <p>No matching users found.</p>
+                {currentBooks?.length === 0 && (
+                                    <p>No matching book found.</p>
                                 )}
+                <ul className="pagination">
+                    <li
+                        className= {currentPage===1?"pagination-button disabled":"pagination-button "}
+                        onClick={() => paginate(currentPage > 1 ? currentPage - 1 : 1)}
+                        disabled={currentPage === 1}
+                    >
+                        Previous
+                    </li>
+                    <li className="pagination-button">
+                        Page {currentPage}
+                    </li>
+                    <li
+                        className="pagination-button"
+                        onClick={() => paginate(currentPage + 1)}
+                        disabled={currentBooks?.length < booksPerPage}
+                    >
+                        Next
+                    </li>
+                </ul>
+        {/* )} */}
+       
             </div>
         </div>
     )

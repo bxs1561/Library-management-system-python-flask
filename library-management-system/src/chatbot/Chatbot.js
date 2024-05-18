@@ -5,6 +5,11 @@ import './Chatbot.css'; // Import CSS file for styling
 function Chatbot() {
     const [userInput, setUserInput] = useState('');
     const [chat, setChat] = useState([]);
+    const [isOpen, setIsOpen] = useState(false);
+
+    const toggleChat=()=>{
+        setIsOpen(!isOpen)
+    }
 
     const sendMessage = async () => {
         try {
@@ -24,12 +29,16 @@ function Chatbot() {
     }
 
     useEffect(() => {
-        // Send initial message when component mounts
         sendMessage();
     }, []);
 
     return (
-        <div className="chat-container">
+        <div className={`chat-container ${isOpen ? 'open' : 'closed'}`}>
+             <div className="chat-header" style={{marginTop:"-14px",marginLeft:"-11px",marginRight:"-12px"}}>
+                <button className="toggle-button" onClick={toggleChat}>
+                    <i className={isOpen ? 'bx bx-minus' : 'bx bx-plus'}></i>
+                </button>
+            </div>
             <div className="chat-messages">
                 {chat.map((message, index) => (
                     <div key={index} className={`message ${message.sender}`}>
@@ -41,6 +50,7 @@ function Chatbot() {
                 <input type="text" value={userInput} onChange={(e) => setUserInput(e.target.value)} placeholder="Type your message" />
                 <button style={{width:"auto"}} onClick={sendMessage}>Send</button>
             </div>
+            
         </div>
     );
 }

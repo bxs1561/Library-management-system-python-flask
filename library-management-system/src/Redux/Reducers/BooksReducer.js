@@ -6,6 +6,7 @@ const initialState = {
     error: null,
     books:[],   
     checkoutBook:[],
+    recommendation:[],
   };
 
 
@@ -65,7 +66,7 @@ switch(action.type){
     case actions.GET_BOOK_SUCCESS:
     return{
         ...state,
-        book: action.payload,
+        books: action.payload,
         isLoading:false
     }
     case actions.GET_BOOK_FAILURE:
@@ -78,6 +79,30 @@ switch(action.type){
         return state;
     }
 }
+
+export const editBookReducer=(state=initialState,action)=>{
+    switch(action.type){
+        case actions.EDIT_BOOK_REQUEST:
+        return{
+            ...state,
+            isLoading:true
+        }
+        case actions.EDIT_BOOK_SUCCESS:
+        return{
+            ...state,
+            books: action.payload,
+            isLoading:false
+        }
+        case actions.EDIT_BOOK_FAILURE:
+        return{
+            ...state,
+            isLoading:false,
+            error:action.payload
+        }
+        default:
+            return state;
+        }
+    }
 
 export const getCheckoutBookReducer=(state=initialState,action)=>{
     switch(action.type){
@@ -142,6 +167,29 @@ export const getPopularBookReducer=(state=initialState,action)=>{
             isLoading:false
         }
         case actions.GET_POPULAR_BOOK_FAILURE:
+        return{
+            ...state,
+            isLoading:false,
+            error:action.payload
+        }
+        default:
+            return state;
+        }
+    }
+export const getBookRecommendationReducer=(state=initialState,action)=>{
+    switch(action.type){
+        case actions.GET_BOOK_RECOMMENDATION_REQUEST:
+        return{
+            ...state,
+            isLoading:true
+        }
+        case actions.GET_BOOK_RECOMMENDATION_SUCCESS:
+        return{
+            ...state,
+            recommendation: action.payload,
+            isLoading:false
+        }
+        case actions.GET_BOOK_RECOMMENDATION_FAILURE:
         return{
             ...state,
             isLoading:false,

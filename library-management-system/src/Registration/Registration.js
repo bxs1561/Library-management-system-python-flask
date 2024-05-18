@@ -5,12 +5,10 @@ import {
     Route,
     useNavigate, Link
 } from "react-router-dom";
-import axios from "../API/axios";
 import { useSelector, useDispatch } from 'react-redux'
 import {addAdmin} from '../Redux/Action/UsersAction'
 import './Registration.css'
-
-
+import MessageBox from "../error/MessageBox";
 
 function Registration(){
     const [firstName, setFirstName] = useState('');
@@ -20,6 +18,8 @@ function Registration(){
     const [confirmPassword, setConfirmPassword] = useState('');
     const [email, setEmail] = useState('');
     const [selectedFile, setSelectedFile] = useState(null);
+    const {error} = useSelector(state => state.addUser);
+
 
     const [phone, setPhone] = useState('');
     const dispatch = useDispatch();
@@ -63,6 +63,7 @@ function Registration(){
             <div className="register___header">
                 <strong>register</strong>
             </div>
+            {error && <MessageBox variant="danger">{error?.error}</MessageBox>}
             <form>
 
             <div className="register___body">

@@ -26,9 +26,15 @@ import PrivateRoute from './PrivateRoute/PrivateRoute'
 import Sidebar from './sidebar/SideBar';
 import StudentDashboard from './dashboard/StudentDashboard';
 import Chatbot from './chatbot/Chatbot';
+import BookRecommendation from './recommendation/BookRecommendation';
+import EditBook from './Book/EditBook/EditBook';
+import EditUser from './User/Managed User/EditUser';
+import Footer from './footer/Footer';
 
 
 function App() {
+  const user = JSON.parse(localStorage.getItem("user"));
+
 
   
   return (
@@ -38,46 +44,48 @@ function App() {
 
 
     <div className="App">
-      <Chatbot/>
-      {/* <Router>
+      {/* <Chatbot/> */}
+      {/* <BookRecommendation/> */}
+      <Router>
         <Routes>
-          <Route exact path="/" element={<Login/>}/>  
-          <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>}/>  
-          <Route path="/student" element={<PrivateRoute><StudentDashboard /></PrivateRoute>}/>  
-
-          <Route path="/add-user" element={<PrivateRoute><AddUser /></PrivateRoute>} />
-          <Route path="/view-user" element={<PrivateRoute><ViewUser /></PrivateRoute>} />
-          <Route path="/library-card/:user_id" element={<PrivateRoute><LibraryCard /></PrivateRoute>} />
-          <Route path="/add-book" element={<PrivateRoute><AddBook /></PrivateRoute>} />
-          <Route path="/view-book" element={<PrivateRoute><ViewBook /></PrivateRoute>} />
-          <Route path="/checkout" element={<PrivateRoute><ViewReservedBook /></PrivateRoute>} />
-          <Route path="/book-checkout" element={<PrivateRoute><BookReservation /></PrivateRoute>} />
-
-
-          
-
+            <Route exact path="/" element={<Login />} />
+          {user && user?.user_role=="admin"&&(
+            <>
+              <Route path="/dashboard" element={<PrivateRoute><Navbar/><Dashboard /></PrivateRoute>} />  
+              <Route path="/add-book" element={<PrivateRoute><Navbar/><AddBook /></PrivateRoute>} />
+              <Route path="/view-book" element={<PrivateRoute><Navbar/><ViewBook /></PrivateRoute>} />
+              <Route path="/book-checkout" element={<PrivateRoute><Navbar/><BookReservation /></PrivateRoute>} />
+              <Route path="/book/edit/:id" element={<PrivateRoute><Navbar/><EditBook /></PrivateRoute>} />
+              <Route path="/checkout" element={<PrivateRoute><Navbar/><ViewReservedBook /></PrivateRoute>} />
+              <Route path="/add-user" element={<PrivateRoute><Navbar/><AddUser /></PrivateRoute>} />
+              <Route path="/view-user" element={<PrivateRoute><Navbar/><ViewUser /></PrivateRoute>} />
+              <Route path="/library-card/:user_id" element={<PrivateRoute><LibraryCard /></PrivateRoute>} />
+              <Route path="/user/:id" element={<PrivateRoute><Navbar/><EditUser /></PrivateRoute>} />
 
 
-          <Route path="/register" element={<Registration/>} /> 
+
+              <Route path="/register" element={<Registration />} /> 
+            </>
+            
+          )}
+          {user && user?.user_role=="student"&&(
+            <>
+            <Route path="/recommendations" element={<PrivateRoute><Navbar/><BookRecommendation /></PrivateRoute>} />
+
+            <Route path="/view-book" element={<PrivateRoute><Navbar/><ViewBook /><Footer/><Chatbot/></PrivateRoute>} />
+            
+            </>
+            
+              
+            )}
 
 
 
           
 
          </Routes>
-      </Router> */}
+      </Router>
 
-        {/* <ViewBook/> */}
-        {/* <AddBook/> */}
-        {/* <BookReservation/> */}
-        {/* <ViewReservedBook/> */}
-        {/* <AddUser/> */}
-        {/* <ViewUser/> */}
-        {/* <LibraryCard/> */}
-        {/* <Dashboard/> */}
-        {/* <VisitorStats/> */}
-        {/* <PopularBooks/> */}
-        {/* <Registration/> */}
     </div>
     </>
   );

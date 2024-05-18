@@ -89,15 +89,15 @@ function ViewUser(){
     useEffect(()=>{
         dispatch(fetchUser())
     },[dispatch])
+
+    const handleEdit=(user)=>{
+        navigate(`/user/${user.user_id}`,{state:user});
+    } 
     
     return(
-        <div className="containers">
+        <div className="view___user-containers">
           <div className="ViewUser___container">
-            <div className="userdata___header">
-            </div>
-            <div className="header___text">
-                <h1> User Managment</h1>
-            </div>
+            
             <div className="ViewUser___content">
                 <div className="content">
                     <div className="card">
@@ -107,13 +107,14 @@ function ViewUser(){
                         <div className="card___body">
                             <div className="row">
                                 <div className="search">
-                                    <label>Advanced Filter</label>
+                                    <label>Search User</label>
                                     <input
                                         placeholder="Enter name"
                                         type="text"
                                         value={searchTerm}
                                         onChange={(event) => searchUserByName(event.target.value)}
                                     />
+                                </div>
                                 </div>
                                 <div className="user___info">
                                 {userData?.length > 0 && (
@@ -128,7 +129,7 @@ function ViewUser(){
                                                 <th>Phone</th>
                                                 <th>Address</th>
                                                 <th>Role</th>
-                                                <th>Created on</th>
+                                                {/* <th>Created on</th> */}
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
@@ -151,7 +152,7 @@ function ViewUser(){
                                                 <td>{user.role.name}</td>
                                                 {/* <td>{user.CreatedOn}</td> */}
                                                 <td>
-                                                <button className="edit___button"  >
+                                                <button className="edit___button" onClick={()=>handleEdit(user)} >
                                                 <i className="uil uil-edit"></i>
                                                 </button>
                                                 <button onClick={()=>removeUser(user?.user_id)} className="delete___button">
@@ -182,11 +183,11 @@ function ViewUser(){
             </div>
 
         </div>
-        {/* {selectedUser && <LibraryCard user={selectedUser} />} */}
         
 
 
-        </div>
+        
+
         
         
         

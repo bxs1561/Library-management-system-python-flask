@@ -15,7 +15,7 @@ import { fetchUser } from "../../Redux/Action/UsersAction";
 function BookReservation(){
     const [selectedDate, setSelectedDate] = useState(new Date());
     const  {user}  = useSelector((state) => state.getUser);
-    const  {book}  = useSelector((state) => state.getBook);
+    const  {books}  = useSelector((state) => state.getBook);
     const [isbn, setIsbn] = useState('');
 
 
@@ -58,7 +58,7 @@ function BookReservation(){
   const searchBookByISBN=(searchISBN)=>{
 
   
-    const newData=_.filter(book, (bok) => {
+    const newData=_.filter(books, (bok) => {
 
         return (
           bok.ISBN == searchISBN
@@ -98,7 +98,6 @@ const addBookCheckout=(event)=>{
   dispatch(addCheckoutBook(checkoutBookData))
 
   }
-  console.log(isbn)
 
 
  
@@ -230,13 +229,17 @@ const addBookCheckout=(event)=>{
 </div>
 
                 </div>
-                <div className="button">
+                {/* <div className="button">
                 <button onClick={addBookCheckout}>Issue Book</button>
-                </div>
+                </div> */}
 
             
             </div>
+            
             </div>
+            <div className="button">
+                <button onClick={addBookCheckout}>Issue Book</button>
+                </div>
             </div>
             </div>
             </form>

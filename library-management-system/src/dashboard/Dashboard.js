@@ -11,6 +11,7 @@ function Dashboard(){
         <div className="dashboard___container">
             <div className="dashboard___header">
                 <h1>dashboard</h1>
+                </div>
                 <div className="content">
                 <div className="dashboard___card">
                     <div className="dashboardcard___body">
@@ -18,7 +19,7 @@ function Dashboard(){
                         <div className="dashboard___row">
                             <div className="total___books">
                                 <div className="books___box">
-                                <i class='bx bxs-book'></i>
+                                <i className='bx bxs-book'></i>
                                     <div className="books___content">
                                         <span className="book___boxtext">
                                             Total books
@@ -30,7 +31,7 @@ function Dashboard(){
                             </div>
                             <div className="books___fine">
                                 <div className="fine___info">
-                                <i class='bx bx-money'></i>
+                                <i className='bx bx-money'></i>
                                     <div className="fine___content">
                                     <span className="fine___boxtext">
                                             Total fine
@@ -43,7 +44,7 @@ function Dashboard(){
                             </div>
                             <div className="books___borrow">
                                 <div className="borrow___info">
-                                <i class='bx bx-cart'></i>
+                                <i className='bx bx-cart'></i>
                                     <div className="borrow___content">
                                     <span className="borrow___boxtext">
                                             borrowed
@@ -56,7 +57,7 @@ function Dashboard(){
                             </div>
                             <div className="total___users">
                                 <div className="totalusers___info">
-                                <i class='bx bxs-user'></i>
+                                <i className='bx bxs-user'></i>
                                     <div className="totalusers___content">
                                     <span className="totalusers___boxtext">
                                             users
@@ -86,7 +87,6 @@ function Dashboard(){
                     </div>
                 </div>
             </div>
-        </div>
         </div>
     )
 

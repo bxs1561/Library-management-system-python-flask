@@ -25,32 +25,9 @@ function AdminDashboard(){
 
     return(
       
-<div className="App">
-      <Router>
-        <Routes>
-          <Route exact path="/" element={<Login/>}/>  
-          <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>}/>  
-
-          <Route path="/add-user" element={<PrivateRoute><AddUser /></PrivateRoute>} />
-          <Route path="/view-user" element={<PrivateRoute><ViewUser /></PrivateRoute>} />
-          <Route path="/library-card/:user_id" element={<PrivateRoute><LibraryCard /></PrivateRoute>} />
-          <Route path="/add-book" element={<PrivateRoute><AddBook /></PrivateRoute>} />
-          <Route path="/view-book" element={<PrivateRoute><ViewBook /></PrivateRoute>} />
-          <Route path="/checkout" element={<PrivateRoute><ViewReservedBook /></PrivateRoute>} />
-          <Route path="/book-checkout" element={<PrivateRoute><BookReservation /></PrivateRoute>} />
-
-          
-
-
-
-          {/* <Route path="/register" element={<Registration/>} />  */}
-
-
-
-          
-
-         </Routes>
-      </Router>
+<div className="board">
+<Dashboard />
+<Login/>
       </div>
     )
 }
