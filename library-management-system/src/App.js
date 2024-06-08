@@ -12,6 +12,9 @@ import VisitorStats from './Visitor/VisitorStats'
 import PopularBooks from './Book/PopularBook/PopularBook'
 import Registration from './Registration/Registration'
 import React, {useEffect, useState} from "react";
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
+
 
 import {
   BrowserRouter as Router,
@@ -31,10 +34,15 @@ import EditBook from './Book/EditBook/EditBook';
 import EditUser from './User/Managed User/EditUser';
 import Footer from './footer/Footer';
 import ViewSingleReservedBook from './Book/ViewReservedBook/ViewSingleReservedBook';
+import Fine from './fine/Fine';
+import StripePayment from './fine/StripePayment';
+import StripeComponent from './fine/StripePayment';
 
 
 function App() {
   const user = JSON.parse(localStorage.getItem("user"));
+  const stripePromise = loadStripe(process.env.REACT_APP_PUBLISH_KEY)
+
 
   useEffect(()=>{
 
@@ -68,6 +76,11 @@ function App() {
               <Route path="/user/:id" element={<PrivateRoute><Navbar/><EditUser /></PrivateRoute>} />
 
               <Route path="/checkout/:1" element={<PrivateRoute><Navbar/><ViewSingleReservedBook /></PrivateRoute>} />  
+              <Route path="/fine" element={<PrivateRoute><Navbar/><Fine /></PrivateRoute>} />  
+              <Route path="/payment" element={<PrivateRoute><Navbar/><StripeComponent/></PrivateRoute>} />
+                
+            
+
 
 
 

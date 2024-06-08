@@ -26,7 +26,6 @@ function ViewSingleReservedBook(){
     //   setIsModalOpen(!isModalOpen);
 
     // };
-    console.log(checkoutUserBook)
 
     return(
         <div className="reserved___container">
@@ -80,8 +79,8 @@ function ViewSingleReservedBook(){
                         </td>
                         <td>
                         
-                            <button  className="fine___button">
-                            <i style={{width:"30px",fontSize:"20px"}}className='bx bx-wallet'></i>
+                            <button  className="button">
+                                Pay Fine
                                 </button>
                         </td>
                         </tr>

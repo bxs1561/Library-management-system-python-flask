@@ -7,6 +7,7 @@ const initialState = {
     error: null,
     log:[], 
     checkoutUserBook:[],  
+    paymentMethod:null,
   };
 
 
@@ -179,6 +180,12 @@ export const getUserCheckoutReducer=(state=initialState,action)=>{
         ...state,
         isLoading:false,
         error:action.payload
+      }
+    case actions.SAVE_USER_PAYMENT_ACTION:
+      return{
+        ...state,
+        isLoading:false,
+        paymentMethod:action.payload
       }
       default:
         return state;
