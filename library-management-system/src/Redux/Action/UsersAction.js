@@ -3,7 +3,8 @@ import {LOGIN_REQUEST,LOGIN_SUCCESS,LOGIN_FAILURE,
         GET_USER_REQUEST,GET_USER_SUCCESS,GET_USER_FAILURE,USER_SIGNOUT,UPDATE_FILTERED_USER,
         DELETE_USER_REQUEST,DELETE_USER_SUCCESS,DELETE_USER_FAILURE,
         EDIT_USER_REQUEST,EDIT_USER_SUCCESS,EDIT_USER_FAILURE,
-        GET_LOG_EVENTS_REQUEST,GET_LOG_EVENTS_SUCCESS,GET_LOG_EVENTS_FAILURE} from '../ActionTypes/UserActionTypes'
+        GET_LOG_EVENTS_REQUEST,GET_LOG_EVENTS_SUCCESS,GET_LOG_EVENTS_FAILURE,
+        GET_USER_CHECKOUT_REQUEST,GET_USER_CHECKOUT_SUCCESS,GET_USER_CHECKOUT_FAILURE} from '../ActionTypes/UserActionTypes'
 
 import axios from '../../API/axios'
 
@@ -98,6 +99,23 @@ export const getLogEventFailure = (error) => ({
   type: GET_LOG_EVENTS_FAILURE,
   payload: error,
 });
+
+//get user checkout
+export const getUserCheckoutRequest = () => ({
+  type: GET_USER_CHECKOUT_REQUEST,
+});
+
+export const getUserCheckoutSuccess = (checkoutUserBook) => ({
+  type: GET_USER_CHECKOUT_SUCCESS,
+  payload: checkoutUserBook,
+});
+
+export const getUserCheckoutFailure = (error) => ({
+  type: GET_USER_CHECKOUT_FAILURE,
+  payload: error,
+});
+  
+
   
   
 
@@ -238,5 +256,16 @@ export const fetchLogEvebt=() => async(dispatch)=>{
       dispatch(getLogEventSuccess(responseData));
   } catch (error) {
       dispatch(getLogEventFailure(error))
+  }
+};
+
+export const fetchUserCheckout=(student_id) => async(dispatch)=>{
+  dispatch(getUserCheckoutRequest());
+  try {
+      const response = await axios.get(`/checkout/${student_id}`);
+      const responseData =  response.data
+      dispatch(getUserCheckoutSuccess(responseData));
+  } catch (error) {
+      dispatch(getUserCheckoutFailure(error))
   }
 };

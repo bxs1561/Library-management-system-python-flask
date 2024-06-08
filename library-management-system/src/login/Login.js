@@ -19,6 +19,16 @@ function Login() {
     const {error} = useSelector(state => state.login);
     const {user} = useSelector(state => state.login);
 
+    useEffect(()=>{
+      if (user && user?.user_role === 'admin'){
+        navigate('/dashboard')
+      }
+      if (user && user?.user_role === 'student'){
+        navigate('/view-book')
+      }
+
+    },[navigate,user])
+
 
 
     const handleLogin=(event)=>{
@@ -28,14 +38,13 @@ function Login() {
         password:password,
       }
        dispatch(login(userData,navigate))
-       if (user && user?.user_role === 'admin'){
-         navigate('/dashboard')
-       }
-       if (user && user?.user_role === 'student'){
-        navigate('/view-book')
-      }
+      //  if (user && user?.user_role === 'admin'){
+      //    navigate('/dashboard')
+      //  }
+      //  if (user && user?.user_role === 'student'){
+      //   navigate('/view-book')
+      // }
     }
-    console.log(user)
     return (
       <div className="login">
         <div className="login_container">

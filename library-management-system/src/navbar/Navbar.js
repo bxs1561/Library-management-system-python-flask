@@ -44,7 +44,7 @@ function Navbar(){
           <p>Profile</p>
           {/* <a href="/" className="nav__logo">Bikram</a> */}
           </li>
-          <Link to="/login" onClick={signOut}>
+          <Link to="/" onClick={signOut}>
 
           <li className='user-header'>
           <i style={{marginLeft:"-40px"}}className='bx bx-log-out'></i>

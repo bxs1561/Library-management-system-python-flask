@@ -5,7 +5,8 @@ const initialState = {
     user: null,
     isLoading: false, 
     error: null,
-    log:[],   
+    log:[], 
+    checkoutUserBook:[],  
   };
 
 
@@ -149,6 +150,31 @@ export const getLogEventReducer=(state=initialState,action)=>{
         isLoading:false
       }
     case actions.GET_LOG_EVENTS_FAILURE:
+      return{
+        ...state,
+        isLoading:false,
+        error:action.payload
+      }
+      default:
+        return state;
+
+  }
+}
+
+export const getUserCheckoutReducer=(state=initialState,action)=>{
+  switch(action.type){
+    case actions.GET_USER_CHECKOUT_REQUEST:
+      return{
+        ...state,
+        isLoading:true
+      }
+    case actions.GET_USER_CHECKOUT_SUCCESS:
+      return{
+        ...state,
+        checkoutUserBook: action.payload,
+        isLoading:false
+      }
+    case actions.GET_USER_CHECKOUT_FAILURE:
       return{
         ...state,
         isLoading:false,

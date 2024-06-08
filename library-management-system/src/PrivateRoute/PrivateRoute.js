@@ -5,7 +5,7 @@ import Login from "../login/Login";
 
 const PrivateRoute = ({ children, ...rest }) => {
     const isAuthenticated = JSON.parse(localStorage.getItem("user"));
-    return isAuthenticated ? children : <Navigate to="/" />;
+    return isAuthenticated  ? children : <Navigate to="/" />;
     
     
   

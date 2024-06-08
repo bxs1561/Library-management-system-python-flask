@@ -30,10 +30,15 @@ import BookRecommendation from './recommendation/BookRecommendation';
 import EditBook from './Book/EditBook/EditBook';
 import EditUser from './User/Managed User/EditUser';
 import Footer from './footer/Footer';
+import ViewSingleReservedBook from './Book/ViewReservedBook/ViewSingleReservedBook';
 
 
 function App() {
   const user = JSON.parse(localStorage.getItem("user"));
+
+  useEffect(()=>{
+
+  },[user])
 
 
   
@@ -49,8 +54,8 @@ function App() {
       <Router>
         <Routes>
             <Route exact path="/" element={<Login />} />
-          {user && user?.user_role=="admin"&&(
-            <>
+          {/* {user?.user_role==="admin"&&( */}
+            {/* <> */}
               <Route path="/dashboard" element={<PrivateRoute><Navbar/><Dashboard /></PrivateRoute>} />  
               <Route path="/add-book" element={<PrivateRoute><Navbar/><AddBook /></PrivateRoute>} />
               <Route path="/view-book" element={<PrivateRoute><Navbar/><ViewBook /></PrivateRoute>} />
@@ -62,22 +67,25 @@ function App() {
               <Route path="/library-card/:user_id" element={<PrivateRoute><LibraryCard /></PrivateRoute>} />
               <Route path="/user/:id" element={<PrivateRoute><Navbar/><EditUser /></PrivateRoute>} />
 
+              <Route path="/checkout/:1" element={<PrivateRoute><Navbar/><ViewSingleReservedBook /></PrivateRoute>} />  
+
+
 
 
               <Route path="/register" element={<Registration />} /> 
-            </>
+            {/* </> */}
             
-          )}
-          {user && user?.user_role=="student"&&(
-            <>
-            <Route path="/recommendations" element={<PrivateRoute><Navbar/><BookRecommendation /></PrivateRoute>} />
+            {/* )} */}
+          {/* {user && user?.user_role==="student"&&( */}
+            {/* <> */}
+            <Route path="/recommendations" element={<PrivateRoute ><Navbar/><BookRecommendation /></PrivateRoute>} />
 
             <Route path="/view-book" element={<PrivateRoute><Navbar/><ViewBook /><Footer/><Chatbot/></PrivateRoute>} />
             
-            </>
+            {/* </> */}
             
               
-            )}
+            {/* )} */}
 
 
 
