@@ -402,3 +402,8 @@ class PostChatbotApi(Resource):
         user_query = args['user_query']
         chat=chatbot.chatbot_library(user_query)
         return jsonify({'response': chat})
+
+class PaymentApi(Resource):
+    def post(self):
+        pay=users.create_payment()
+        return jsonify(pay)

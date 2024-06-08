@@ -6,7 +6,12 @@ import secrets
 from flask import jsonify
 import json
 from datetime import datetime, timedelta, date
+from flask import Flask, request, jsonify
 import time
+import stripe
+from dotenv import load_dotenv
+
+
 
 
 def rebuild_tables():
@@ -356,19 +361,17 @@ def checkout_book(title, checkout_date, due_date):
             return data
 
         days_delay = returnDifferenceBetweenDates(checkout_date, due_date)
-        if days_delay<=14:
-            borrow_days=0
+        if days_delay <= 14:
+            borrow_days = 0
         else:
             current_date = date.today()
             days_delay = returnDifferenceBetweenDates(checkout_date, str(current_date))
             borrow_days = days_delay - 14
         sql_checkout_update_query = """UPDATE books SET total_copies = %s WHERE book_id=%s"""
         if copies_available > 0:
-
-
             sql_query = "INSERT INTO checkout(book_id,student_id,checkout_date,due_date,days_delay)" \
                         "VALUES (%s,%s,%s,%s,%s)"
-            exec_commit(sql_query, (book_id, student_id, checkout_date, due_date,borrow_days))
+            exec_commit(sql_query, (book_id, student_id, checkout_date, due_date, borrow_days))
             total_copies = copies_available - 1
             exec_commit(sql_checkout_update_query, (total_copies, book_id))
 
@@ -379,7 +382,56 @@ def checkout_book(title, checkout_date, due_date):
     except Exception as e:
         print(e)
 
-# def get_single_student_
+
+# def create_payment():
+#     stripe.api_key = 'sk_test_51HZVC0GPsXmpEfxIfWGPwePobKmixmk9e4ai2RZTjZF84EdDO2KlT3kGjaBYZB7YlmqyrsCSqwO6Ye2ESrFXGWmd00UvAQs8aR'
+#     session_key = request.headers.get('Authorization')
+#     sql_query = 'SELECT user_id FROM users WHERE session_key=%s'
+#     result = exec_get_all(sql_query, (session_key,))
+#     if not result:
+#         return jsonify({"success": False, 'error': 'Invalid session key'}), 403
+#
+#
+#
+#     try:
+#         data = json.loads(request.data)
+#         intent = stripe.PaymentIntent.create(
+#             amount=data["amount"],
+#             currency='usd',
+#             metadata={'user_id': result[0][0]},
+#             automatic_payment_methods={
+#                 'enabled': True,
+#             },
+#         )
+#         return jsonify({
+#             'clientSecret': intent['client_secret']
+#         })
+#     except Exception as e:
+#         return jsonify(error=str(e)), 403
+# Load environment variables from .env file
+load_dotenv()
+
+def create_payment():
+    stripe.api_key = os.getenv('STRIPE_SECRET_KEY')
+
+    try:
+        data = json.loads(request.data)
+        print(data['amount'])
+        # Create a PaymentIntent with the order amount and currency
+        intent = stripe.PaymentIntent.create(
+            amount=data['amount'],
+            currency='usd',
+            # In the latest version of the API, specifying the `automatic_payment_methods` parameter is optional because Stripe enables its functionality by default.
+            automatic_payment_methods={
+                'enabled': True,
+            },
+        )
+        print(intent['client_secret'])
+        data={"clientSecret":intent['client_secret'] }
+        return data
+    except Exception as e:
+        return jsonify(error=str(e)), 403
+
 
 # def return_book(username):
 #     user_id = getUserID(username)

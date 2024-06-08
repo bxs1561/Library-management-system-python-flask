@@ -27,3 +27,5 @@ hashlib
 secrets
 scikit-learn==1.3.2
 nltk
+stripe
+python-dotenv
