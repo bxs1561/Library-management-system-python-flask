@@ -347,6 +347,12 @@ class GetCheckOutApi(Resource):
         return jsonify([checkout.serialize() for checkout in checkouts])
 
 
+class GetCheckOutSingleApi(Resource):
+    def get(self,student_id):
+        checkouts = Checkout.query.filter_by(student_id=student_id).all()
+        # print(checkouts)
+        return jsonify([checkout.serialize() for checkout in checkouts])
+
 class GetLoginReport(Resource):
     def get(self):
         report = []
