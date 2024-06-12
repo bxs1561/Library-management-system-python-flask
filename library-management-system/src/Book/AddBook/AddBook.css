@@ -1,74 +1,158 @@
+
 .addbook___container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 21px auto;
-    margin-top: 90px;
-    
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 21px auto;
+  margin-top: 90px;
+}
+body{
+  background-color: #ecf0f5;
+  margin: 0;
+}
+  
+.book___container {
+  background-color: #ffffff;
+  border-radius: 5px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  padding: 0px;
+  width: 100%;
+  max-width: 740px;
+  border: 1px solid #ccc;
+  margin-bottom: 10px;
+  background-color: #f5f5f5;
+  width: 90%; 
+  max-width: none; 
+}
+  
+.heading {
+  text-align: center;
+  font-size: 24px;
+  margin-bottom: 20px;
+  padding: 11px;
+  border-bottom: 2px solid #dd4b39;
+}
 
-  }
-  body{
-    background-color: #ecf0f5;
-    margin: 0;
+.book___body{
+  padding:25px;
+}
 
-  }
+.book___information {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+.book___isbn,
+.book___author,
+.book___title,
+.book___category,
+.book___genre,
+.book___publisher,
+.book___publicationyear,
+.book___image,
+.book___quantity,
+.book___description {
+  width: calc(50% - 10px);
+  text-align: left; 
+  margin-top: 20px;
+}
   
-  .book___container {
-    background-color: #ffffff;
-    border-radius: 5px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-    padding: 0px;
-    width: 100%;
-    max-width: 740px;
-    border: 1px solid #ccc;
-    margin-bottom: 10px;
-    background-color: #f5f5f5;
-    width: 90%; 
-    max-width: none; 
+  
+.book___image {
+  text-align: center;
+  margin-bottom: 20px;
+}
+  
+.image-label {
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 5px;
+  display: inline-block;
+}
+ 
+  
+.image-label:hover {
+  background-color: #0056b3;
+}
+
+.book___isbn label,
+.book___author label,
+.book___title label,
+.book___category label,
+.book___genre label,
+.book___publisher label,
+.book___publicationyear label,
+.book___image label,
+.book___quantity label,
+.book___description label {
+  font-weight: bold;
+}
+  
+.book___isbn input,
+.book___author input,
+.book___category input,
+.book___genre input,
+.book___publisher input,
+.book___publicationyear input,
+.book___image input[type="file"],
+.book___quantity input {
+  width: 100%;
+  padding: 5px;
+  border: 1px solid #ccc;
+  margin-top: 5px;
+  text-align: left;
+}
+
+.book___title input{
+  width: 100%;
+  padding: 5px;
+  border: 1px solid #ccc;
+  margin-top: 5px;
+  text-align: left;
+}
+
+.book___title,
+.book___description {
+  width: 100%;
+  text-align: left;
+  margin-top: 20px;
+}
+.book___description textarea{
+  width: 100%;
+  padding: 5px;
+  border: 1px solid #ccc;
+  margin-top: 5px;
+  text-align: left;
+}
+
+.primary-button {
+  background-color: #007bff; 
+  color: #fff; 
+  font-size: 16px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2); 
+}
+  
+.primary-button:hover {
+  background-color: #0056b3; 
+}
   
 
+@media (max-width: 768px) {
+  .container {
+      padding: 10px;
   }
-  
-  .heading {
-    text-align: center;
-    font-size: 24px;
-    margin-bottom: 20px;
-    padding: 11px;
-    border-bottom: 2px solid #dd4b39;
 
-    }
-  
-    
-  .book___image {
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  
-  .image-label {
-    background-color: #007bff;
-    color: #fff;
-    padding: 10px 20px;
-    cursor: pointer;
-    border-radius: 5px;
-    display: inline-block;
-  }
-  .book___body{
-      padding:25px;
-  }
-  
-  .image-label:hover {
-    background-color: #0056b3;
-  }
-  
-  
   .book___information {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    margin-bottom: 15px;
-
+      flex-direction: column;
   }
-  
   .book___isbn,
   .book___author,
   .book___title,
@@ -79,102 +163,10 @@
   .book___image,
   .book___quantity,
   .book___description {
-    width: calc(50% - 10px);
-    text-align: left; 
-    margin-top: 20px;
-  }
-  
-  .book___isbn label,
-  .book___author label,
-  .book___title label,
-  .book___category label,
-  .book___genre label,
-  .book___publisher label,
-  .book___publicationyear label,
-  .book___image label,
-  .book___quantity label,
-  .book___description label {
-    font-weight: bold;
-  }
-  
-  .book___isbn input,
-  .book___author input,
-  .book___category input,
-  .book___genre input,
-  .book___publisher input,
-  .book___publicationyear input,
-  .book___image input[type="file"],
-  .book___quantity input {
-    width: 100%;
-    padding: 5px;
-    border: 1px solid #ccc;
-    margin-top: 5px;
-    text-align: left;
-  }
-  .book___title input{
       width: 100%;
-      padding: 5px;
-      border: 1px solid #ccc;
-      margin-top: 5px;
-      text-align: left;
-  
   }
-  .book___title,
-  .book___description {
-      width: 100%;
-      text-align: left;
-      margin-top: 20px;
-  }
-  .book___description textarea{
-      width: 100%;
-      padding: 5px;
-      border: 1px solid #ccc;
-      margin-top: 5px;
-      text-align: left;
-  }
-
-  .primary-button {
-    background-color: #007bff; 
-    color: #fff; 
-    font-size: 16px;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2); 
-  }
-  
-  .primary-button:hover {
-    background-color: #0056b3; 
-  }
-  
-
-  @media (max-width: 768px) {
-    .container {
-        padding: 10px;
-    }
-
-    .book___information {
-        flex-direction: column;
-    }
-    .book___isbn,
-    .book___author,
-    .book___title,
-    .book___category,
-    .book___genre,
-    .book___publisher,
-    .book___publicationyear,
-    .book___image,
-    .book___quantity,
-    .book___description {
-        width: 100%;
-    }
-  
-
 }
 
-  
-  
 .image___thumbnail {
   max-width: 100%;
   max-height: 200px; 

@@ -1,5 +1,4 @@
-import { combineReducers } from 'redux';
-import * as actions from '../ActionTypes/BookActionTypes'
+import * as actions from '../actionTypes/bookActionTypes'
 
 const initialState = {
     isLoading: false, 
@@ -7,30 +6,29 @@ const initialState = {
     books:[],   
     checkoutBook:[],
     recommendation:[],
-  };
-
+};
 
 export const addBookReducer=(state=initialState,action)=>{
-switch(action.type){
-    case actions.ADD_BOOK_REQUEST :
-    return{
-        ...state,
-        isLoading:true
-    }
-    case actions.ADD_BOOK_SUCCESS:
-    return{
-        ...state,
-        books: action.payload,
-        isLoading:false
-    }
-    case actions.ADD_BOOK_FAILURE:
-    return{
-        ...state,
-        isLoading:false,
-        error:action.payload
-    }
-    default:
-        return state;
+    switch(action.type){
+        case actions.ADD_BOOK_REQUEST:
+            return{
+                ...state,
+                isLoading:true
+            }
+        case actions.ADD_BOOK_SUCCESS:
+            return{
+                ...state,
+                books: action.payload,
+                isLoading:false
+            }
+        case actions.ADD_BOOK_FAILURE:
+            return{
+                    ...state,
+                    isLoading:false,
+                    error:action.payload
+            }
+        default:
+            return state;
     }
 }
 export const deleteBookReducer=(state=initialState,action)=>{
@@ -57,7 +55,7 @@ export const deleteBookReducer=(state=initialState,action)=>{
         }
     }
 export const getBookReducer=(state=initialState,action)=>{
-switch(action.type){
+    switch(action.type){
     case actions.GET_BOOK_REQUEST:
     return{
         ...state,
@@ -197,12 +195,8 @@ export const getBookRecommendationReducer=(state=initialState,action)=>{
         }
         default:
             return state;
-        }
     }
+}
   
   
 
-// const BooksReducer = combineReducers({
-//     addBook: addBookReducer,
-// });
-// export default BooksReducer

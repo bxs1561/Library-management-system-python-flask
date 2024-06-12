@@ -1,14 +1,17 @@
 import React from "react";
 import { Route, Navigate } from "react-router-dom";
-import { useSelector } from 'react-redux';
-import Login from "../login/Login";
 
-const PrivateRoute = ({ children, ...rest }) => {
-    const isAuthenticated = JSON.parse(localStorage.getItem("user"));
-    return isAuthenticated  ? children : <Navigate to="/" />;
-    
-    
-  
+const PrivateRoute = ({ children, requiredRole }) => {
+  const user = JSON.parse(localStorage.getItem("user"));
+  // return isAuthenticated  ? children : <Navigate to="/" />;
+
+  if (!user) {
+    return <Navigate to="/login" />;
+  }
+
+  if (requiredRole && user.user_role !== requiredRole) {
+    return <Navigate to="/unauthorized" />;
+  }
+  return children;
 };
-  
 export default PrivateRoute;

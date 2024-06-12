@@ -1,175 +1,172 @@
 .view___user-containers {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 75px;
-  }
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 75px;
+}
   
-  .ViewUser___container {
-    width: 100%; 
-    margin: 0 auto;
-  }
+.ViewUser___container {
+  width: 100%; 
+  margin: 0 auto;
+}
   
-  .userdata___header {
-    color: black;
-    text-align: center;
-    background-color: #007bff;
-    min-height: 50px;
-    padding: 1px;
+.userdata___header {
+  color: black;
+  text-align: center;
+  background-color: #007bff;
+  min-height: 50px;
+  padding: 1px;
+}
+.header___text{
+  font-size: 1rem;
+  margin-left:24px;
+}
+.delete___button{
+  color: #fff;
+  background-color: #dc3545;
+  border-color:#dc3545;
+  box-shadow: none;
+}
+.print___button{
+  color: #fff;
+  background-color: #28a745;
+  border-color: #28a745;
+  box-shadow: none;
+}
+.edit___button{
+  color: #fff;
+  background-color: #343a40;
+  border-color: #343a40;
+  box-shadow: none;
+}
+button{
+  padding: 5px;
+  border-radius: 0;
+}
+  
+  
+.ViewUser___content {
+  padding: 20px;
+}
+  
+.card {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
 
+.card___header {
+  background-color:transparent;
+  color: #fff;
+  padding: 10px;
+}
+  
+.title {
+  font-size: 1.5rem;
+  color: black;
+}
 
-  }
-  .header___text{
-    font-size: 1rem;
-    margin-left:24px;
-  }
-  .delete___button{
-    color: #fff;
-    background-color: #dc3545;
-    border-color:#dc3545;
-    box-shadow: none;
-  }
-  .print___button{
-    color: #fff;
-    background-color: #28a745;
-    border-color: #28a745;
-    box-shadow: none;
-  }
-  .edit___button{
-    color: #fff;
-    background-color: #343a40;
-    border-color: #343a40;
-    box-shadow: none;
-  }
-  button{
-    padding: 5px;
-    border-radius: 0;
-  }
+.card___body {
+  padding: 20px;
+}
   
+.row {
+  flex-direction: column;
+}
+
+.search {
+  flex: 1;
+  margin-left: 6px;
+  display: flex;
+}
   
-  .ViewUser___content {
-    padding: 20px;
-  }
+.search label {
+  font-weight: bold;
+  margin-bottom: 5px;
+  display: block;
+  color: #fff;
+  border: none;
+  padding: 10px 15px;
+  display: flex;
+  align-items: center;
+  padding: 0.375rem 0.75rem;
+  margin-bottom: 0;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #495057;
+  text-align: center;
+  white-space: nowrap;
+  background-color: #e9ecef;
+  border: 1px solid #ced4da;
+}
   
-  .card {
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-  }
+.search input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+}
+
+.user___info {
+  flex: 2;
+  margin-left: -10px;
+
+}
   
-  .card___header {
-    background-color:transparent;
-    color: #fff;
-    padding: 10px;
-  }
+.usertable___info {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+}
   
-  .title {
-    font-size: 1.5rem;
-    color: black;
-  }
+.usertable___info th,
+.usertable___info td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: left;
   
-  .card___body {
-    padding: 20px;
-  }
+}
   
+.usertable___info th {
+  background-color: #3498db;
+  color: #fff;
+}
+  
+.user-covers {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+}
+  
+.action-button {
+  background-color: #3498db;
+  color: #fff;
+  border: none;
+  padding: 8px 12px;
+  margin-right: 5px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+  
+.action-button:hover {
+  background-color: #2980b9;
+}
+
+@media screen and (max-width: 768px) {
   .row {
     flex-direction: column;
   }
-  
+
   .search {
-    flex: 1;
-    margin-left: 6px;
-    display: flex;
+    margin-bottom: 10px;
   }
-  
-  .search label {
-    font-weight: bold;
-    margin-bottom: 5px;
-    display: block;
-    color: #fff;
-    border: none;
-    padding: 10px 15px;
-    display: flex;
-    align-items: center;
-    padding: 0.375rem 0.75rem;
-    margin-bottom: 0;
-    font-size: 1rem;
-    font-weight: 400;
-    line-height: 1.5;
-    color: #495057;
-    text-align: center;
-    white-space: nowrap;
-    background-color: #e9ecef;
-    border: 1px solid #ced4da;
-  }
-  
-  .search input {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ddd;
-  }
-  
-  .user___info {
-    flex: 2;
-    margin-left: -10px;
-
-  }
-  
   .usertable___info {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 15px;
-  }
-  
-  .usertable___info th,
-  .usertable___info td {
-    border: 1px solid #ddd;
-    padding: 10px;
-    text-align: left;
-    
-  }
-  
-  .usertable___info th {
-    background-color: #3498db;
-    color: #fff;
-  }
-  
-  .user-covers {
-    width: 50px;
-    height: 50px;
-    object-fit: cover;
-  }
-  
-  .action-button {
-    background-color: #3498db;
-    color: #fff;
-    border: none;
-    padding: 8px 12px;
-    margin-right: 5px;
-    cursor: pointer;
-    border-radius: 4px;
-  }
-  
-  .action-button:hover {
-    background-color: #2980b9;
-  }
-
-  @media screen and (max-width: 768px) {
-    .row {
-      flex-direction: column;
     }
-  
-    .search {
-      margin-bottom: 10px;
+    .search input{
     }
-    .usertable___info {
-      }
-      .search input{
-      }
-      .user___info{
-        overflow: auto;
-        margin-right: -13px;
-      }
-     
-  }
+    .user___info{
+      overflow: auto;
+      margin-right: -13px;
+    }
+}
   

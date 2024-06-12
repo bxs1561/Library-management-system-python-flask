@@ -2,16 +2,17 @@ import React, {useEffect, useState} from "react";
 import "./EditBook.css";
 import { useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux'
-import { editBook } from "../../Redux/Action/BooksAction";
+import { editBook } from "../../redux/action/booksAction";
 import book from '../../images/book.png'
-import {
-    BrowserRouter as Router,
-    Routes,
-    Route,
-    useNavigate, Link,useParams
-  } from "react-router-dom";
+import {BrowserRouter as Router,useNavigate} from "react-router-dom";
+
+/**
+ * Edit Book information.
+ */
 function EditBook(){
     const location = useLocation();
+    const dispatch = useDispatch()
+    const navigate = useNavigate();
     const books = location.state;
 
     const [isbn, setIsbn] = useState(books.ISBN);
@@ -21,40 +22,42 @@ function EditBook(){
     const[totalCopies, setTotalCopies] = useState(books.total_copies)
     const[author, setAuthor] =useState(books.author)
     const[publisher,setPublisher] = useState(books.publisher)
-    const dispatch = useDispatch()
-    const navigate = useNavigate();
-
-    const handleEdit = () => {
-        const updatedBook = {
-          ...books,
-          isbn,
-          title,
-          genre,
-          total_copies: totalCopies,
-          author,
-          publisher,
-          image,
-        };
-        dispatch(editBook(books.book_id,updatedBook));
-        navigate("/view-book")
-    }
-    const loadFile = async(event) => {
-        if (event.target.files && event.target.files[0]) {
-          setImage(URL.createObjectURL(event.target.files[0]));
-        }
-        else{
-          setImage(null);
-        }
-       }
     
+    /**
+     * update book information and store in redux.
+     */
+    const handleEdit = () => {
+      const updatedBook = {
+        ...books,
+        isbn,
+        title,
+        genre,
+        total_copies: totalCopies,
+        author,
+        publisher,
+        image,
+      };
+      dispatch(editBook(books.book_id,updatedBook));
+      navigate("/view-book")
+    }
 
-  
+    /**
+     *handles the loading of a file from an input field and sets the image state accordingly.
+    */
+    const loadFile = async(event) => {
+      if (event.target.files && event.target.files[0]) {
+        setImage(URL.createObjectURL(event.target.files[0]));
+      }
+      else{
+        setImage(null);
+      }
+    }
+    
     return(
-        <div className="addbook___container">
+      <div className="addbook___container">
         <div className="book___container">
           <div className="heading">
             <strong>Add Book</strong>
-
           </div>
           <div className="book___body">
             <div className="book___information">
@@ -105,44 +108,37 @@ function EditBook(){
               </div>
               
               <div className="book___image">
-                
-  <img src={image?image:book} className="image___thumbnail" />
-  <div className="file">
-
-  <input  type="file" onChange={loadFile} />
-
-</div>
-</div>
-
+                <img src={image?image:book} className="image___thumbnail" />
+              <div className="file">
+              <input  type="file" onChange={loadFile} />
+            </div>
+          </div>
           <div className="book___quantity">
-                <label>Book quantity</label>
-                <input
-                  placeholder="Enter Book quantity"
-                  type="text"
-                  value={totalCopies} 
-                  onChange={(event) => setTotalCopies(event.target.value)}
-                />
-              </div>
-              <div className="book___description">
-                <label>Book description</label>
-                <textarea
-                  rows="4"
-                  placeholder="Enter Book description"
-                  type="text"
-                  value={title} 
-                  onChange={(event) => setTitle(event.target.value)}
-                />
-              </div>
-
-            </div>
-            <div className="button">
-            <button style={{width:"168px"}} className="primary-button" onClick={handleEdit} >Submit</button>
-
-            </div>
-
+            <label>Book quantity</label>
+            <input
+              placeholder="Enter Book quantity"
+              type="text"
+              value={totalCopies} 
+              onChange={(event) => setTotalCopies(event.target.value)}
+            />
+          </div>
+          <div className="book___description">
+            <label>Book description</label>
+            <textarea
+              rows="4"
+              placeholder="Enter Book description"
+              type="text"
+              value={title} 
+              onChange={(event) => setTitle(event.target.value)}
+            />
+          </div>
+        </div>
+        <div className="button">
+          <button style={{width:"168px"}} className="primary-button" onClick={handleEdit} >Submit</button>
         </div>
       </div>
-      </div>
-
-    )
-}export default EditBook
+    </div>
+  </div>
+  )
+}
+export default EditBook

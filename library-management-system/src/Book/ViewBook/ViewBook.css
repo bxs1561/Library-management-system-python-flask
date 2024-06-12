@@ -1,174 +1,174 @@
+.view___container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 100vh;
+  background-color: #ecf0f5;
+  margin-top: 70px;
+}
+  
+.viewbook___container {
+  background-color: #ffffff;
+  border-radius: 5px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  padding: 20px;
+  width: 100%;
+  max-width: 90%; 
+  overflow-x: auto;
+  margin-top: 20px;
+}
 
+.search-bar-container {
+  display: flex;
+  align-items: center;
+}
+
+.bookname___search,.isbn___search{
+  flex: 1;
+  margin-bottom: 0px;
+/* margin-right: 5px; */
+}
+.input___bookname,.input___isbn{
+  flex: 1;
+  display: flex;
+  margin-left: 2px;
+}
+
+.input-group-text-book {
+  color: #fff;
+  border: none;
+  padding: 10px 15px;
+  display: flex;
+  align-items: center;
+  padding: 0.375rem 0.75rem;
+  margin-bottom: 0;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #495057;
+  text-align: center;
+  white-space: nowrap;
+  background-color: #e9ecef;
+  border: 1px solid #ced4da;
+}
+
+.table___container {
+  overflow-x: auto;
+}
+
+.book___info {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
   
-  .view___container {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    min-height: 100vh;
-    background-color: #ecf0f5;
-    margin-top: 70px;
-  }
+.book___info th,
+.book___info td {
+  padding: 10px;
+  border: 1px solid #ccc;
+  text-align: left;
+  vertical-align: top;
+}
   
-  .viewbook___container {
-    background-color: #ffffff;
-    border-radius: 5px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-    padding: 20px;
-    width: 100%;
-    max-width: 90%; 
-    overflow-x: auto;
-    margin-top: 20px;
-  }
+.book___info th {
+  background-color: #f5f5f5;
+  font-weight: bold;
+  color: #333;
+}
   
-  .book___info {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-  }
+.book___info td:nth-child(2) {
+  text-align: center;
+}
   
-  .book___info th,
-  .book___info td {
-    padding: 10px;
-    border: 1px solid #ccc;
-    text-align: left;
-    vertical-align: top;
-  }
+.book-cover {
+  width: 100px;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+  border: 2px solid lightgray;
+}
   
-  .book___info th {
-    background-color: #f5f5f5;
-    font-weight: bold;
-    color: #333;
-  }
+.action-button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+  margin-right: 5px;
+  cursor: pointer;
+}
   
-  .book___info td:nth-child(2) {
-    text-align: center;
-  }
-  
-  .book-cover {
-    width: 100px;
-    height: auto;
-    display: block;
-    margin: 0 auto;
-    border: 2px solid lightgray;
-  }
-  
-  .action-button {
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    padding: 5px 10px;
-    margin-right: 5px;
-    cursor: pointer;
-  }
-  
-  .action-button:hover {
-    background-color: #0056b3;
-  }
+.action-button:hover {
+  background-color: #0056b3;
+}
+.bx-search-alt-2 {
+  padding: 5px;
+  height: 22px !important;
+  background-color: #cd9042;
+  cursor: pointer;
+  position: absolute; 
+  right: 10px; 
+  top: 50%; 
+  transform: translateY(-50%); 
+}
+
+.search-bar {
+  flex: 1; 
+  padding: 10px;
+  border: none; 
+  font-size: 16px;
+  outline: none; 
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.pagination-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.pagination-button:hover {
+  background-color: #0056b3;
+}
+
+.pagination-button.disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.pagination-button.disabled:hover {
+  background-color: #ccc;
+}
+
 
 @media (max-width: 768px) {
-    .book___info th,
-    .book___info td {
-      font-size: 14px;
-      padding: 8px;
-    }
-    .search-bar-container{
-      flex-direction: column;
-    }
-  
+  .book___info th,
+  .book___info td {
+    font-size: 14px;
+    padding: 8px;
   }
-  
-  @media (max-width: 576px) {
-    .book-cover {
-      width: 80px;
-    }
-  
+  .search-bar-container{
+    flex-direction: column;
   }
-  
-  
-
-.bx-search-alt-2 {
-    padding: 5px;
-    height: 22px !important;
-    background-color: #cd9042;
-    cursor: pointer;
-    position: absolute; 
-    right: 10px; 
-    top: 50%; 
-    transform: translateY(-50%); 
-  }
-  
-  .search-bar-container {
-    display: flex;
-    align-items: center;
-  }
-  
-  .search-bar {
-    flex: 1; 
-    padding: 10px;
-    border: none; 
-    font-size: 16px;
-    outline: none; 
-  }
-  
-  .bookname___search,.isbn___search{
-    flex: 1;
-    margin-bottom: 0px;
-    margin-right: 5px;
-  }
-  
-  .input___bookname,.input___isbn{
-    flex: 1;
-    display: flex;
-    margin-left: 12px;
+  .book___info{
+    overflow: auto;
   }
 
-  .input-group-text-book {
-    color: #fff;
-    border: none;
-    padding: 10px 15px;
-    display: flex;
-    align-items: center;
-    padding: 0.375rem 0.75rem;
-    margin-bottom: 0;
-    font-size: 1rem;
-    font-weight: 400;
-    line-height: 1.5;
-    color: #495057;
-    text-align: center;
-    white-space: nowrap;
-    background-color: #e9ecef;
-    border: 1px solid #ced4da;
-  }
+}
 
-  .pagination {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin-top: 20px;
+@media (max-width: 576px) {
+  .book-cover {
+    width: 80px;
   }
-  
-  .pagination-button {
-    background-color: #007bff;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .pagination-button:hover {
-    background-color: #0056b3;
-  }
-  
-  .pagination-button.disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
-  }
-  
-  .pagination-button.disabled:hover {
-    background-color: #ccc;
-  }
-  
+}
   

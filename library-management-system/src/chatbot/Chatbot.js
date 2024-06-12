@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
 import axios from '../API/axios';
-import './Chatbot.css'; // Import CSS file for styling
+import './Chatbot.css'; 
 
+/**
+ * chat user with bot.
+ */
 function Chatbot() {
     const [userInput, setUserInput] = useState('');
     const [chat, setChat] = useState([]);
@@ -11,6 +14,9 @@ function Chatbot() {
         setIsOpen(!isOpen)
     }
 
+    /**
+     * send input to backend chat bot and recieve response.
+     */
     const sendMessage = async () => {
         try {
             if (userInput.trim() !== '') {
@@ -34,7 +40,7 @@ function Chatbot() {
 
     return (
         <div className={`chat-container ${isOpen ? 'open' : 'closed'}`}>
-             <div className="chat-header" style={{marginTop:"-14px",marginLeft:"-11px",marginRight:"-12px"}}>
+            <div className="chat-header" style={{marginTop:"-14px",marginLeft:"-11px",marginRight:"-12px"}}>
                 <button className="toggle-button" onClick={toggleChat}>
                     <i className={isOpen ? 'bx bx-minus' : 'bx bx-plus'}></i>
                 </button>
@@ -50,9 +56,7 @@ function Chatbot() {
                 <input type="text" value={userInput} onChange={(e) => setUserInput(e.target.value)} placeholder="Type your message" />
                 <button style={{width:"auto"}} onClick={sendMessage}>Send</button>
             </div>
-            
         </div>
     );
 }
-
 export default Chatbot;

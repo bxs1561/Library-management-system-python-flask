@@ -1,59 +1,34 @@
-import logo from './logo.svg';
 import Login from "./login/Login";
-import ViewBook from './Book/ViewBook/ViewBook';
-import AddBook from './Book/AddBook/AddBook';
-import BookReservation from './Book/BookReservation/BookReservation';
-import ViewReservedBook from './Book/ViewReservedBook/ViewReservedBook';
+import ViewBook from './Book/viewBook/ViewBook';
+import AddBook from './Book/addBook/AddBook';
+import BookReservation from './Book/checkoutBook/CheckoutBook';
+import ViewReservedBook from './Book/viewCheckoutBook/ViewCheckoutBook';
 import AddUser from './User/Managed User/AddUser';
 import ViewUser from './User/Managed User/ViewUser';
 import LibraryCard from './User/Managed User/LibraryCard';
 import Dashboard from './dashboard/Dashboard';
 import VisitorStats from './Visitor/VisitorStats'
-import PopularBooks from './Book/PopularBook/PopularBook'
+import PopularBooks from './Book/popularBook/PopularBook'
 import Registration from './Registration/Registration'
 import React, {useEffect, useState} from "react";
-import { Elements } from "@stripe/react-stripe-js";
-import { loadStripe } from "@stripe/stripe-js";
 
 
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  useNavigate, Link
-} from "react-router-dom";
-import AdminDashboard from './dashboard/AdminDashboard';
+import {BrowserRouter as Router,Routes,Route,} from "react-router-dom";
 import Navbar from './navbar/Navbar';
-import { useSelector, useDispatch } from 'react-redux'
-import PrivateRoute from './PrivateRoute/PrivateRoute'
-import Sidebar from './sidebar/SideBar';
-import StudentDashboard from './dashboard/StudentDashboard';
+import PrivateRoute from './privateRoute/PrivateRoute'
 import Chatbot from './chatbot/Chatbot';
 import BookRecommendation from './recommendation/BookRecommendation';
-import EditBook from './Book/EditBook/EditBook';
+import EditBook from './Book/editBook/EditBook';
 import EditUser from './User/Managed User/EditUser';
 import Footer from './footer/Footer';
-import ViewSingleReservedBook from './Book/ViewReservedBook/ViewSingleReservedBook';
-import Fine from './fine/Fine';
-import StripePayment from './fine/StripePayment';
-import StripeComponent from './fine/StripePayment';
+import ViewSingleReservedBook from './Book/viewCheckoutBook/ViewSingleCheckoutBook';
 
 
 function App() {
   const user = JSON.parse(localStorage.getItem("user"));
-  const stripePromise = loadStripe(process.env.REACT_APP_PUBLISH_KEY)
 
-
-  useEffect(()=>{
-
-  },[user])
-
-
-  
   return (
     <>
-          {/* <Navbar/> */}
-          {/* <Sidebar /> */}
 
 
     <div className="App">
@@ -65,19 +40,20 @@ function App() {
           {/* {user?.user_role==="admin"&&( */}
             {/* <> */}
               <Route path="/dashboard" element={<PrivateRoute><Navbar/><Dashboard /></PrivateRoute>} />  
-              <Route path="/add-book" element={<PrivateRoute><Navbar/><AddBook /></PrivateRoute>} />
-              <Route path="/view-book" element={<PrivateRoute><Navbar/><ViewBook /></PrivateRoute>} />
-              <Route path="/book-checkout" element={<PrivateRoute><Navbar/><BookReservation /></PrivateRoute>} />
-              <Route path="/book/edit/:id" element={<PrivateRoute><Navbar/><EditBook /></PrivateRoute>} />
-              <Route path="/checkout" element={<PrivateRoute><Navbar/><ViewReservedBook /></PrivateRoute>} />
-              <Route path="/add-user" element={<PrivateRoute><Navbar/><AddUser /></PrivateRoute>} />
-              <Route path="/view-user" element={<PrivateRoute><Navbar/><ViewUser /></PrivateRoute>} />
-              <Route path="/library-card/:user_id" element={<PrivateRoute><LibraryCard /></PrivateRoute>} />
-              <Route path="/user/:id" element={<PrivateRoute><Navbar/><EditUser /></PrivateRoute>} />
+              <Route path="/add-book" element={<PrivateRoute requiredRole="admin"><Navbar/><AddBook /></PrivateRoute>} />
+              <Route path="/view-book" element={<PrivateRoute ><Navbar/><ViewBook /></PrivateRoute>} />
+              <Route path="/book-checkout" element={<PrivateRoute requiredRole="admin"><Navbar/><BookReservation /></PrivateRoute>} />
+              <Route path="/book/edit/:id" element={<PrivateRoute requiredRole="admin"><Navbar/><EditBook /></PrivateRoute>} />
+              <Route path="/checkout" element={<PrivateRoute requiredRole="admin"><Navbar/><ViewReservedBook /></PrivateRoute>} />
+              <Route path="/add-user" element={<PrivateRoute requiredRole="admin"><Navbar/><AddUser /></PrivateRoute>} />
+              <Route path="/view-user" element={<PrivateRoute requiredRole="admin"><Navbar/><ViewUser /></PrivateRoute>} />
+              <Route path="/library-card/:user_id" element={<PrivateRoute requiredRole="admin"><LibraryCard /></PrivateRoute>} />
+              <Route path="/user/:id" element={<PrivateRoute requiredRole="admin"><Navbar/><EditUser /></PrivateRoute>} />
 
-              <Route path="/checkout/:1" element={<PrivateRoute><Navbar/><ViewSingleReservedBook /></PrivateRoute>} />  
-              <Route path="/fine" element={<PrivateRoute><Navbar/><Fine /></PrivateRoute>} />  
-              <Route path="/payment" element={<PrivateRoute><Navbar/><StripeComponent/></PrivateRoute>} />
+              <Route path="/checkout/:student_id" element={<PrivateRoute requiredRole="student"><Navbar/><ViewSingleReservedBook /></PrivateRoute>} />  
+              {/* <Route path="/payment" element={<PrivateRoute><Navbar/><StripeComponent/></PrivateRoute>} /> */}
+              <Route path="/unauthorized" element={<Unauthorized />} />
+
                 
             
 
@@ -91,9 +67,9 @@ function App() {
             {/* )} */}
           {/* {user && user?.user_role==="student"&&( */}
             {/* <> */}
-            <Route path="/recommendations" element={<PrivateRoute ><Navbar/><BookRecommendation /></PrivateRoute>} />
+            <Route path="/recommendations" element={<PrivateRoute requiredRole="student"><Navbar/><BookRecommendation /></PrivateRoute>} />
 
-            <Route path="/view-book" element={<PrivateRoute><Navbar/><ViewBook /><Footer/><Chatbot/></PrivateRoute>} />
+            <Route path="/view-book" element={<PrivateRoute requiredRole="student"><Navbar/><ViewBook /><Footer/><Chatbot/></PrivateRoute>} />
             
             {/* </> */}
             
@@ -110,6 +86,10 @@ function App() {
     </div>
     </>
   );
+
 }
+const Unauthorized = () => {
+  return <h1>You are not authorized to view this page</h1>;
+};
 
 export default App;

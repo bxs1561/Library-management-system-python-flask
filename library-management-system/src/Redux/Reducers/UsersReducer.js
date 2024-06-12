@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import * as actions from '../ActionTypes/UserActionTypes'
+import * as actions from '../actionTypes/userActionTypes'
 
 const initialState = {
     user: null,
@@ -83,9 +83,8 @@ export const getUserReducer=(state=initialState,action)=>{
         }
         default:
           return state;
-  
     }
-  }
+}
 
 export const deleteUserReducer = (state=initialState,action)=>{
   switch(action.type){
@@ -109,8 +108,8 @@ export const deleteUserReducer = (state=initialState,action)=>{
       }
     default:
       return state;
-    }
   }
+}
 
 export const editUserReducer=(state=initialState,action)=>{
   switch(action.type){
@@ -133,7 +132,6 @@ export const editUserReducer=(state=initialState,action)=>{
       }
       default:
         return state;
-
   }
 }
 
@@ -189,16 +187,30 @@ export const getUserCheckoutReducer=(state=initialState,action)=>{
       }
       default:
         return state;
-
   }
 }
-  
 
-// const UsersReducer = combineReducers({
-//     addUser: addUserReducer,
-//     login: loginReducer,
-//     getUser:getUserReducer,
-//     deleteUser: deleteUserReducer,
-//     editUser: editUserReducer,
-// });
-// export default UsersReducer
+export const getStudentReducer=(state=initialState,action)=>{
+  switch(action.type){
+    case actions.GET_STUDENT_REQUEST:
+      return{
+        ...state,
+        isLoading:true
+      }
+    case actions.GET_STUDENT_SUCCESS:
+      return{
+        ...state,
+        user: action.payload,
+        isLoading:false
+      }
+    
+    case actions.GET_STUDENT_FAILURE:
+      return{
+        ...state,
+        isLoading:false,
+        error:action.payload
+      }
+      default:
+        return state;
+  }
+}

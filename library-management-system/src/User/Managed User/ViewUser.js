@@ -2,90 +2,58 @@ import React, {useEffect, useState} from "react";
 import "./ViewUser.css"
 import person1 from "../../images/person1.jpg"
 import { useSelector, useDispatch } from 'react-redux'
-import axios from '../../API/axios'
-import {fetchUser,deleteUser} from '../../Redux/Action/UsersAction'
-import {userDataArray} from '../../data/UserData'
+import {fetchUser,deleteUser} from '../../redux/action/usersAction'
 import _ from 'lodash'
-import LibraryCard from './LibraryCard'
-import { useHistory } from "react-router-dom"; // Import useHistory
-import {
-    BrowserRouter as Router,
-    Routes,
-    Route,
-    useNavigate, Link,useParams
-  } from "react-router-dom";
+import {BrowserRouter as Router,useNavigate, Link,useParams} from "react-router-dom";
 
+/**
+ * View users  Component.
+ */
 function ViewUser(){
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
     const [selectedUser, setSelectedUser] = useState(null);
     const  {user}  = useSelector((state) => state.getUser);
     const [searchTerm, setSearchTerm] = useState('');
     const [userData, setUserData] = useState([]);
 
-    const navigate = useNavigate();
-
-    
     const session_key = localStorage.getItem("sessionKey")
     ? localStorage.getItem("sessionKey"):
     null
 
-
-
-
-
-
-
-
-    const dispatch = useDispatch();
-
     useEffect(()=>{
         setUserData(user)
     },[user])
-    
-    
-    
-
-
-
-
-
-
-    
-  
+    /**
+     * Search users by name.
+     */
     const searchUserByName=(searchTerm)=>{
         const lowerCaseSearchTerm = searchTerm.toUpperCase();
-
-        
-  
         const newData=_.filter(user, (usr) => {
             return (
               usr.first_name.toUpperCase().includes(lowerCaseSearchTerm) ||
               usr.last_name.toUpperCase().includes(lowerCaseSearchTerm)
             )
-          });
-         
-          
+        });
         setUserData(newData)
         setSearchTerm(searchTerm)
-
     }
     
     
 
-      //remove user
-      const removeUser=(userID) => {
+    //remove user
+    const removeUser=(userID) => {
         dispatch(deleteUser(userID))
         setUserData(userData.filter(user => user.user_id !== userID));
-      };
+    };
 
-    
-    
-
+    //library card
     const handlePrintButton=(user)=>{
         setSelectedUser(user);
         navigate(`/library-card/${user.user_id}`, { state: user });
-
-        
     } 
+
     useEffect(()=>{
         dispatch(fetchUser())
     },[dispatch])
@@ -97,7 +65,6 @@ function ViewUser(){
     return(
         <div className="view___user-containers">
           <div className="ViewUser___container">
-            
             <div className="ViewUser___content">
                 <div className="content">
                     <div className="card">
@@ -115,8 +82,8 @@ function ViewUser(){
                                         onChange={(event) => searchUserByName(event.target.value)}
                                     />
                                 </div>
-                                </div>
-                                <div className="user___info">
+                            </div>
+                            <div className="user___info">
                                 {userData?.length > 0 && (
                                     <table className="usertable___info">
                                         <thead>
@@ -134,63 +101,52 @@ function ViewUser(){
                                             </tr>
                                         </thead>
                                         <tbody>
-                                        { userData?.map(user=>(
-                                            <tr key={user.user_id}>
-                                                <td><input type ="checkbox"></input></td>
-                                                <td>{user.user_id}</td>
-                                                <td>
-                                                    <img
-                                                    src={user.user_image_url}
-                                                    alt="user Cover"
-                                                    className="user-covers"
-                                                    />
-                                                </td>
-                                                <td>{user.first_name}<br></br>{user.last_name}</td>
-                                                <td>{user.email}</td>
-                                                <td>{user.phone_number}</td>
-                                                <td>{user.address}</td>
-                                                <td>{user.role.name}</td>
-                                                {/* <td>{user.CreatedOn}</td> */}
-                                                <td>
-                                                <button className="edit___button" onClick={()=>handleEdit(user)} >
-                                                <i className="uil uil-edit"></i>
-                                                </button>
-                                                <button onClick={()=>removeUser(user?.user_id)} className="delete___button">
-                                                <i className="uil uil-trash-alt"></i>
-                                                </button>
+                                            {userData?.map(user=>(
+                                                <tr key={user.user_id}>
+                                                    <td><input type ="checkbox"></input></td>
+                                                    <td>{user.user_id}</td>
+                                                    <td>
+                                                        <img
+                                                        src={user.user_image_url}
+                                                        alt="user Cover"
+                                                        className="user-covers"
+                                                        />
+                                                    </td>
+                                                    <td>{user.first_name}<br></br>{user.last_name}</td>
+                                                    <td>{user.email}</td>
+                                                    <td>{user.phone_number}</td>
+                                                    <td>{user.address}</td>
+                                                    <td>{user.role.name}</td>
+                                                    {/* <td>{user.CreatedOn}</td> */}
+                                                    <td>
+                                                        <button className="edit___button" onClick={()=>handleEdit(user)} >
+                                                            <i className="uil uil-edit"></i>
+                                                        </button>
+                                                        <button onClick={()=>removeUser(user?.user_id)} className="delete___button">
+                                                            <i className="uil uil-trash-alt"></i>
+                                                        </button>
                                                 
-                                                <button className="print___button" onClick={()=>handlePrintButton(user)}>
-                                                    <i className="uil uil-print"></i>
-                                                </button>
-                                                </td>
-                                            </tr>
-                                        ))}
+                                                        <button className="print___button" onClick={()=>handlePrintButton(user)}>
+                                                            <i className="uil uil-print"></i>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            ))}
                                         </tbody>
                                     </table>
                                 )}
                                 {userData?.length === 0 && (
                                     <p>No matching users found.</p>
                                 )}
-                                
-
-                                </div>
-
                             </div>
-                        </div>
 
+                          </div>
                     </div>
+
                 </div>
             </div>
-
         </div>
-        
-
-
-        
-
-        
-        
-        
+    </div>    
     )
 }
 export default ViewUser

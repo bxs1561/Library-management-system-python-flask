@@ -1,50 +1,47 @@
 import React, {useEffect, useState} from "react";
 import "./AddBook.css"
 import book from '../../images/book.png'
-import axios from '../../API/axios'
-import { addBook } from "../../Redux/Action/BooksAction";
+import { addBook } from "../../redux/action/booksAction";
 import { useSelector, useDispatch } from 'react-redux'
 import MessageBox from "../../error/MessageBox";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  useNavigate, Link
-} from "react-router-dom";
+import {BrowserRouter as Router,useNavigate} from "react-router-dom";
 
-
+/**
+ * Add book into database
+ */
 function AddBook() {
-    const [isbn, setIsbn] = useState('');
-    const [image, setImage] = useState(null)
-    const [title,setTitle] = useState('');
-    const [genre,setGenre] = useState('')
-    const[totalCopies, setTotalCopies] = useState('')
-    const[author, setAuthor] =useState('')
-    const[publisher,setPublisher] = useState('')
-    const dispatch = useDispatch();
-    const {error} = useSelector(state => state.addBook);
-    const {books} = useSelector(state => state.addBook);
+  const navigate = useNavigate();
 
+  const {error} = useSelector(state => state.addBook);
+  const {books} = useSelector(state => state.addBook);
 
+  const [isbn, setIsbn] = useState('');
+  const [image, setImage] = useState(null)
+  const [title,setTitle] = useState('');
+  const [genre,setGenre] = useState('')
+  const[totalCopies, setTotalCopies] = useState('')
+  const[author, setAuthor] =useState('')
+  const[publisher,setPublisher] = useState('')
+  const dispatch = useDispatch();
 
-    const navigate = useNavigate();
+  
+  /**
+   * Handles file input change event, sets the image preview URL or clears it.
+   * @param {Object} event - The event object from the file input change.
+   */
+  const loadFile = async(event) => {
+    if (event.target.files && event.target.files[0]) {
+      setImage(URL.createObjectURL(event.target.files[0]));
+    }
+    else{
+      setImage(null);
+    }
+  }
 
-    
-
-
-
-    
-
-    const loadFile = async(event) => {
-        if (event.target.files && event.target.files[0]) {
-          setImage(URL.createObjectURL(event.target.files[0]));
-        }
-        else{
-          setImage(null);
-        }
-       }
-
-    const validateBookData = () => {
+  /**
+   * Validate if input field is empty or not.
+   */
+  const validateBookData = () => {
     if (
       !isbn ||
       !title ||
@@ -57,6 +54,11 @@ function AddBook() {
     }
     return true;
   };
+
+  /**
+   * Handles the form submission for adding a new book.
+   * @param {Object} event - The event object from the form submission.
+   */
   const handleAddBook=(event)=>{
     event.preventDefault();
     let bookData={
@@ -71,26 +73,15 @@ function AddBook() {
     dispatch(addBook(bookData));
     if (validateBookData()) {
       navigate("/dashboard")
-      
     }
-  
-    }
-    
-   
-    
-
-    
-       
-
-    return (
-        
-      <div className="addbook___container">
-        <div className="book___container">
-          <div className="heading">
-            <strong>Add Book</strong>
-
-          </div>
-          {error && <MessageBox variant="danger">{error?.error}</MessageBox>}
+  }
+  return (
+    <div className="addbook___container">
+      <div className="book___container">
+        <div className="heading">
+          <strong>Add Book</strong>
+        </div>
+        {error && <MessageBox variant="danger">{error?.error}</MessageBox>}
           <div className="book___body">
             <div className="book___information">
               <div className="book___isbn">
@@ -138,46 +129,38 @@ function AddBook() {
                   onChange={(event) => setPublisher(event.target.value)}
                 />
               </div>
-              
               <div className="book___image">
-                
-  <img src={image?image:book} className="image___thumbnail" />
-  <div className="file">
-
-  <input  type="file" onChange={loadFile} />
-
-</div>
-</div>
-
-          <div className="book___quantity">
-                <label>Book quantity</label>
-                <input
-                  placeholder="Enter Book quantity"
-                  type="text"
-                  value={totalCopies} 
-                  onChange={(event) => setTotalCopies(event.target.value)}
-                />
+              <img src={image?image:book} className="image___thumbnail" />
+              <div className="file">
+                <input  type="file" onChange={loadFile} />
               </div>
-              <div className="book___description">
-                <label>Book description</label>
-                <textarea
-                  rows="4"
-                  placeholder="Enter Book description"
-                  type="text"
-                  value={title} 
-                  onChange={(event) => setTitle(event.target.value)}
-                />
-              </div>
-
             </div>
-            <div className="button">
+            <div className="book___quantity">
+              <label>Book quantity</label>
+              <input
+                placeholder="Enter Book quantity"
+                type="text"
+                value={totalCopies} 
+                onChange={(event) => setTotalCopies(event.target.value)}
+              />
+            </div>
+            <div className="book___description">
+              <label>Book description</label>
+              <textarea
+                rows="4"
+                placeholder="Enter Book description"
+                type="text"
+                value={title} 
+                onChange={(event) => setTitle(event.target.value)}
+              />
+            </div>
+          </div>
+          <div className="button">
             <button style={{width:"168px"}} className="primary-button" onClick={handleAddBook} >Submit</button>
-
-            </div>
-
+          </div>
         </div>
       </div>
-      </div>
+    </div>
     );
   }
 export default AddBook;

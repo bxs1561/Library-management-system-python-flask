@@ -1,11 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit'
 import {thunk} from 'redux-thunk';
-import {addUserReducer,loginReducer,getUserReducer,deleteUserReducer,editUserReducer,getLogEventReducer,getUserCheckoutReducer} from './Reducers/UsersReducer';
+import {addUserReducer,getStudentReducer,loginReducer,getUserReducer,deleteUserReducer,editUserReducer,getLogEventReducer,getUserCheckoutReducer} from './reducers/usersReducer';
 import {addBookReducer,getBookReducer,deleteBookReducer,getCheckoutBookReducer,addCheckoutBookReducer,getPopularBookReducer,getBookRecommendationReducer,
   editBookReducer
-} from './Reducers/BooksReducer'
+} from './reducers/booksReducer'
 import { combineReducers,applyMiddleware, compose } from 'redux';
-
 
 const reducer = combineReducers({
     addUser: addUserReducer,
@@ -23,15 +22,12 @@ const reducer = combineReducers({
     getBookRecommendation: getBookRecommendationReducer,
     editBook:editBookReducer,
     getUserCheckout:getUserCheckoutReducer,
+    getStudent:getStudentReducer,
 });
 
 
-  
-  // Create the Redux store with the combined root reducer
-  // const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
-
-  const store = configureStore({
-    reducer:reducer}
-    // composeEnhancer(applyMiddleware(thunk))
-  );
+const store = configureStore({
+  reducer:reducer}
+  // composeEnhancer(applyMiddleware(thunk))
+);
 export default store;
