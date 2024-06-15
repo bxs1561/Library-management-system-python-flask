@@ -36,8 +36,16 @@ def recomendation(user_id):
         print("No data fetched from database")
         return []
     borrowing_history = create_user_genre_dict(result)
+    if not borrowing_history:
+        print("No borrowing history found for the user")
+        return []
+
     genres_documents = [' '.join(genres) for genres in borrowing_history.values()]
     user_item_matrix = count_vectorizer.fit_transform(genres_documents)
+    if user_item_matrix.shape[0] <= 1:
+        print("Not enough data to compute recommendations")
+        return []
+
     cosine_sim = cosine_similarity(user_item_matrix, user_item_matrix)
 
     # Get top 5 recommendations

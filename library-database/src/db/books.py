@@ -29,7 +29,7 @@ def check_book_exist(ISBN):
 
 
 
-def add_book(ISBN, title, genre, total_copies, cover_image_url, author, publisher):
+def add_book(ISBN, title, genre, total_copies, cover_image_url, author, publisher,copies_available):
     """add book into database"""
     book_exist = check_book_exist(ISBN)
 
@@ -45,10 +45,11 @@ def add_book(ISBN, title, genre, total_copies, cover_image_url, author, publishe
             return data
 
         else:
-            sql_query = "INSERT INTO Books(ISBN,title,genre,total_copies,cover_image_url,author,publisher)VALUES" \
-                        "(%s,%s,%s,%s,%s,%s,%s)"
+            copies_available=0
+            sql_query = "INSERT INTO Books(ISBN,title,genre,total_copies,cover_image_url,author,publisher,copies_available)VALUES" \
+                        "(%s,%s,%s,%s,%s,%s,%s,%s)"
             exec_commit(sql_query,
-                        (ISBN, title, genre, total_copies, cover_image_url, author, publisher))
+                        (ISBN, title, genre, total_copies, cover_image_url, author, publisher,copies_available))
             data = {"success": True, "message": "book added successfully"}
             return data
     except Exception as e:

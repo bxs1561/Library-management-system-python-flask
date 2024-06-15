@@ -1,5 +1,5 @@
 -- DROP TABLE IF EXISTS Books,Students,Admin,UserRoles,Transactions,Reservations;
-DROP TABLE IF EXISTS Books,Users,Roles,Librarian,Student,Admin,user_status,Checkout,Reservations,Login_Events;
+DROP TABLE IF EXISTS Books,Users,Roles,Librarian,Student,Admin,user_status,Checkout,Reservations,Login_Events,Payments;
 
 CREATE TABLE Books(
     book_id SERIAL PRIMARY KEY NOT NULL,
@@ -61,11 +61,10 @@ CREATE TABLE Student(
 CREATE TABLE Admin(
     admin_id SERIAL PRIMARY KEY NOT NULL,
     user_id INT,
-    librarian_id INT,
-    FOREIGN KEY (user_id) REFERENCES Users(user_id),
-    FOREIGN KEY (librarian_id) REFERENCES Librarian(librarian_id)
+--     librarian_id INT,
+    FOREIGN KEY (user_id) REFERENCES Users(user_id)
+--     FOREIGN KEY (librarian_id) REFERENCES Librarian(librarian_id)
 );
-
 
 CREATE TABLE Checkout (
     checkout_id SERIAL PRIMARY KEY NOT NULL,
@@ -92,9 +91,21 @@ CREATE TABLE Reservations (
 CREATE TABLE Login_Events(
     login_events_id SERIAL PRIMARY KEY NOT NULL,
     user_id INT,
-    FOREIGN KEY (user_id) REFERENCES Users(user_id),
+    FOREIGN KEY (user_id) REFERENCES Users(user_id) ON DELETE CASCADE,
     login_time DATE
 );
+
+CREATE TABLE Payments (
+    payment_id SERIAL PRIMARY KEY NOT NULL,
+    student_id INT,
+    amount DECIMAL(10, 2),
+    payment_date DATE DEFAULT CURRENT_DATE,
+    is_approved BOOLEAN DEFAULT FALSE,
+    admin_id INT,
+    FOREIGN KEY (student_id) REFERENCES Student(student_id),
+    FOREIGN KEY (admin_id) REFERENCES Admin(admin_id)
+);
+
 
 ALTER TABLE Librarian DROP CONSTRAINT IF EXISTS librarian_user_id_fkey;
 ALTER TABLE Student DROP CONSTRAINT IF EXISTS student_user_id_fkey;
@@ -103,6 +114,7 @@ ALTER TABLE Reservations DROP CONSTRAINT IF EXISTS reservations_student_id_fkey;
 ALTER TABLE Checkout DROP CONSTRAINT IF EXISTS checkout_student_id_fkey;
 ALTER TABLE Users DROP CONSTRAINT IF EXISTS users_role_id_fkey;
 ALTER TABLE Login_Events DROP CONSTRAINT IF EXISTS fk_login_events_user_id;
+ALTER TABLE Payments DROP CONSTRAINT IF EXISTS payments_student_id_fkey;
 
 
 
