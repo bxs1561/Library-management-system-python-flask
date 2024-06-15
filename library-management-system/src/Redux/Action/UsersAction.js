@@ -5,7 +5,8 @@ import {LOGIN_REQUEST,LOGIN_SUCCESS,LOGIN_FAILURE,
   EDIT_USER_REQUEST,EDIT_USER_SUCCESS,EDIT_USER_FAILURE,
   GET_LOG_EVENTS_REQUEST,GET_LOG_EVENTS_SUCCESS,GET_LOG_EVENTS_FAILURE,
   GET_USER_CHECKOUT_REQUEST,GET_USER_CHECKOUT_SUCCESS,GET_USER_CHECKOUT_FAILURE,SAVE_USER_PAYMENT_ACTION,
-  GET_STUDENT_REQUEST,GET_STUDENT_SUCCESS,GET_STUDENT_FAILURE} from '../actionTypes/userActionTypes'
+  GET_STUDENT_REQUEST,GET_STUDENT_SUCCESS,GET_STUDENT_FAILURE,GET_PAYMENT_REQUEST,GET_PAYMENT_SUCCESS,
+  GET_PAYMENT_FAILURE} from '../actionTypes/userActionTypes'
 import axios from '../../API/axios'
 
 //add user
@@ -138,6 +139,22 @@ export const getStudentFailure = (error) => ({
   type: GET_STUDENT_FAILURE,
   payload: error,
 });
+
+//get payment
+export const getPaymentRequest = () => ({
+  type: GET_PAYMENT_REQUEST,
+});
+
+export const getPaymentuccess = (payment) => ({
+  type: GET_PAYMENT_SUCCESS,
+  payload: payment,
+});
+
+export const getPaymentFailure = (error) => ({
+  type: GET_PAYMENT_FAILURE,
+  payload: error,
+});
+
 
 
 /**
@@ -325,3 +342,19 @@ export const fetchUserStudent=() => async(dispatch)=>{
     dispatch(getStudentFailure(error))
   }
 };
+
+/**
+ * Get Payment.
+ */
+export const fetchPayment=()=>async(dispatch)=>{
+  dispatch(getPaymentRequest());
+  try{
+    const response = await axios.get('/get/payments');
+    const responseDate = response.data;
+    dispatch(getPaymentuccess(responseDate))
+  }
+  catch (error){
+    console.log(error)
+  }
+
+}

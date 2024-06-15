@@ -4,7 +4,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import StripeComponent from "../fine/StripePayment";
 
-function PaymentModal({fine, onClose,setFine,checkoutDate,setCheckoutDate,amount}){
+function PaymentModal({fine, onClose,setFine,return_date,setReturnDate,amount,username,title}){
     return (
         <div className="services___modal active___modal">
     
@@ -18,8 +18,8 @@ function PaymentModal({fine, onClose,setFine,checkoutDate,setCheckoutDate,amount
             <div className="modal___date-picker" style={{marginLeft:"-20px"}}>
                 <span className="return___date">return date</span>
       <DatePicker
-        selected={checkoutDate}
-        onChange={date => setCheckoutDate(date)}
+        selected={return_date}
+        onChange={date => setReturnDate(date)}
         dateFormat="MM/dd/yyyy" 
       />
     </div>
@@ -43,7 +43,7 @@ function PaymentModal({fine, onClose,setFine,checkoutDate,setCheckoutDate,amount
     </div>
           </div>
           <div className="payment___component">
-          <StripeComponent amount={amount}/>
+          <StripeComponent return_date={return_date} username={username} title={title} amount={amount}/>
           </div>
           {/* <div className="modal___button">
                     <button style={{marginBottom:"15px"}} >pay fine</button>

@@ -13,14 +13,18 @@ import Modal from "../../modal/Modal";
 function ViewCheckoutBook(){
     const dispatch = useDispatch();
     const  {checkoutBook}  = useSelector((state) => state.checkoutBooks);
+    const  {payment}  = useSelector((state) => state.getPayment);
+
 
     const [checkoutBooks, setCheckoutBooks] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const[checkoutDate, setCheckoutDate] = useState(new Date())
+    const[return_date, setReturnDate] = useState(new Date())
     const [selectedFine, setSelectedFine] = useState(null);
     const [searchTerm, setSearchTerm] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
     const [booksPerPage] = useState(10); 
+    const [isPaymentApprove, setIsPaymentApprove] = useState(false);
+
 
 
     useEffect(()=>{
@@ -30,6 +34,11 @@ function ViewCheckoutBook(){
     // useEffect(()=>{
     //     dispatch(bookCheckout())
     // },[dispatch])
+    useEffect(()=>{
+        payment?.map(pay=>{
+            setIsPaymentApprove(pay?.is_approved)
+        })
+    })
 
     
     /**
@@ -93,9 +102,10 @@ function ViewCheckoutBook(){
                                     <th>User Image</th>
                                     <th>Book Image</th>
                                     <th>Issue Date</th>
-                                    <th>Return date</th>
+                                    <th>Due date</th>
                                     <th>Borrow days</th>
                                     <th>Fine</th>
+                                    <th>Recieved</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -120,6 +130,9 @@ function ViewCheckoutBook(){
                                     </td>
                                     <td>
                                         ${checkout.student.fine_balance}
+                                    </td>
+                                    <td>
+                                        {isPaymentApprove?'Recieved':'Pending'}
                                     </td>
                                     <td>
                                         <button onClick={() => handleToggleModal(checkout.student.fine_balance)} className="fine___button">
@@ -157,7 +170,7 @@ function ViewCheckoutBook(){
                 </div>
             </div>
         </div>
-            {isModalOpen && <Modal fine={selectedFine} onClose={handleToggleModal} setFine={setSelectedFine} checkoutDate={checkoutDate} setCheckoutDate={setCheckoutDate}/>}
+            {isModalOpen && <Modal fine={selectedFine} onClose={handleToggleModal} setFine={setSelectedFine} return_date={return_date} setReturnDate={setReturnDate}/>}
     </div>
     )
 }

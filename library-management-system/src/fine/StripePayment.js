@@ -7,7 +7,7 @@ import "./StripePayment.css"
 /**
  * Add stripe to pay using card.
  */
-function StripePayment({amount}){
+function StripePayment({return_date,username,title,amount}){
     const session_key = JSON.parse(localStorage.getItem("user"));
     const stripe = useStripe()
     const elements = useElements();
@@ -39,7 +39,10 @@ function StripePayment({amount}){
           const response = await axios.post(
             '/payment', 
             {
-              amount: amount, 
+              return_date:return_date,
+              username:username,
+              title:title,
+              amount:amount,
             },
             {
               headers: {
@@ -78,11 +81,11 @@ function StripePayment({amount}){
     )
 }
 
-export default function StripeComponent({amount}) {
+export default function StripeComponent({return_date,username,title,amount}) {
     const stripePromise = loadStripe(process.env.REACT_APP_PUBLISH_KEY);
     return (
       <Elements stripe={stripePromise}>
-        <StripePayment amount={amount} />
+        <StripePayment return_date={return_date} username={username} title={title} amount={amount} />
       </Elements>
     );
 }

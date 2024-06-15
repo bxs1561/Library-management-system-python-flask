@@ -8,6 +8,7 @@ const initialState = {
     log:[], 
     checkoutUserBook:[],  
     paymentMethod:null,
+    payment: [],
   };
 
 
@@ -212,5 +213,25 @@ export const getStudentReducer=(state=initialState,action)=>{
       }
       default:
         return state;
+  }
+}
+
+export const getPaymentReducer = (state = initialState, action) => {
+  switch(action.type){
+    case actions.GET_PAYMENT_REQUEST:
+      return{
+        ...state, isLoading: true
+      }
+    case actions.GET_PAYMENT_SUCCESS:
+      return{
+        ...state, isLoading: false, payment:action.payload
+      }
+    case actions.GET_PAYMENT_FAILURE:
+      return{
+        ...state, isLoading: false, error:action.payload
+      }
+    default:
+      return state;
+
   }
 }

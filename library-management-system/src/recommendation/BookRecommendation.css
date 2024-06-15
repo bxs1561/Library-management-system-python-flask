@@ -1,17 +1,25 @@
 .book-recommendation-container{
   display: flex;
-  align-items: center; 
+  /* align-items: center;  */
   height: 100%; 
-  /* background-color: rgba(61, 94, 157, 0.68); */
-  background-image: url('../images/library.jpg');
+  /* background-image: url('../images/library.jpg');
   background-size: cover;
   background-position: center;
-  background-blend-mode: overlay;
+  background-blend-mode: overlay; */
+  justify-content: center;
   margin-top: 70px;
+  min-height: 80vh;
 }
 
 .book-recommendation {
   margin: 20px;
+  width: 80%; 
+  max-width: 1200px; 
+  /* padding: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
+
 }
 
 .rececommendation-title {
@@ -19,9 +27,9 @@
     margin-bottom: 10px !important;
     text-align: center !important;
     width: 100% !important;
-    transform: translate(-50%, -50%) translateX(-23%);
+    /* transform: translate(-50%, -50%) translateX(-23%);
     position: absolute !important;
-    left: 50% !important;
+    left: 50% !important; */
 }
 
 .book-row {

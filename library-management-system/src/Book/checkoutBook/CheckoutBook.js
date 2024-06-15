@@ -16,6 +16,8 @@ function CheckoutBook(){
   const dispatch = useDispatch()
   const  {user}  = useSelector((state) => state.getUser);
   const  {books}  = useSelector((state) => state.getBook);
+  const {error} = useSelector(state => state.addCheckoutBook);
+
 
   const [isbn, setIsbn] = useState('');
   const [userData, setUserData] = useState('');
@@ -59,6 +61,7 @@ function CheckoutBook(){
     setIsbn(newData);
     setSearchQuery(searchISBN)   
   }
+  console.log(error)
   /**
    * search user and book and then add book into database
    */
@@ -162,7 +165,7 @@ function CheckoutBook(){
                           book_id={result.book_id} 
                           title={result.title} 
                           ISBN={result.ISBN} 
-                          copies_available={result.copies_available} 
+                          copies_available={result.total_copies} 
                           cover_image_url={result.cover_image_url}/>                                                    
                       ))
                   )}

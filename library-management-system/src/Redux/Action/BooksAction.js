@@ -222,7 +222,11 @@ export const addCheckoutBook=(checkoutBookData)=>async(dispatch)=>{
         "content-type": "application/json",
     }
     })
-    dispatch(addBookCheckoutSuccess(response.data))
+    const responseData=response.data
+    if(response.success==false){
+      dispatch(addBookCheckoutFailure(responseData))
+    }
+    dispatch(addBookCheckoutSuccess(responseData))
   }
   catch(error){
     console.log(error)
@@ -249,8 +253,11 @@ export const popularBook=()=>async(dispatch)=>{
 export const fetchBookRecommendation=(student_id)=>async(dispatch)=>{
   dispatch(getBookRecommendationRequest())
   try{
-    const response = await axios.get(`recommendations?user_id=${student_id}`)
+    const response = await axios.get(`/recommendations/${student_id}`)
     const responseData = response.data
+    if(response.success==false){
+      dispatch(getBookRecommendationFailure(responseData))
+    }
     dispatch(getBookRecommendationSuccess(responseData))
   }
   catch(error){

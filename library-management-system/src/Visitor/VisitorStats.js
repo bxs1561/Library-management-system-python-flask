@@ -27,6 +27,7 @@ const VisitorStats = () => {
     setDate(date)
     setCount(count)
   }, [log,stats]);
+  
 
   return (
     <div className="graph___container">
@@ -38,12 +39,13 @@ const VisitorStats = () => {
             datasets: [
               {
                 label: 'count',
-                backgroundColor: 'rgba(0, 255, 0, 0.5)',
-                borderColor: 'rgba(75,192,192,1)',
                 borderWidth: 1,
                 hoverBackgroundColor: 'rgba(75,192,192,0.4)',
                 hoverBorderColor: 'rgba(75,192,192,1)',
                 data: count,
+                borderColor: 'rgb(53, 162, 235)',
+                backgroundColor: 'rgba(53, 162, 235, 0.5)',
+                fill:false,
               }
             ]
           }}
@@ -52,17 +54,18 @@ const VisitorStats = () => {
           options={{
             responsive: true,
             maintainAspectRatio: false,
-            scales: {
-              yAxes: [
-                {
-                    beginAtZero: true,
-                },
-              ],
+            plugins: {
+              title: {
+                display: true,
+                text: 'Visitor Stat',
+              },
             },
+            
           }}
         />
       </div>
     </div>
   );
 };
+
 export default VisitorStats;

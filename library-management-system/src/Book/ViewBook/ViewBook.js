@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import "./ViewBook.css"
 import BookAvatar from '../../images/book.png'
-import {deleteBook} from "../../redux/action/booksAction";
+import {deleteBook,fetchBook} from "../../redux/action/booksAction";
 import { useSelector, useDispatch } from 'react-redux'
 import _ from 'lodash'
 import {
@@ -31,9 +31,9 @@ function ViewBook(){
     setBookData(books)
   },[books])
 
-// useEffect(()=>{
-//     dispatch(fetchBook())
-// },[dispatch])
+useEffect(()=>{
+    dispatch(fetchBook())
+},[dispatch])
 
   /**
    * Search the book by title name
@@ -143,7 +143,7 @@ function ViewBook(){
                   <td>{bok.title}</td>
                   <td>{bok.genre}</td>
                   <td>{bok.total_copies}</td>
-                  <td>{bok.total_copies - bok.copies_available}</td>
+                  <td>{bok.copies_available}</td>
                   {user && user.user_role==="admin"&&(
                   <td>
                     <button onClick={()=>handleEdit(bok)} className="edit___button">

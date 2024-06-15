@@ -50,7 +50,6 @@ function App() {
               <Route path="/library-card/:user_id" element={<PrivateRoute requiredRole="admin"><LibraryCard /></PrivateRoute>} />
               <Route path="/user/:id" element={<PrivateRoute requiredRole="admin"><Navbar/><EditUser /></PrivateRoute>} />
 
-              <Route path="/checkout/:student_id" element={<PrivateRoute requiredRole="student"><Navbar/><ViewSingleReservedBook /></PrivateRoute>} />  
               {/* <Route path="/payment" element={<PrivateRoute><Navbar/><StripeComponent/></PrivateRoute>} /> */}
               <Route path="/unauthorized" element={<Unauthorized />} />
 
@@ -67,9 +66,11 @@ function App() {
             {/* )} */}
           {/* {user && user?.user_role==="student"&&( */}
             {/* <> */}
-            <Route path="/recommendations" element={<PrivateRoute requiredRole="student"><Navbar/><BookRecommendation /></PrivateRoute>} />
+            <Route path="/recommendations/:student_id" element={<PrivateRoute requiredRole="student"><Navbar/><BookRecommendation /><Footer/><Chatbot/></PrivateRoute>} />
 
-            <Route path="/view-book" element={<PrivateRoute requiredRole="student"><Navbar/><ViewBook /><Footer/><Chatbot/></PrivateRoute>} />
+            {/* <Route path="/view-book" element={<PrivateRoute requiredRole="student"><Navbar/><ViewBook /><Footer/><Chatbot/></PrivateRoute>} /> */}
+            <Route path="/checkout/:student_id" element={<PrivateRoute requiredRole="student"><Navbar/><ViewSingleReservedBook /><Footer/><Chatbot/></PrivateRoute>} />  
+
             
             {/* </> */}
             

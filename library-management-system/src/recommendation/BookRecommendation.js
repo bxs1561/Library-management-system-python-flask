@@ -9,30 +9,46 @@ import BookAvatar from "../images/book.png"
  */
 function BookRecommendation() {
   const dispatch = useDispatch();
-  const userJson = localStorage.getItem("user");
-  const users = JSON.parse(userJson);
+  const user = JSON.parse(localStorage.getItem("user"));
   const { recommendation } = useSelector((state) => state.getBookRecommendation);
   const [books, setBooks] = useState([]);
+  const [errorMessage, setErrorMessage] = useState("");
 
 
-  const student_id = users?.user_id;
+
   
 
   useEffect(() => {
-    dispatch(fetchBookRecommendation(1));
-  }, [dispatch,student_id]);
+    if (user?.user_id) {
+      dispatch(fetchBookRecommendation(user?.user_id));
+    }
+  }, [dispatch,user?.user_id]);
+
+  // useEffect(() => {
+  //   setBooks(recommendation);
+  // }, [recommendation]);
 
   useEffect(() => {
-    setBooks(recommendation);
+    if (recommendation?.success === false) {
+      setErrorMessage(recommendation.message);
+    } else if (recommendation?.books) {
+      setBooks(recommendation.books);
+      setErrorMessage("");
+    }
   }, [recommendation]);
+
 
 
   return (
     <div className="book-recommendation-container">
       <div className="book-recommendation">
+        <div className="book-recommendation-title">
         <h2 className="rececommendation-title">Book Recommendations</h2>
+        </div>
+        {errorMessage && <p>{errorMessage}</p>}
         <div className="book-row">
-          {books.map((book) => (
+         
+          {books?.map((book) => (
             <div key={book.book_id} className="book-card">
               <img src={book.cover_image_url?book.cover_image_url:BookAvatar} alt={book.title} />
               <div className="book-info">

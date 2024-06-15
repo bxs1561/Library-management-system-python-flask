@@ -175,6 +175,12 @@ const Sidebar = ({show,setShowSidebar}) => {
                       <p>view-checkout-book</p>
                       </Link>
                   </li>
+                  <li className='nav___items'>
+                      <Link to="/recommendations/:student_id">
+                      <i className='bx bxs-dashboard'></i>
+                      <p>book recomendation</p>
+                      </Link>
+                  </li>
                  
                  
   

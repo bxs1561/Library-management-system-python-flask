@@ -16,8 +16,11 @@ function ViewSingleCheckoutBook(){
 
     const [selectedFine, setSelectedFine] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const[checkoutDate, setCheckoutDate] = useState(new Date())
+    const[returntDate, setReturnDate] = useState(new Date())
     const [checkoutBooks, setCheckoutBooks] = useState([]);
+    const[username,setUserName] = useState("");
+    const[title,setTitle] = useState("");
+    console.log(user)
 
     useEffect(()=>{
         setCheckoutBooks(checkoutUserBook)
@@ -29,17 +32,19 @@ function ViewSingleCheckoutBook(){
         
     // },[dispatch])
     useEffect(() => {
-        if (user && user.user_id) {
-            dispatch(fetchUserCheckout(user.user_id));
+        if (user?.user_id) {
+            dispatch(fetchUserCheckout(user?.user_id));
         }
-    }, [dispatch]);
+    }, []);
 
     /**
      * display modal with fine and date.
      */
-    const handleToggleModal = (fine) => {
+    const handleToggleModal = (fine,title) => {
         setSelectedFine(fine)
         setIsModalOpen(!isModalOpen);
+        setUserName(user?.username)
+        setTitle(title)
     };
 
     return(
@@ -76,7 +81,7 @@ function ViewSingleCheckoutBook(){
                                                 <td>{checkout.due_date}</td>
                                                 <td>{checkout.borrow_days}</td>
                                                 <td>
-                                                    <button onClick={() => handleToggleModal(checkout.student.fine_balance)} className="fine___button">
+                                                    <button onClick={() => handleToggleModal(checkout.student.fine_balance,checkout.books.title)} className="fine___button">
                                                         pay fine
                                                     </button>
                                                 </td>
@@ -92,7 +97,7 @@ function ViewSingleCheckoutBook(){
                     </div>
                 </div>
             </div>
-            {isModalOpen && <PaymentModal fine={selectedFine} onClose={handleToggleModal} setFine={setSelectedFine} checkoutDate={checkoutDate} setCheckoutDate={setCheckoutDate} amount={selectedFine}/>}
+            {isModalOpen && <PaymentModal fine={selectedFine} onClose={handleToggleModal} setFine={setSelectedFine} return_date={returntDate} setReturnDate={setReturnDate} amount={selectedFine} username={username} title={title} />}
         </div>
     )
 }
