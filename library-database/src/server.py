@@ -5,11 +5,14 @@ from api.users_api import GetPaymentApi,ApprovePaymentApi,PaymentApi,GetStudents
 from api.books_api import BookApiGet,BookApiPost,BooksApiEdit,RemoveBookApi,PopulateBookApi
 from flask_cors import CORS
 from api.users_api import dbs
+from dotenv import load_dotenv
+import os
 
 
 app = Flask(__name__)
+load_dotenv()
 CORS(app)  # Enable CORS for all routes
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://swen344:Godisgreat+123@localhost:5433/Library'
+app.config['SQLALCHEMY_DATABASE_URI'] = database_url = os.getenv('DATABASE_URL')
 dbs.init_app(app)  # Initialize SQLAlchemy with the Flask app
 
 api = Api(app)
@@ -46,4 +49,4 @@ api.add_resource(GetPaymentApi,"/get/payments")
 
 if __name__ == '__main__':
     # rebuild_tables()
-    app.run(debug=True, port=5000)
+    app.run(host='0.0.0.0', debug=True, port=5000)
