@@ -25,7 +25,6 @@ nltk==3.8.1
 numpy==1.24.4
 packaging==20.1
 pluggy==0.13.1
-psycopg2==2.8.4
 py==1.8.1
 pyparsing==2.4.6
 pytest==5.3.5
@@ -46,3 +45,4 @@ urllib3==1.25.11
 wcwidth==0.1.8
 werkzeug==3.0.2
 zipp==3.0.0
+psycopg2-binary
