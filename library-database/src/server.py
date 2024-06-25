@@ -12,7 +12,11 @@ import os
 app = Flask(__name__)
 load_dotenv()
 CORS(app)  # Enable CORS for all routes
-app.config['SQLALCHEMY_DATABASE_URI'] = database_url = os.getenv('DATABASE_URL')
+app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://swen344:YyeSTqWAZIGYHIkjaYgvyhypN0zBXyTT@dpg-cpt2f0iju9rs73ak2bdg-a.oregon-postgres.render.com/library_khd3"
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://swen344:Godisgreat+123@localhost:5433/Library'
+
 dbs.init_app(app)  # Initialize SQLAlchemy with the Flask app
 
 api = Api(app)
